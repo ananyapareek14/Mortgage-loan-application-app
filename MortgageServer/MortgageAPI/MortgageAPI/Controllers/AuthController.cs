@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MortgageAPI.Models.Domain;
@@ -14,11 +15,13 @@ namespace MortgageAPI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, IUserRepository userRepository)
+        public AuthController(IAuthService authService, IUserRepository userRepository, IMapper mapper)
         {
             _authService = authService;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
@@ -32,8 +35,39 @@ namespace MortgageAPI.Controllers
             return Ok(new { Token = token });
         }
 
+        //[HttpPost("add-user")]
+        //[Authorize(Roles = "Admin")]  // Only Admin can access this endpoint
+        //public async Task<IActionResult> AddUser([FromBody] RegisterRequest request)
+        //{
+        //    var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
+        //    if (existingUser != null)
+        //    {
+        //        return BadRequest("Username already taken.");
+        //    }
+
+        //    // Assign default role as "User" if not provided
+        //    string role = string.IsNullOrEmpty(request.Role) ? "User" : request.Role;
+
+        //    // Validate role (must be "Admin" or "User")
+        //    if (role != "Admin" && role != "User")
+        //    {
+        //        return BadRequest("Invalid role. Allowed roles are 'Admin' or 'User'.");
+        //    }
+
+        //    var newUser = new User
+        //    {
+        //        userId = Guid.NewGuid(),
+        //        Username = request.Username,
+        //        PasswordHash = request.Password,  // Will be hashed in repository
+        //        Role = role
+        //    };
+
+        //    await _userRepository.AddUserAsync(newUser);
+        //    return Ok("User added successfully.");
+        //}
+
         [HttpPost("add-user")]
-        [Authorize(Roles = "Admin")]  // Only Admin can access this endpoint
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUser([FromBody] RegisterRequest request)
         {
             var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
@@ -42,26 +76,20 @@ namespace MortgageAPI.Controllers
                 return BadRequest("Username already taken.");
             }
 
-            // Assign default role as "User" if not provided
-            string role = string.IsNullOrEmpty(request.Role) ? "User" : request.Role;
-
             // Validate role (must be "Admin" or "User")
+            string role = string.IsNullOrEmpty(request.Role) ? "User" : request.Role;
             if (role != "Admin" && role != "User")
             {
                 return BadRequest("Invalid role. Allowed roles are 'Admin' or 'User'.");
             }
 
-            var newUser = new User
-            {
-                userId = Guid.NewGuid(),
-                Username = request.Username,
-                PasswordHash = request.Password,  // Will be hashed in repository
-                Role = role
-            };
+            // Use AutoMapper to map RegisterRequest to User
+            var newUser = _mapper.Map<User>(request);
+            newUser.Role = role;
+            newUser.PasswordHash = request.Password; // Will be hashed in repository
 
             await _userRepository.AddUserAsync(newUser);
             return Ok("User added successfully.");
         }
-
     }
 }
