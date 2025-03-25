@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MortgageAPI.Models
+namespace MortgageAPI.Models.Domain
 {
     public enum LoanApprovalStatus
     {
@@ -36,7 +36,7 @@ namespace MortgageAPI.Models
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public User? User { get; set; }
 
         public ICollection<AmortizationSchedule> AmortizationSchedules { get; set; } = new List<AmortizationSchedule>();
     }

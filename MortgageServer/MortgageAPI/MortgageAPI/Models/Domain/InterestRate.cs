@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MortgageAPI.Models
+namespace MortgageAPI.Models.Domain
 {
     public class InterestRate
     {
