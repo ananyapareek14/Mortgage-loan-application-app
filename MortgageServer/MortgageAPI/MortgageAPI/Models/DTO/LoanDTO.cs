@@ -16,5 +16,4 @@
         public DateTime ApplicationDate { get; set; }
         public string ApprovalStatus { get; set; }
     }
-
 }

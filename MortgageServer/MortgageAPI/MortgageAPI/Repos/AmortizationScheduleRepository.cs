@@ -14,12 +14,6 @@ namespace MortgageAPI.Repos
             _context = context;
         }
 
-        public async Task AddAmortizationScheduleAsync(IEnumerable<AmortizationSchedule> schedule)
-        {
-            await _context.AmortizationSchedules.AddRangeAsync(schedule);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByLoanIdAsync(Guid loanId)
         {
             return await _context.AmortizationSchedules

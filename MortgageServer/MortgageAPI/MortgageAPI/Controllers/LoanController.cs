@@ -24,19 +24,6 @@ namespace MortgageAPI.Controllers
             _mapper = mapper;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SubmitLoan([FromBody] LoanRequest request)
-        //{
-        //    var loan = _mapper.Map<Loan>(request);
-        //    loan.LoanId = Guid.NewGuid();
-        //    loan.UserId = Guid.Parse(User.FindFirst("nameid")?.Value!); // Extract user ID from token
-        //    loan.ApplicationDate = DateTime.UtcNow;
-        //    loan.ApprovalStatus = LoanApprovalStatus.Pending;
-
-        //    await _loanRepository.AddLoanAsync(loan);
-        //    return Ok("Loan application submitted.");
-        //}
-
         [HttpPost]
         public async Task<IActionResult> SubmitLoan([FromBody] LoanRequest request)
         {
@@ -68,6 +55,16 @@ namespace MortgageAPI.Controllers
 
             var loanDto = _mapper.Map<LoanDto>(loan);
             return Ok(loanDto);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllLoans()
+        {
+            var loan = await _loanRepository.GetAllLoansAsync();
+            if (loan == null) return NotFound("No loans found");
+
+            var loansDto = _mapper.Map<IEnumerable<LoanDto>>(loan);
+            return Ok(loansDto);
         }
     }
 }

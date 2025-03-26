@@ -20,37 +20,6 @@ namespace MortgageAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GenerateAmortizationSchedule([FromBody] LoanRequest request)
-        {
-            var schedule = new List<AmortizationSchedule>();
-            decimal monthlyRate = request.InterestRate / 100 / 12;
-            int months = request.LoanTermYears * 12;
-            decimal monthlyPayment = request.LoanAmount * (monthlyRate * (decimal)Math.Pow((1 + (double)monthlyRate), months)) /
-                                     ((decimal)Math.Pow((1 + (double)monthlyRate), months) - 1);
-            decimal balance = request.LoanAmount;
-
-            for (int i = 1; i <= months; i++)
-            {
-                decimal interest = balance * monthlyRate;
-                decimal principal = monthlyPayment - interest;
-                balance -= principal;
-
-                schedule.Add(new AmortizationSchedule
-                {
-                    Id = Guid.NewGuid(),
-                    PaymentNumber = i,
-                    PaymentDate = DateTime.UtcNow.AddMonths(i),
-                    PrincipalPayment = principal,
-                    InterestPayment = interest,
-                    RemainingBalance = balance
-                });
-            }
-
-            await _amortizationRepository.AddAmortizationScheduleAsync(schedule);
-            return Ok("Amortization schedule generated.");
-        }
-
         [HttpGet("{loanId}")]
         public async Task<IActionResult> GetAmortizationSchedule(Guid loanId)
         {
