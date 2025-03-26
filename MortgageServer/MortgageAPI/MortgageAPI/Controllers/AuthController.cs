@@ -35,38 +35,7 @@ namespace MortgageAPI.Controllers
             return Ok(new { Token = token });
         }
 
-        //[HttpPost("add-user")]
-        //[Authorize(Roles = "Admin")]  // Only Admin can access this endpoint
-        //public async Task<IActionResult> AddUser([FromBody] RegisterRequest request)
-        //{
-        //    var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
-        //    if (existingUser != null)
-        //    {
-        //        return BadRequest("Username already taken.");
-        //    }
-
-        //    // Assign default role as "User" if not provided
-        //    string role = string.IsNullOrEmpty(request.Role) ? "User" : request.Role;
-
-        //    // Validate role (must be "Admin" or "User")
-        //    if (role != "Admin" && role != "User")
-        //    {
-        //        return BadRequest("Invalid role. Allowed roles are 'Admin' or 'User'.");
-        //    }
-
-        //    var newUser = new User
-        //    {
-        //        userId = Guid.NewGuid(),
-        //        Username = request.Username,
-        //        PasswordHash = request.Password,  // Will be hashed in repository
-        //        Role = role
-        //    };
-
-        //    await _userRepository.AddUserAsync(newUser);
-        //    return Ok("User added successfully.");
-        //}
-
-        [HttpPost("add-user")]
+        [HttpPost("register")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUser([FromBody] RegisterRequest request)
         {
