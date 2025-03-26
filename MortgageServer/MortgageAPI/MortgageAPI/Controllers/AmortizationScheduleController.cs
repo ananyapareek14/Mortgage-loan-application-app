@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MortgageAPI.Models.Domain;
@@ -9,6 +10,7 @@ namespace MortgageAPI.Controllers
 {
     [Route("api/amortization")]
     [ApiController]
+    [Authorize]
     public class AmortizationController : ControllerBase
     {
         private readonly IAmortizationScheduleRepository _amortizationRepository;

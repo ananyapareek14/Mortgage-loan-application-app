@@ -18,6 +18,7 @@ namespace MortgageAPI.Repos
         {
             return await _context.AmortizationSchedules
             .Where(a => a.LoanId == loanId)
+            .OrderBy(a => a.PaymentNumber)
             .ToListAsync();
         }
     }

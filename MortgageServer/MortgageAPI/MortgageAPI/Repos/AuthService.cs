@@ -16,13 +16,6 @@ namespace MortgageAPI.Repos
             _tokenService = tokenService;
         }
 
-        //public async Task<string?> AuthenticateAsync(string username, string password)
-        //{
-        //    var user = await _userRepository.AuthenticateUserAsync(username, password);
-        //    if (user == null) return null;
-
-        //    return _tokenService.GenerateToken(user);
-        //}
         public async Task<string?> AuthenticateAsync(string username, string password)
         {
             var user = await _userRepository.AuthenticateUserAsync(username, password);

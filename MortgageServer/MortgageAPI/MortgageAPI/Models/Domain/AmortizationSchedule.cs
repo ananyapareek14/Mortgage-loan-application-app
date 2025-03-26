@@ -17,6 +17,8 @@ namespace MortgageAPI.Models.Domain
         [Required]
         public DateTime PaymentDate { get; set; }
 
+        public decimal MonthlyPayment { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal PrincipalPayment { get; set; }

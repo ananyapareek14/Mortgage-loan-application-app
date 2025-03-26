@@ -27,13 +27,19 @@ namespace MortgageAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = await _authService.AuthenticateAsync(request.Username, request.Password);
-            if (token == null)
+            var Token = await _authService.AuthenticateAsync(request.username, request.password);
+            if (Token == null)
             {
                 return Unauthorized("Invalid username or password");
             }
-            return Ok(new { Token = token });
+            return Ok(new
+            {
+                message = "Signed in successfully",
+                token = Token,
+                username = request.username
+            });
         }
+
 
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]

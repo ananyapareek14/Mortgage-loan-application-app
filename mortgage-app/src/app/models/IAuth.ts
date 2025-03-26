@@ -1,10 +1,12 @@
 interface ILogin{
-    Token: string;
+    token: string;
+    username: string;
+    message: string;
 }
 
 interface ILoginCredentials{
-    Username: string;
-    Password: string;
+    username: string;
+    password: string;
 }
 
 export type {ILogin as default, ILoginCredentials}

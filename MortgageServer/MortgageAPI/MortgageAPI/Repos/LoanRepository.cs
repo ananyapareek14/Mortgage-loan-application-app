@@ -55,6 +55,7 @@ namespace MortgageAPI.Repos
                     LoanId = loan.LoanId,
                     PaymentNumber = i,
                     PaymentDate = loan.ApplicationDate.AddMonths(i), // Use correct start date
+                    MonthlyPayment = monthlyPayment,
                     PrincipalPayment = principal,
                     InterestPayment = interest,
                     RemainingBalance = balance
