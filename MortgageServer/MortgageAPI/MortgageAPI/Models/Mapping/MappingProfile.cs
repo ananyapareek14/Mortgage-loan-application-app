@@ -2,9 +2,9 @@
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 
-namespace MortgageAPI.Models.Profile
+namespace MortgageAPI.Models.Mapping
 {
-    public class MappingProfile : AutoMapper.Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
@@ -42,9 +43,11 @@ namespace MortgageAPI.Controllers
             loan.ApprovalStatus = LoanApprovalStatus.Pending;
 
             await _loanRepository.AddLoanAsync(loan);
-            return Ok("Loan application submitted.");
+            return Ok(new
+            { 
+                message = "Loan Application submitted successfully"
+            });
         }
-
 
         [HttpGet("{loanId}")]
         public async Task<IActionResult> GetLoanDetails(int loanId)

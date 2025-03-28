@@ -45,14 +45,14 @@ namespace MortgageAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUser([FromBody] RegisterRequest request)
         {
-            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
+            var existingUser = await _userRepository.GetUserByUsernameAsync(request.username);
             if (existingUser != null)
             {
                 return BadRequest("Username already taken.");
             }
 
             // Validate role (must be "Admin" or "User")
-            string role = string.IsNullOrEmpty(request.Role) ? "User" : request.Role;
+            string role = string.IsNullOrEmpty(request.role) ? "User" : request.role;
             if (role != "Admin" && role != "User")
             {
                 return BadRequest("Invalid role. Allowed roles are 'Admin' or 'User'.");
@@ -61,10 +61,13 @@ namespace MortgageAPI.Controllers
             // Use AutoMapper to map RegisterRequest to User
             var newUser = _mapper.Map<User>(request);
             newUser.Role = role;
-            newUser.PasswordHash = request.Password; // Will be hashed in repository
+            newUser.PasswordHash = request.password; // Will be hashed in repository
 
             await _userRepository.AddUserAsync(newUser);
-            return Ok("User added successfully.");
+            return Ok(new
+            {
+                message = "User added successfully."
+            });
         }
     }
 }
