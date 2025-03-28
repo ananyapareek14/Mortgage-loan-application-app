@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MortgageAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMig : Migration
+    public partial class firstMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,7 +42,8 @@ namespace MortgageAPI.Migrations
                 name: "Loans",
                 columns: table => new
                 {
-                    LoanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoanId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoanAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InterestRate = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
@@ -66,9 +67,10 @@ namespace MortgageAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoanId = table.Column<int>(type: "int", nullable: false),
                     PaymentNumber = table.Column<int>(type: "int", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MonthlyPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PrincipalPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InterestPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RemainingBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)

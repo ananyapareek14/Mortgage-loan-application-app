@@ -10,6 +10,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using MortgageAPI.Models.Domain;
 using System.Reflection;
+using MortgageAPI.Repos.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -60,7 +61,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 builder.Services.AddScoped<IInterestRateRepository, InterestRateRepository>();
 builder.Services.AddScoped<IAmortizationScheduleRepository, AmortizationScheduleRepository>();
-
+builder.Services.AddScoped<IAmortizationCalculator, AmortizationCalculator>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

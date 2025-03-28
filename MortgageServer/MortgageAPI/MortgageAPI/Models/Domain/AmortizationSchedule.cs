@@ -9,14 +9,15 @@ namespace MortgageAPI.Models.Domain
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
-        public Guid LoanId { get; set; }
+        public int LoanId { get; set; }
 
         [Required]
         public int PaymentNumber { get; set; }
 
         [Required]
         public DateTime PaymentDate { get; set; }
-
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal MonthlyPayment { get; set; }
 
         [Required]

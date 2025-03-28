@@ -37,7 +37,6 @@ namespace MortgageAPI.Controllers
             }
 
             var loan = _mapper.Map<Loan>(request);
-            loan.LoanId = Guid.NewGuid();
             loan.UserId = userId;
             loan.ApplicationDate = DateTime.UtcNow;
             loan.ApprovalStatus = LoanApprovalStatus.Pending;
@@ -48,7 +47,7 @@ namespace MortgageAPI.Controllers
 
 
         [HttpGet("{loanId}")]
-        public async Task<IActionResult> GetLoanDetails(Guid loanId)
+        public async Task<IActionResult> GetLoanDetails(int loanId)
         {
             var loan = await _loanRepository.GetLoanByIdAsync(loanId);
             if (loan == null) return NotFound("Loan not found.");

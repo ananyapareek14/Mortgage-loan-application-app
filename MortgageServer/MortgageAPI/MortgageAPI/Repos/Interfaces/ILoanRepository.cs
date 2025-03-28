@@ -4,7 +4,7 @@ namespace MortgageAPI.Repos.Interfaces
 {
     public interface ILoanRepository
     {
-        Task<Loan> GetLoanByIdAsync(Guid loanId);
+        Task<Loan> GetLoanByIdAsync(int loanId);
         Task<IEnumerable<Loan>> GetAllLoansAsync();
         Task AddLoanAsync(Loan loan);
     }

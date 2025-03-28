@@ -22,8 +22,23 @@ namespace MortgageAPI.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("calculate")]
+        public async Task<IActionResult> CalculateAmortization([FromBody] LoanRequest loanRequest)
+        {
+            if (loanRequest.LoanAmount <= 0 || loanRequest.LoanTermYears <= 0 || loanRequest.InterestRate <= 0)
+            {
+                return BadRequest("Invalid loan details. Ensure all values are greater than zero.");
+            }
+
+            var schedule = await _amortizationRepository.GenerateAmortizationScheduleAsync(loanRequest);
+            var scheduleDto = _mapper.Map<IEnumerable<AmortizationScheduleDto>>(schedule);
+
+            return Ok(scheduleDto);
+        }
+
+
         [HttpGet("{loanId}")]
-        public async Task<IActionResult> GetAmortizationSchedule(Guid loanId)
+        public async Task<IActionResult> GetAmortizationSchedule(int loanId)
         {
             var schedule = await _amortizationRepository.GetScheduleByLoanIdAsync(loanId);
             var scheduleDto = _mapper.Map<IEnumerable<AmortizationScheduleDto>>(schedule);

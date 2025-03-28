@@ -12,7 +12,8 @@ namespace MortgageAPI.Models.Domain
     public class Loan
     {
         [Key]
-        public Guid LoanId { get; set; } = Guid.NewGuid();
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int LoanId { get; set; }
 
         [Required]
         public Guid UserId { get; set; }  // Foreign key to User

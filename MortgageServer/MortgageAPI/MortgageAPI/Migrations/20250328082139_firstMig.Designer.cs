@@ -12,8 +12,8 @@ using MortgageAPI.Data;
 namespace MortgageAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250326155335_MPmig")]
-    partial class MPmig
+    [Migration("20250328082139_firstMig")]
+    partial class firstMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,8 @@ namespace MortgageAPI.Migrations
                     b.Property<decimal>("InterestPayment")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("LoanId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LoanId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("MonthlyPayment")
                         .HasColumnType("decimal(18,2)");
@@ -78,9 +78,11 @@ namespace MortgageAPI.Migrations
 
             modelBuilder.Entity("MortgageAPI.Models.Domain.Loan", b =>
                 {
-                    b.Property<Guid>("LoanId")
+                    b.Property<int>("LoanId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
                     b.Property<DateTime>("ApplicationDate")
                         .HasColumnType("datetime2");

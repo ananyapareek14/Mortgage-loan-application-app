@@ -9,7 +9,7 @@
 
     public class LoanDto
     {
-        public Guid LoanId { get; set; }
+        public int LoanId { get; set; }
         public decimal LoanAmount { get; set; }
         public decimal InterestRate { get; set; }
         public int LoanTermYears { get; set; }

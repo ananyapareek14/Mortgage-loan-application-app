@@ -68,7 +68,7 @@ export class AuthService {
   constructor(private http: HttpClient, private store: Store<AuthState>) {}
 
   login(credentials: ILoginCredentials) {
-    this.store.dispatch(login({ credentials })); // ✅ Dispatch login action
+    this.store.dispatch(login({ credentials })); // Dispatch login action
 
     return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials).pipe(
       tap((response) => {
@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   logout() {
-    this.store.dispatch(logout()); // ✅ Dispatch logout action
+    this.store.dispatch(logout()); // Dispatch logout action
   }
 }
 

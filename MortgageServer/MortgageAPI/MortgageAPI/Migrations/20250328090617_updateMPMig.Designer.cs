@@ -12,8 +12,8 @@ using MortgageAPI.Data;
 namespace MortgageAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250324104521_FirstMig")]
-    partial class FirstMig
+    [Migration("20250328090617_updateMPMig")]
+    partial class updateMPMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace MortgageAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MortgageAPI.Models.AmortizationSchedule", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.AmortizationSchedule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,8 +34,11 @@ namespace MortgageAPI.Migrations
                     b.Property<decimal>("InterestPayment")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("LoanId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LoanId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MonthlyPayment")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
@@ -56,7 +59,7 @@ namespace MortgageAPI.Migrations
                     b.ToTable("AmortizationSchedules");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.InterestRate", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.InterestRate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,11 +76,13 @@ namespace MortgageAPI.Migrations
                     b.ToTable("InterestRates");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.Loan", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.Loan", b =>
                 {
-                    b.Property<Guid>("LoanId")
+                    b.Property<int>("LoanId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
                     b.Property<DateTime>("ApplicationDate")
                         .HasColumnType("datetime2");
@@ -104,7 +109,7 @@ namespace MortgageAPI.Migrations
                     b.ToTable("Loans");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.User", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.User", b =>
                 {
                     b.Property<Guid>("userId")
                         .ValueGeneratedOnAdd()
@@ -128,9 +133,9 @@ namespace MortgageAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.AmortizationSchedule", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.AmortizationSchedule", b =>
                 {
-                    b.HasOne("MortgageAPI.Models.Loan", "Loan")
+                    b.HasOne("MortgageAPI.Models.Domain.Loan", "Loan")
                         .WithMany("AmortizationSchedules")
                         .HasForeignKey("LoanId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -139,9 +144,9 @@ namespace MortgageAPI.Migrations
                     b.Navigation("Loan");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.Loan", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.Loan", b =>
                 {
-                    b.HasOne("MortgageAPI.Models.User", "User")
+                    b.HasOne("MortgageAPI.Models.Domain.User", "User")
                         .WithMany("Loans")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -150,12 +155,12 @@ namespace MortgageAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.Loan", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.Loan", b =>
                 {
                     b.Navigation("AmortizationSchedules");
                 });
 
-            modelBuilder.Entity("MortgageAPI.Models.User", b =>
+            modelBuilder.Entity("MortgageAPI.Models.Domain.User", b =>
                 {
                     b.Navigation("Loans");
                 });
