@@ -4,9 +4,9 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { ILoginCredentials } from '../models/IAuth';
-import { selectAuthError, selectIsLoading } from '../state/auth/auth.selectors';
+import { selectAuthError, selectIsLoading } from '../store/auth/auth.selectors';
 import { Store } from '@ngrx/store';
-import { login } from '../state/auth/auth.actions';
+import { login } from '../store/auth/auth.actions';
 import { Observable } from 'rxjs';
 
 @Component({

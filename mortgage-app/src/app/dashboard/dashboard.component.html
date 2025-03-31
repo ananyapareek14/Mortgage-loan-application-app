@@ -1,1 +1,24 @@
-<p>dashboard works!</p>
+<div class="container">
+    <h2>Loan Applications</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Loan ID</th>
+          <th>Amount</th>
+          <th>Interest Rate</th>
+          <th>Term (Years)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of loans$ | async">
+          <td>{{ loan.LoanId }}</td>
+          <td>{{ loan.LoanAmount | currency }}</td>
+          <td>{{ loan.InterestRate }}%</td>
+          <td>{{ loan.LoanTermYears }}</td>
+          <td>{{ loan.ApplicationStatus }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import ILogin, { ILoginCredentials } from '../../models/IAuth';
 import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../state/auth/auth.state';
-import { login, loginFailure, loginSuccess, logout } from '../../state/auth/auth.actions';
+import { AuthState } from '../../store/auth/auth.state';
+import { login, loginFailure, loginSuccess, logout } from '../../store/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root',

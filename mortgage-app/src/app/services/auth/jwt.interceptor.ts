@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { first, Observable, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectToken } from '../../state/auth/auth.selectors';
+import { selectToken } from '../../store/auth/auth.selectors';
 
 @Injectable({
   providedIn: 'root',

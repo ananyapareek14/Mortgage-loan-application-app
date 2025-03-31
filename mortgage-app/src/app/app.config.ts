@@ -5,9 +5,9 @@ import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { jwtInterceptor } from './services/auth/jwt.interceptor';
 import { provideStore } from '@ngrx/store';
-import { authReducer } from './state/auth/auth.reducer';
-import { provideEffects } from '@ngrx/effects';
+import { authReducer } from './store/auth/auth.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { loanReducer } from './store/loan/loan.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
       useClass: jwtInterceptor,
       multi: true,
     },
-    provideStore({ auth: authReducer }),
+    provideStore({ auth: authReducer, loan: loanReducer }),
     provideStoreDevtools(),
   ],
 };

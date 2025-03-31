@@ -1,1 +1,52 @@
-<p>loan-application works!</p>
+<div class="container">
+    <h2 class="text-center">Apply for a Loan</h2>
+  
+    <form [formGroup]="loanForm" (ngSubmit)="submitLoan()" class="loan-form">
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount</label>
+        <input
+          type="number"
+          id="loanAmount"
+          formControlName="LoanAmount"
+          class="form-control"
+          placeholder="Enter loan amount"
+        />
+        <div *ngIf="loanForm.controls['LoanAmount'].invalid && loanForm.controls['LoanAmount'].touched" class="text-danger">
+          Loan amount is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input
+          type="number"
+          id="interestRate"
+          formControlName="InterestRate"
+          class="form-control"
+          placeholder="Enter interest rate"
+        />
+        <div *ngIf="loanForm.controls['InterestRate'].invalid && loanForm.controls['InterestRate'].touched" class="text-danger">
+          Interest rate is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="loanTermYears">Loan Term (Years)</label>
+        <input
+          type="number"
+          id="loanTermYears"
+          formControlName="LoanTermYears"
+          class="form-control"
+          placeholder="Enter loan term in years"
+        />
+        <div *ngIf="loanForm.controls['LoanTermYears'].invalid && loanForm.controls['LoanTermYears'].touched" class="text-danger">
+          Loan term is required.
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary btn-block mt-3" [disabled]="loanForm.invalid">
+        Apply Now
+      </button>
+    </form>
+  </div>
+  
