@@ -1,10 +1,10 @@
 interface ILoan{
-    LoanId: number;
+    LoanId?: number;
     LoanAmount: number;
     InterestRate: number;
     LoanTermYears: number;
     ApplicationDate: string;
-    ApplicationStatus: string;
+    ApprovalStatus: string;
 }
 
 export type {ILoan}

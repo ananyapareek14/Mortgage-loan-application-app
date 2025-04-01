@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import * as LoanActions from '../../store/loan/loan.actions';
 import { ILoan } from '../../models/ILoan';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoanService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
-  fetchLoans() {
-    this.http.get<ILoan[]>(`${this.apiUrl}/loans`).subscribe((loans) => {
-      this.store.dispatch(LoanActions.loadLoansSuccess({ loans }));
-      console.log(loans);
-    });
+  // Fetch all loans
+  getLoans(): Observable<ILoan[]> {
+    console.log('📡 Calling API to fetch loans:', `${this.apiUrl}/loans`);
+    return this.http.get<ILoan[]>(`${this.apiUrl}/loans`);
   }
 
-  createLoan(loan: ILoan) {
-    this.http.post<ILoan>(`${this.apiUrl}/loans`, loan).subscribe((newLoan) => {
-      this.store.dispatch(LoanActions.addLoanSuccess({ loan: newLoan }));
-    });
+  // Create a new loan
+  createLoan(loan: ILoan): Observable<ILoan> {
+    return this.http.post<ILoan>(`${this.apiUrl}/loans`, loan);
   }
 }

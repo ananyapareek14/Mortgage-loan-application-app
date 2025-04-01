@@ -1,24 +1,34 @@
 <div class="container">
-    <h2>Loan Applications</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Loan ID</th>
-          <th>Amount</th>
-          <th>Interest Rate</th>
-          <th>Term (Years)</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let loan of loans$ | async">
-          <td>{{ loan.LoanId }}</td>
-          <td>{{ loan.LoanAmount | currency }}</td>
-          <td>{{ loan.InterestRate }}%</td>
-          <td>{{ loan.LoanTermYears }}</td>
-          <td>{{ loan.ApplicationStatus }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Loan Applications</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Loan ID</th>
+        <th>Amount</th>
+        <th>Interest Rate</th>
+        <th>Term (Years)</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+  <tr *ngFor="let loan of loans$ | async; let i = index" (click)="selectLoan(loan)" style="cursor: pointer;">
+    <td>{{ loan?.LoanId }}</td>
+    <td>{{ loan?.LoanAmount | currency }}</td>
+    <td>{{ loan?.InterestRate }}%</td>
+    <td>{{ loan?.LoanTermYears }}</td>
+    <td>{{ loan?.ApprovalStatus }}</td>
+  </tr>
+</tbody>
+  </table>
+
+  <!-- Selected Loan Details -->
+  <div *ngIf="selectedLoan$ | async as selectedLoan">
+    <h3>Loan Details</h3>
+    <p><strong>Loan ID:</strong> {{ selectedLoan.LoanId }}</p>
+    <p><strong>Amount:</strong> {{ selectedLoan.LoanAmount | currency }}</p>
+    <p><strong>Interest Rate:</strong> {{ selectedLoan.InterestRate }}%</p>
+    <p><strong>Term:</strong> {{ selectedLoan.LoanTermYears }} years</p>
+    <p><strong>Status:</strong> {{ selectedLoan.ApprovalStatus }}</p>
   </div>
-  
+</div>
