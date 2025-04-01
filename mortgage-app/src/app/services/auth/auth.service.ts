@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import ILogin, { ILoginCredentials } from '../../models/IAuth';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.state';
 import { login, loginFailure, loginSuccess, logout } from '../../store/auth/auth.actions';
@@ -62,29 +62,52 @@ import { login, loginFailure, loginSuccess, logout } from '../../store/auth/auth
 
 
 
+// export class AuthService {
+//   private apiUrl = environment.apiUrl;
+
+//   constructor(private http: HttpClient, private store: Store<AuthState>) {}
+
+//   login(credentials: ILoginCredentials) {
+//     this.store.dispatch(login({ credentials })); // Dispatch login action
+
+//     return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials).pipe(
+//       tap((response) => {
+//         localStorage.setItem('auth', JSON.stringify(response)); // Store in local storage
+//         this.store.dispatch(loginSuccess({ username: response.username, token: response.token }));
+//       }),
+//       catchError((error) => {
+//         this.store.dispatch(loginFailure({ error: 'Login failed. Please try again.' }));
+//         return throwError(() => new Error(error));
+//       })
+//     );
+//   }
+
+//   logout() {
+//     this.store.dispatch(logout()); // Dispatch logout action
+//   }
+// }
+
+
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private store: Store<AuthState>) {}
 
-  login(credentials: ILoginCredentials) {
-    this.store.dispatch(login({ credentials })); // Dispatch login action
-
-    return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials).pipe(
-      tap((response) => {
-        localStorage.setItem('auth', JSON.stringify(response)); // Store in local storage
-        this.store.dispatch(loginSuccess({ username: response.username, token: response.token }));
-      }),
-      catchError((error) => {
-        this.store.dispatch(loginFailure({ error: 'Login failed. Please try again.' }));
-        return throwError(() => new Error(error));
-      })
-    );
+  login(credentials: ILoginCredentials) : Observable<ILogin> {
+    this.store.dispatch(login({ credentials }));
+    return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials);
   }
 
-  logout() {
-    this.store.dispatch(logout()); // Dispatch logout action
-  }
+  // login(credentials: ILoginCredentials): Observable<ILogin> {
+  //   return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials).pipe(
+  //     tap(response => console.log('AuthService Response:', response)), // Debugging log
+  //     catchError(error => {
+  //       console.error('Login API Error:', error);
+  //       return throwError(() => error); // Ensure an Observable is always returned
+  //     })
+  //   );
+  // }
+  
 }
 
 

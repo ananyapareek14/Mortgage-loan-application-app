@@ -1,32 +1,68 @@
+// import { createReducer, on } from '@ngrx/store';
+// import { login, loginSuccess, loginFailure, logout } from './auth.actions';
+// import { AuthState, initialAuthState } from './auth.state';
+
+// export const authReducer = createReducer(
+//   initialAuthState,
+
+//   on(login, (state) => ({
+//     ...state,
+//     loading: true,
+//     error: null,
+//   })),
+
+//   on(loginSuccess, (state, { username, token }) => ({
+//     ...state,
+//     username,
+//     token,
+//     loading: false,
+//     error: null,
+//   })),
+
+//   on(loginFailure, (state, { error }) => ({
+//     ...state,
+//     loading: false,
+//     error,
+//   })),
+
+//   on(logout, () => {
+//     localStorage.removeItem('auth'); // Clear local storage on logout
+//     return initialAuthState;
+//   })
+// );
+
 import { createReducer, on } from '@ngrx/store';
-import { login, loginSuccess, loginFailure, logout } from './auth.actions';
-import { AuthState, initialAuthState } from './auth.state';
+import { login, loginFailure, loginSuccess, logout } from './auth.actions';
+
+export interface AuthState {
+  token: string | null;
+  username: string | null;
+  error: string | null;
+}
+
+const initialState: AuthState = {
+  token: null,
+  username: null,
+  error: null
+};
 
 export const authReducer = createReducer(
-  initialAuthState,
-
-  on(login, (state) => ({
+  initialState,
+  on(loginSuccess, (state, { token, username }) => ({
     ...state,
-    loading: true,
-    error: null,
-  })),
-
-  on(loginSuccess, (state, { username, token }) => ({
-    ...state,
-    username,
     token,
-    loading: false,
-    error: null,
+    username,
+    error: null
   })),
-
   on(loginFailure, (state, { error }) => ({
     ...state,
-    loading: false,
-    error,
+    token: null,
+    username: null,
+    error
   })),
-
-  on(logout, () => {
-    localStorage.removeItem('auth'); // Clear local storage on logout
-    return initialAuthState;
-  })
+  on(logout, () => ({
+    token: null,
+    username: null,
+    error: null
+  }))
 );

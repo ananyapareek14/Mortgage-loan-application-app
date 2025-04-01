@@ -4,63 +4,41 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { first, Observable, switchMap } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { selectToken } from '../../store/auth/auth.selectors';
+import { catchError, distinctUntilChanged, first, Observable, switchMap } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { AuthState } from '../../store/auth/auth.state';
+import { selectAuthToken } from '../../store/auth/auth.selectors';
+import { logout } from '../../store/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root',
 })
-// export class jwtInterceptor implements HttpInterceptor {
-//   constructor(private auth: AuthService) {}
-
-//   intercept(
-//     request: HttpRequest<any>,
-//     next: HttpHandler
-//   ): Observable<HttpEvent<any>> {
-//     const token = this.auth.getAuthToken();
-
-//     if (token) {
-//       request = request.clone({
-//         setHeaders: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//     }
-//     return next.handle(request);
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
 
 export class jwtInterceptor implements HttpInterceptor {
-  constructor(private store: Store) {}
-
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.store.select(selectToken).pipe(
-      first(), // Ensure we get only the first emitted value
-      switchMap((token) => {
-        if (token) {
-          request = request.clone({
-            setHeaders: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-        }
-        return next.handle(request);
-      })
-    );
+
+    // Retrieve the token from localStorage
+    const storedAuth = localStorage.getItem('auth');
+    let token = null;
+
+    if (storedAuth) {
+      const authData = JSON.parse(storedAuth);
+      token = authData.token;
+    }
+
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    return next.handle(request);
   }
 }
