@@ -20,7 +20,6 @@ export const loadAmortizationScheduleFailure = createAction(
   props<{ error: string }>()
 );
 
-// Calculate new amortization schedule
 export const calculateAmortization = createAction(
   '[Amortization] Calculate Amortization',
   props<{ request: IAmortizationRequest }>()
@@ -35,3 +34,5 @@ export const calculateAmortizationFailure = createAction(
   '[Amortization] Calculate Amortization Failure',
   props<{ error: string }>()
 );
+
+export const resetAmortization = createAction('[Amortization] Reset');

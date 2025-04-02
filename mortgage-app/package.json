@@ -21,6 +21,7 @@
     "@ngrx/store": "^19.0.1",
     "@ngrx/store-devtools": "^19.0.1",
     "chart.js": "^4.4.8",
+    "chartjs-plugin-zoom": "^2.2.0",
     "ng2-charts": "^8.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

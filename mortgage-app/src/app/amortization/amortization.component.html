@@ -1,9 +1,9 @@
 <div class="container">
-  <h2 class="text-center mb-4">Loan Amortization Calculator</h2>
-
+  <h2 class="text-center pb-4">Loan Amortization Calculator</h2>
+  <br>
   <div class="row">
     <!-- Left: Form -->
-    <div class="col-md-6">
+    <div class="col-md-6 mt-4">
       <form [formGroup]="amortizationForm" (ngSubmit)="submitForm()">
 
         <!-- Loan Amount -->
@@ -27,7 +27,7 @@
           <input type="range" formControlName="InterestRate" [(ngModel)]="amortizationForm.value.InterestRate" min="0.5" max="25" step="0.25" class="form-control-range" />
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block mt-3">Calculate EMI</button>
+        <button type="submit" class="btn btn-primary btn-block mt-1 w-100">Calculate EMI</button>
       </form>
     </div>
 
@@ -40,7 +40,7 @@
       <canvas id="pieChart"></canvas>
     </div>
   </div>
-
+  <br>
   <!-- Amortization Schedule Table -->
   <table class="table mt-4">
     <thead>
@@ -63,3 +63,4 @@
     </tbody>
   </table>
 </div>
+

@@ -1,11 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ILoan } from '../models/ILoan';
+import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
+import { selectSelectedLoan } from '../store/loan/loan.selectors';
+import { selectAmortizationSchedule } from '../store/amortization/amortization.selectors';
+import { loadLoanById } from '../store/loan/loan.actions';
+import { loadAmortizationSchedule } from '../store/amortization/amortization.actions';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { PieChartComponent } from './pie-chart.component';
+import { BarChartComponent } from './bar-chart.component';
+import { LineChartComponent } from './line-chart.component';
+
 
 @Component({
-  selector: 'app-loan-details',
-  imports: [],
+  selector: 'app-loan-detail',
+  imports: [PieChartComponent,BarChartComponent,LineChartComponent,CurrencyPipe, DatePipe, CommonModule],
   templateUrl: './loan-details.component.html',
-  styleUrl: './loan-details.component.css'
+  styleUrls: ['./loan-details.component.css'],
 })
-export class LoanDetailsComponent {
+export class LoanDetailsComponent implements OnInit {
+  loan$: Observable<ILoan | null>;
+  amortizationSchedule$: Observable<IAmortizationSchedule[] | null>;
+  totalInterest: number = 0;
+  totalPayment: number = 0;
+  monthlyPayment: number = 0;
+  activeTab: string = 'line-chart'; // Default tab
 
+  constructor(private store: Store, private route: ActivatedRoute) {
+    this.loan$ = this.store.select(selectSelectedLoan);
+    this.amortizationSchedule$ = this.store.select(selectAmortizationSchedule);
+  }
+
+  ngOnInit() {
+    const loanId = Number(this.route.snapshot.paramMap.get('id'));
+    if (loanId) {
+      this.store.dispatch(loadLoanById({ loanId }));
+      this.store.dispatch(loadAmortizationSchedule({ loanId }));
+      this.amortizationSchedule$.subscribe((schedule) => {
+        if (schedule) {
+          this.calculateSummary(schedule);
+        }
+      });
+    }
+  }
+
+  private calculateSummary(schedule: IAmortizationSchedule[]): void {
+    this.totalInterest = schedule.reduce(
+      (sum, p) => sum + p.InterestPayment,
+      0
+    );
+    this.totalPayment = schedule.reduce((sum, p) => sum + p.MonthlyPayment, 0);
+    this.monthlyPayment = schedule[0]?.MonthlyPayment || 0;
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
 }

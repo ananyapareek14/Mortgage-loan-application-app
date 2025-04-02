@@ -22,3 +22,9 @@ export const selectLoanError = createSelector(
   selectLoanState,
   (state) => state?.error || null
 );
+
+export const selectLoanById = createSelector(
+  selectLoanState,
+  (state) => state?.selectedLoan || null
+);
+

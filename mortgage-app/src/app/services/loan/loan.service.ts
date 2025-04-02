@@ -12,13 +12,15 @@ export class LoanService {
 
   constructor(private http: HttpClient) {}
 
-  // Fetch all loans
   getLoans(): Observable<ILoan[]> {
     return this.http.get<ILoan[]>(`${this.apiUrl}/loans`);
   }
 
-  // Create a new loan
   createLoan(loan: ILoan): Observable<ILoan> {
     return this.http.post<ILoan>(`${this.apiUrl}/loans`, loan);
+  }
+
+  getLoanById(loanId: number): Observable<ILoan> {
+    return this.http.get<ILoan>(`${this.apiUrl}/loans/${loanId}`);
   }
 }

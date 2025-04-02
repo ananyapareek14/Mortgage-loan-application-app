@@ -1,1 +1,84 @@
-<p>loan-details works!</p>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Loan Details</h2>
+  
+    <!-- Loan Summary -->
+      <div class="card p-3 mb-4">
+        <div *ngIf="loan$ | async as loan" class="row">
+
+          <div class="col-md-4">
+            <p><strong>Loan ID:</strong> {{ loan.LoanId }}</p>
+            <p><strong>Loan Amount:</strong> {{ loan.LoanAmount | currency }}</p>
+            <p><strong>Term:</strong> {{ loan.LoanTermYears }} years</p>
+            <p><strong>Application Date:</strong> {{ loan.ApplicationDate | date:'fullDate' }}</p>
+          </div>
+      
+          <div class="col-md-4">
+            <p><strong>Principal Amount:</strong> {{ loan.LoanAmount | currency }}</p>
+            <p><strong>Interest Rate:</strong> {{ loan.InterestRate }}%</p>
+            <p><strong>Interest Amount:</strong> {{ totalInterest | currency }}</p>
+            <p><strong>Total Payable:</strong> {{ totalPayment | currency }}</p>
+          </div>
+      
+          <div class="col-md-4 text-center mt-4 mr-4">
+            <p class="fw-bold fs-4">Monthly EMI</p>
+            <p class="fs-3 text-primary">{{ monthlyPayment | currency }}</p>
+            
+          </div>
+        </div>
+      </div>
+      
+      
+  
+    <!-- Tabs for Charts -->
+<div class="d-flex justify-content-center my-3">
+    <ul class="nav nav-underline">
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="activeTab === 'line-chart'" (click)="setActiveTab('line-chart')">
+            Balance Over Time
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="activeTab === 'bar-chart'" (click)="setActiveTab('bar-chart')">
+            Principal vs Interest
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="activeTab === 'pie-chart'" (click)="setActiveTab('pie-chart')">
+            Payment Distribution
+        </button>
+      </li>
+    </ul>
+  </div>
+  
+    <!-- Chart Containers -->
+    <div class="chart-container mt-4">
+      <app-line-chart *ngIf="activeTab === 'line-chart'" [schedule]="amortizationSchedule$ | async"></app-line-chart>
+      <app-bar-chart *ngIf="activeTab === 'bar-chart'" [schedule]="amortizationSchedule$ | async"></app-bar-chart>
+      <app-pie-chart *ngIf="activeTab === 'pie-chart'" [schedule]="amortizationSchedule$ | async"></app-pie-chart>
+    </div>
+  
+    <!-- Amortization Schedule Table -->
+    <div class="card p-3 mt-4 mb-4">
+      <h3 class="text-center mt-2">Amortization Schedule</h3>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Remaining Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of amortizationSchedule$ | async">
+            <td>{{ row.PaymentNumber }}</td>
+            <td>{{ row.PrincipalPayment | currency }}</td>
+            <td>{{ row.InterestPayment | currency }}</td>
+            <td>{{ row.RemainingBalance | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
