@@ -37,7 +37,7 @@ namespace MortgageAPI.Models.Domain
 
         // Navigation Properties
         [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public User User { get; set; }
 
         public ICollection<AmortizationSchedule> AmortizationSchedules { get; set; } = new List<AmortizationSchedule>();
     }

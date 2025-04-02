@@ -39,6 +39,14 @@
               >Loan Application</a
             >
           </li>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <a
+              class="nav-link"
+              routerLink="/amortization"
+              routerLinkActive="active"
+              >Amortization Calculator</a
+            >
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item" *ngIf="!isLoggedIn">

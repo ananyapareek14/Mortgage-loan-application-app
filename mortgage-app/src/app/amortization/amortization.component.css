@@ -1,0 +1,47 @@
+/* .container {
+  margin-top: 20px;
+}
+
+.summary {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.table {
+  margin-top: 20px;
+} */
+
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control-range {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+canvas {
+  max-width: 300px;
+  margin: auto;
+}

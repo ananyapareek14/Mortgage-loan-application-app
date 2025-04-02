@@ -14,7 +14,6 @@ export class LoanService {
 
   // Fetch all loans
   getLoans(): Observable<ILoan[]> {
-    console.log('📡 Calling API to fetch loans:', `${this.apiUrl}/loans`);
     return this.http.get<ILoan[]>(`${this.apiUrl}/loans`);
   }
 

@@ -27,16 +27,31 @@ namespace MortgageAPI.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Loan>> GetAllLoansAsync()
+        public async Task<IEnumerable<Loan>> GetAllLoansAsync(Guid userId)
         {
-            return await _context.Loans.Include(l => l.User).ToListAsync();
+            return await _context.Loans
+                .Where(l => l.UserId == userId)
+                .ToListAsync();
         }
 
-        public async Task<Loan> GetLoanByIdAsync(int loanId)
+        //public async Task<IEnumerable<Loan>> GetAllLoansAsync()
+        //{
+        //    return await _context.Loans.Include(l => l.UserId).ToListAsync();
+        //}
+
+        //public async Task<Loan> GetLoanByIdAsync(int loanId)
+        //{
+        //    var loan = await _context.Loans
+        //        .Include(l => l.UserId)
+        //        .FirstOrDefaultAsync(l => l.LoanId == loanId);
+
+        //    return loan ?? throw new KeyNotFoundException("Loan not found.");
+        //}
+
+        public async Task<Loan> GetLoanByIdAsync(int loanId, Guid userId)
         {
             var loan = await _context.Loans
-                .Include(l => l.User)
-                .FirstOrDefaultAsync(l => l.LoanId == loanId);
+                .FirstOrDefaultAsync(l => l.LoanId == loanId && l.UserId == userId);
 
             return loan ?? throw new KeyNotFoundException("Loan not found.");
         }

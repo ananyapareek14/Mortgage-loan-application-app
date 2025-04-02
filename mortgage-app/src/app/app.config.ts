@@ -11,6 +11,8 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { LoanEffects } from './store/loan/loan.effects';
 import { interestRateReducer } from './store/interest-rates/interest-rate.reducer';
 import { InterestRateEffects } from './store/interest-rates/interest-rate.effects';
+import { amortizationReducer } from './store/amortization/amortization.reducer';
+import { AmortizationEffects } from './store/amortization/amortization.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +24,7 @@ export const appConfig: ApplicationConfig = {
       useClass: jwtInterceptor,
       multi: true,
     },
-    provideStore({ auth: authReducer, loan: loanReducer, interestRates: interestRateReducer }),
-    provideEffects(AuthEffects, LoanEffects, InterestRateEffects),
+    provideStore({ auth: authReducer, loan: loanReducer, interestRates: interestRateReducer, amortization : amortizationReducer }),
+    provideEffects(AuthEffects, LoanEffects, InterestRateEffects, AmortizationEffects),
   ],
 };
