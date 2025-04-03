@@ -14,12 +14,14 @@ export interface AmortizationState {
   schedule: IAmortizationSchedule[] | null;
   loading: boolean;
   error: string | null;
+  isLoading: boolean;
 }
 
 const initialState: AmortizationState = {
   schedule: null,
   loading: false,
   error: null,
+  isLoading: false
 };
 
 export const amortizationReducer = createReducer(
@@ -28,36 +30,36 @@ export const amortizationReducer = createReducer(
   // Load Amortization
   on(loadAmortizationSchedule, (state) => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null,
   })),
   on(loadAmortizationScheduleSuccess, (state, { schedule }) => ({
     ...state,
     schedule,
-    loading: false,
+    isLoading: false,
     error: null,
   })),
   on(loadAmortizationScheduleFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    isLoading: false,
     error,
   })),
 
   // Calculate Amortization
   on(calculateAmortization, (state) => ({
     ...state,
-    loading: true,
+    isLoading: true,
     error: null,
   })),
   on(calculateAmortizationSuccess, (state, { schedule }) => ({
     ...state,
     schedule,
-    loading: false,
+    isLoading: false,
     error: null,
   })),
   on(calculateAmortizationFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    isLoading: false,
     error,
   })),
   on(resetAmortization, () => initialState)

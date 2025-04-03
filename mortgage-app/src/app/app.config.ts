@@ -13,6 +13,8 @@ import { interestRateReducer } from './store/interest-rates/interest-rate.reduce
 import { InterestRateEffects } from './store/interest-rates/interest-rate.effects';
 import { amortizationReducer } from './store/amortization/amortization.reducer';
 import { AmortizationEffects } from './store/amortization/amortization.effects';
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +26,19 @@ export const appConfig: ApplicationConfig = {
       useClass: jwtInterceptor,
       multi: true,
     },
-    provideStore({ auth: authReducer, loan: loanReducer, interestRates: interestRateReducer, amortization : amortizationReducer }),
-    provideEffects(AuthEffects, LoanEffects, InterestRateEffects, AmortizationEffects),
+    provideStore({
+      auth: authReducer,
+      loan: loanReducer,
+      interestRates: interestRateReducer,
+      amortization: amortizationReducer,
+    }),
+    provideEffects(
+      AuthEffects,
+      LoanEffects,
+      InterestRateEffects,
+      AmortizationEffects
+    ),
+    provideToastr(),
+    provideAnimations()
   ],
 };

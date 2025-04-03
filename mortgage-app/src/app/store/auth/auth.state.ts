@@ -1,25 +1,13 @@
-// export interface AuthState {
-//     username: string | null;
-//     token: string | null;
-//     loading: boolean;
-//     error: string | null;
-//   }
-  
-//   export const initialAuthState: AuthState = {
-//     username: localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')!).username : null,
-//     token: localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')!).token : null,
-//     loading: false,
-//     error: null,
-//   };
-  
 export interface AuthState {
   username: string | null;
   token: string | null;
   error: string | null;
+  isLoading: boolean;
 }
 
 export const initialAuthState: AuthState = {
   username: null,
   token: null,
-  error: null
+  error: null,
+  isLoading: false
 };

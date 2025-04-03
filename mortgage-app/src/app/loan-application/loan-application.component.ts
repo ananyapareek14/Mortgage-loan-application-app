@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ILoan } from '../models/ILoan';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IInterestRate } from '../models/IInterestRate';
 import { addLoan } from '../store/loan/loan.actions';
@@ -11,7 +11,7 @@ import { loadInterestRates } from '../store/interest-rates/interest-rate.actions
 
 @Component({
   selector: 'app-loan-application',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe],
   templateUrl: './loan-application.component.html',
   styleUrl: './loan-application.component.css',
 })
