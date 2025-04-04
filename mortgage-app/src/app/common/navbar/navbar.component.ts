@@ -38,7 +38,6 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('auth');
     this.isLoggedIn = false;
-    // this.username = null;
     this.router.navigate(['/']); // Redirect to login or home page after logout
   }
 }
