@@ -7,53 +7,56 @@ body{
 }
 
 .fancy-button {
+  --bg-color: white;
+  --text-color: black;
   position: relative;
   display: inline-block;
   overflow: hidden;
   height: 2.5rem;
   padding: 0 1rem;
   border-radius: 6px;
-  color: #007bff;
+  color: var(--text-color);
   text-decoration: none;
   z-index: 10;
   position: relative;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: transparent;
+  transition: background-color 0.3s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  background-color: var(--bg-color);
 }
 
-.fancy-button:hover {
-  background-color: rgba(0, 123, 255, 0.1);
-}
+  .fancy-button:hover {
+    transform: scale(1.06);
+  }
 
 .fancy-button .text-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  height: 5rem; /* enough to hold both lines */
+  height: 5rem;
   overflow: visible;
   transition: transform 0.3s ease;
 }
 
-.fancy-button .text-default,
-.fancy-button .text-hover {  /* Change to a visible color */
-  opacity: 1 !important;  /* Ensure it's not transparent */
-  visibility: visible !important;
-  height: 2.5rem;
-  color: #007bff;   
-  line-height: 2.5rem;
-  white-space: nowrap;
-  display: block;
-  width: 100%;
-  text-align: center;
-}
+  .fancy-button .text-default,
+  .fancy-button .text-hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    height: 2.5rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 2.5rem;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 
 .fancy-button .text-hover {
   transform: translateY(100%);
   position: absolute;
-  top: 0rem;  /* Adjust based on your button height */
+  top: 0rem;
   left: 0;
   width: 100%;
   text-align: center;   

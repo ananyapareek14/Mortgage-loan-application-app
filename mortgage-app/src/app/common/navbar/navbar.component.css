@@ -1,7 +1,65 @@
-.navbar{
-    padding-left: 110px;
-    padding-right: 110px;
+.navbar {
+  background-color: #000; /* Black background */
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+.navbar-brand {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
 
+.nav-link {
+  color: #ffffff;
+  font-weight: 500;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
+  .nav-link:hover {
+    color: #ffffff;
+    border-bottom: 2px solid #fff;
+  }
+
+  .nav-link.active {
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+    font-weight: bold;
+  }
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.7)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Optional: Make nav links stack on mobile */
+@media (max-width: 768px) {
+  .navbar-nav .nav-link {
+    margin-left: 0;
+    padding: 10px 0;
+  }
+}
+
+.navbar-brand,
+.navbar .nav-link.no-hover {
+  transition: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: default;
+}
+
+  .navbar .nav-link.no-hover:hover {
+    color: #ffffff !important;
+    border: none !important;
+  }

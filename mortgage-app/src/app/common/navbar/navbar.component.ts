@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -38,6 +38,6 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('auth');
     this.isLoggedIn = false;
-    this.router.navigate(['/']); // Redirect to login or home page after logout
+    this.router.navigate(['/login']); // Redirect to login or home page after logout
   }
 }

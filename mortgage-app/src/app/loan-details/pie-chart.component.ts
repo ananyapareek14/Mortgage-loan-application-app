@@ -1,18 +1,38 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
 
 @Component({
   selector: 'app-pie-chart',
-  template: '<canvas id="pieChart"></canvas>',
+  template: '<canvas #pieChart></canvas>',
 })
-export class PieChartComponent implements OnChanges {
+export class PieChartComponent implements AfterViewInit,OnChanges {
   @Input() schedule: IAmortizationSchedule[] | null = [];
+  @ViewChild('pieChart') chartRef!: ElementRef<HTMLCanvasElement>;
 
-  ngOnChanges() {
-    if (this.schedule) {
+  private chart: Chart | undefined;
+  private viewInitialized = false;
+
+  ngAfterViewInit(): void {
+    this.viewInitialized = true;
+    this.createChart();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.viewInitialized && changes['schedule']) {
+      this.createChart();
+    }
+  }
+
+  private createChart(): void {
+    if (!this.chartRef || !this.schedule || this.schedule.length === 0) return;
+
+      if (this.chart) {
+        this.chart.destroy(); // Destroy old chart
+      }
+
       Chart.register(...registerables);
-      new Chart('pieChart', {
+    this.chart = new Chart(this.chartRef.nativeElement, {
         type: 'pie',
         data: {
           labels: ['Principal', 'Interest'],
@@ -38,4 +58,4 @@ export class PieChartComponent implements OnChanges {
       });
     }
   }
-}
+

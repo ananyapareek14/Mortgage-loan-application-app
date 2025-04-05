@@ -1,4 +1,4 @@
-<div id="login" class="container mt-5">
+<!--<div id="login" class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <h1 class="text-center">Login</h1>
@@ -61,4 +61,90 @@
       </form>
     </div>
   </div>
+</div>-->
+
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="row shadow rounded-4 overflow-hidden w-100" style="max-width: 960px;">
+
+    <!-- Left side: Login form -->
+    <div class="col-md-6 bg-white p-5">
+
+      <h2 class="text-center fw-bold"> <i class="bi bi-piggy-bank-fill"></i> Mortgage Loan Application</h2>
+      <p class="text-center text-muted mb-4">Please enter your details</p>
+
+      <!--<div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-dark w-50 me-2">Sign In</button>
+        <button class="btn btn-light w-50 border">Signup</button>
+      </div>-->
+
+      <form (ngSubmit)="login()" #f="ngForm" novalidate>
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Enter username"
+                   [(ngModel)]="credentials.username"
+                   name="username"
+                   required
+                   #username="ngModel" />
+          </div>
+          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger small mt-1">
+            <div *ngIf="username.errors?.['required']">Username is required</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password"
+                 class="form-control"
+                 placeholder="Enter password"
+                 [(ngModel)]="credentials.password"
+                 name="password"
+                 required
+                 minlength="5"
+                 #password="ngModel" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger small mt-1">
+            <div *ngIf="password.errors?.['required']">Password is required</div>
+            <div *ngIf="password.errors?.['minlength']">Min 5 characters</div>
+          </div>
+        </div>
+
+        <button type="submit"
+                class="fancy-button w-100"
+                style="--bg-color: black; --text-color:white;"
+                >
+          <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm me-2"></span>
+          <span class="text-wrapper">
+            <span class="text-default">Continue</span>
+            <span class="text-hover">Continue</span>
+          </span>
+        </button>
+      </form>
+
+      <!--<div class="text-center my-3 text-muted">Or Continue With</div>
+
+      <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-outline-secondary rounded-circle">
+          <i class="bi bi-google"></i>
+        </button>
+        <button class="btn btn-dark rounded-circle">
+          <i class="bi bi-apple"></i>
+        </button>
+        <button class="btn btn-primary rounded-circle">
+          <i class="bi bi-facebook"></i>
+        </button>
+      </div>-->
+
+      <p class="text-muted small text-center mt-4">
+        Join the millions of smart investors who trust us to manage their finances...
+      </p>
+    </div>
+
+    <!-- Right side: Image -->
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-primary-subtle">
+      <img src="/login-bg.jpg" alt="Safe" class="img-fluid" style="max-width: 300px;" />
+    </div>
+  </div>
 </div>
+

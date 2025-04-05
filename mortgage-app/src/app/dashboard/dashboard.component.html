@@ -1,25 +1,45 @@
-<div class="container mt-4">
-  <h2 class="text-center">Loan Applications</h2>
-  <hr>
+<div class="container py-5">
+  <h2 class="text-center mb-5 fw-bold" style="text-decoration:underline">Loan Applications</h2>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Loan ID</th>
-        <th>Amount</th>
-        <th>Interest Rate</th>
-        <th>Term (Years)</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let loan of loans$ | async" (click)="selectLoan(loan)" style="cursor: pointer;">
-        <td>{{ loan?.LoanId }}</td>
-        <td>{{ loan?.LoanAmount | currency }}</td>
-        <td>{{ loan?.InterestRate }}%</td>
-        <td>{{ loan?.LoanTermYears }}</td>
-        <td>{{ loan?.ApprovalStatus }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let loan of loans$ | async">
+      <div class="card h-100 border-0 shadow-sm hover-shadow transition rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="icon-container bg-dark text-white rounded-circle me-3 d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+              <i class="bi bi-cash-stack"></i>
+            </div>
+            <h5 class="card-title mb-0">Loan #{{ loan?.LoanId }}</h5>
+          </div>
+
+          <ul class="list-unstyled mb-4">
+            <li><strong>Amount:</strong> {{ loan?.LoanAmount | currency }}</li>
+            <li><strong>Interest Rate:</strong> {{ loan?.InterestRate }}%</li>
+            <li><strong>Term:</strong> {{ loan?.LoanTermYears }} years</li>
+            <li>
+              <strong>Status:  </strong>
+              <span class="badge rounded-pill px-3 py-2"
+                    [ngClass]="{
+                  'bg-success': loan?.ApprovalStatus === 'Approved',
+                  'bg-warning text-dark': loan?.ApprovalStatus === 'Pending',
+                  'bg-danger': loan?.ApprovalStatus === 'Rejected'
+                }">
+                {{ loan?.ApprovalStatus }}
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer border-0 bg-transparent text-end px-4 pb-4">
+          <button class="fancy-button w-100" style="--bg-color:black; --text-color:white" (click)="selectLoan(loan)">
+            <span class="text-wrapper">
+              <span class="text-default">View Details</span>
+              <span class="text-hover">View Details</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

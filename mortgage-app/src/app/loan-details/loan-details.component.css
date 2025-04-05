@@ -1,4 +1,27 @@
- .nav-tabs .nav-link {
+/* .nav-tabs .nav-link {
     cursor: pointer;
   }
-  
+  */
+/* Tabs */
+.nav-underline .nav-link {
+  color: #333;
+  font-weight: 500;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+  .nav-underline .nav-link.active {
+    border-color: black;
+    color: black;
+  }
+
+/* Card Shadows */
+.card {
+  border-radius: 1rem;
+}
+
+/* Table rows on hover */
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}

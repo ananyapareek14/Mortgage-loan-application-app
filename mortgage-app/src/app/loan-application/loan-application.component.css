@@ -1,28 +1,81 @@
 .container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease-in-out;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://www.transparenttextures.com/patterns/white-wall-3.png');
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+  .container:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   }
-  
-  h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    text-align: center;
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #0d6efd;
+    border-radius: 2px;
   }
-  
-  .loan-form .form-group {
-    margin-bottom: 15px;
+
+.loan-form .form-group {
+  margin-bottom: 1.75rem;
+}
+
+label {
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.95rem;
+}
+
+input,
+select {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+  input:focus,
+  select:focus {
+    border-color: #0d6efd;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
   }
-  
-  .loan-form input {
-    border-radius: 5px;
+
+  input::placeholder {
+    color: #adb5bd;
+    font-style: italic;
   }
-  
-  .btn-block {
-    width: 100%;
-    font-size: 1.1rem;
-  }
-  
+
+.text-danger {
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  color: #dc3545;
+}
+

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <button
         class="navbar-toggler"
@@ -12,22 +12,14 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand mr-4" href="#">Mortgage Loan App</a>
+        <a class="navbar-brand mr-4">Mortgage Loan App</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" *ngIf="isLoggedIn">
-            <a
-              class="nav-link"
-              routerLink="/home"
-              routerLinkActive="active"
-              aria-current="page"
-              >Home</a
-            >
-          </li>
           <li class="nav-item" *ngIf="isLoggedIn">
             <a
               class="nav-link"
               routerLink="/dashboard"
               routerLinkActive="active"
+               [routerLinkActiveOptions]="{ exact: true }"
               >Dashboard</a
             >
           </li>
@@ -36,6 +28,7 @@
               class="nav-link"
               routerLink="/amortization"
               routerLinkActive="active"
+               [routerLinkActiveOptions]="{ exact: true }"
               >Amortization Calculator</a
             >
           </li>
@@ -44,15 +37,13 @@
               class="nav-link"
               routerLink="/loan-application"
               routerLinkActive="active"
+               [routerLinkActiveOptions]="{ exact: true }"
               >Loan Application</a
             >
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <!-- <li class="nav-item" *ngIf="!isLoggedIn">
-            <a class="nav-link" routerLink="/">Login</a>
-          </li> -->
-          <li class="nav-item" *ngIf="!isLoggedIn">
+<li class="nav-item" *ngIf="!isLoggedIn">
   <a class="nav-link fancy-button" routerLink="/">
     <span class="text-wrapper">
       <span class="text-default">Login</span>
@@ -61,19 +52,9 @@
   </a>
 </li>
           <li class="nav-item" *ngIf="isLoggedIn && username">
-            <span class="nav-link mr-4">Hi, {{ username }}!!</span>
+            <span class="nav-link no-hover mr-4">Hi, {{ username }}!!</span>
           </li>
-          <!-- <li class="nav-item" *ngIf="isLoggedIn">
-            <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
-          </li> -->
-          <!-- <li class="nav-item" *ngIf="isLoggedIn">
-  <a class="btn fancy-button" style="cursor: pointer;" (click)="logout()">
-    <span class="text-wrapper">
-      <span class="text-default">Logout</span>
-      <span class="text-hover">Logout</span>
-    </span>
-  </a>
-</li> -->
+
 <li class="nav-item" *ngIf="isLoggedIn">
   <div class="fancy-button-wrapper">
     <a class="fancy-button" (click)="logout()">
@@ -89,4 +70,3 @@
       </div>
     </div>
   </nav>
-  
