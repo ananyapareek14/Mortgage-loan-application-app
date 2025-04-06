@@ -8,6 +8,8 @@ import { IInterestRate } from '../models/IInterestRate';
 import { addLoan } from '../store/loan/loan.actions';
 import { selectAllInterestRates } from '../store/interest-rates/interest-rate.selectors';
 import { loadInterestRates } from '../store/interest-rates/interest-rate.actions';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loan-application',
@@ -20,7 +22,7 @@ export class LoanApplicationComponent implements OnInit {
   loanForm!: FormGroup;
   interestRates$!: Observable<IInterestRate[]>;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(private fb: FormBuilder, private store: Store, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.loanForm = this.fb.group({
@@ -43,8 +45,12 @@ export class LoanApplicationComponent implements OnInit {
       };
 
       this.store.dispatch(addLoan({ loan: newLoan }));
-      alert('Loan application submitted successfully!');
+      this.toastr.success('Loan application submitted successfully!', 'Success');
       this.loanForm.reset();
+      this.router.navigate(['/dashboard']);
+    }
+    else {
+      this.toastr.error('Please fill in all required fields correctly.', 'Invalid Form');
     }
   }
 }

@@ -14,16 +14,16 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand mr-4">Mortgage Loan App</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" *ngIf="isLoggedIn">
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
             <a
               class="nav-link"
               routerLink="/dashboard"
               routerLinkActive="active"
-               [routerLinkActiveOptions]="{ exact: true }"
+               [routerLinkActiveOptions]="{ exact: false }"
               >Dashboard</a
             >
           </li>
-          <li class="nav-item" *ngIf="isLoggedIn">
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
             <a
               class="nav-link"
               routerLink="/amortization"
@@ -32,7 +32,7 @@
               >Amortization Calculator</a
             >
           </li>
-          <li class="nav-item" *ngIf="isLoggedIn">
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
             <a
               class="nav-link"
               routerLink="/loan-application"
@@ -43,28 +43,21 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-<li class="nav-item" *ngIf="!isLoggedIn">
-  <a class="nav-link fancy-button" routerLink="/">
-    <span class="text-wrapper">
-      <span class="text-default">Login</span>
-      <span class="text-hover">Login</span>
-    </span>
-  </a>
-</li>
-          <li class="nav-item" *ngIf="isLoggedIn && username">
-            <span class="nav-link no-hover mr-4">Hi, {{ username }}!!</span>
+
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
+            <span class="nav-link no-hover mr-4">Hi, {{  username$ | async  }}!!</span>
           </li>
 
-<li class="nav-item" *ngIf="isLoggedIn">
-  <div class="fancy-button-wrapper">
-    <a class="fancy-button" (click)="logout()">
-      <span class="text-wrapper">
-        <span class="text-default">Logout</span>
-        <span class="text-hover">Logout</span>
-      </span>
-    </a>
-  </div>
-</li>
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
+            <div class="fancy-button-wrapper">
+              <a class="fancy-button" (click)="logout()">
+                <span class="text-wrapper">
+                  <span class="text-default">Logout</span>
+                  <span class="text-hover">Logout</span>
+                </span>
+              </a>
+            </div>
+          </li>
 
         </ul>
       </div>
