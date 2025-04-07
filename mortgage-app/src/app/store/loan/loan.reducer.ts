@@ -32,6 +32,7 @@ export const loanReducer = createReducer(
   on(LoanActions.addLoanSuccess, (state, { loan }) => ({
     ...state,
     loans: [...state.loans, loan],
+    lastAddedLoan: loan,
     loading: false,
     error: null,
   })),

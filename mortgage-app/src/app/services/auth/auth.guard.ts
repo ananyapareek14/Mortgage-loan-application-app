@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -16,22 +16,41 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) { }
 
-  canActivate(): Observable<boolean> {
+  // canActivate(): Observable<boolean> {
+  //   return this.store.select(selectAuthToken).pipe(
+  //     take(1),
+  //     map(token => {
+  //       // fallback in case store hasn't restored yet
+  //       const savedAuth = localStorage.getItem('auth');
+  //       const savedToken = savedAuth ? JSON.parse(savedAuth).token : null;
+  //       const finalToken = token || savedToken;
+
+  //       if (finalToken) {
+  //         return true;
+  //       } else {
+  //         this.router.navigate(['/']);
+  //         return false;
+  //       }
+  //     })
+  //   );
+  // }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store.select(selectAuthToken).pipe(
       take(1),
       map(token => {
-        // fallback in case store hasn't restored yet
         const savedAuth = localStorage.getItem('auth');
         const savedToken = savedAuth ? JSON.parse(savedAuth).token : null;
         const finalToken = token || savedToken;
-
+  
         if (finalToken) {
           return true;
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
           return false;
         }
       })
     );
   }
+  
 }

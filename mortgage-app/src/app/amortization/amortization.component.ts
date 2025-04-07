@@ -8,12 +8,14 @@ import { selectAmortizationSchedule } from '../store/amortization/amortization.s
 import { calculateAmortization, resetAmortization } from '../store/amortization/amortization.actions';
 import { Router } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { slideIn, slideOut, staggerList } from '../../animations';
 
 @Component({
   selector: 'app-amortization',
   imports: [FormsModule, ReactiveFormsModule, CommonModule, CurrencyPipe],
   templateUrl: './amortization.component.html',
   styleUrl: './amortization.component.css',
+  animations: [slideIn, slideOut, staggerList],
 })
 export class AmortizationComponent implements OnInit, OnDestroy {
   amortizationForm!: FormGroup;
@@ -23,6 +25,9 @@ export class AmortizationComponent implements OnInit, OnDestroy {
   monthlyPayment: number = 0;
   chart!: Chart;
   scheduleSubscription!: Subscription;
+  currentPage = 1;
+  itemsPerPage = 12;
+  paginatedSchedule: IAmortizationSchedule[] = [];
 
   constructor(private fb: FormBuilder, private store: Store, private router: Router) {}
 
@@ -51,6 +56,14 @@ export class AmortizationComponent implements OnInit, OnDestroy {
 
     // Load amortization schedule on initialization
     this.loadDefaultAmortization();
+
+    this.scheduleSubscription = this.amortizationSchedule$.subscribe((schedule) => {
+      if (schedule.length > 0) {
+        this.calculateSummary(schedule);
+        this.renderChart();
+        this.updatePaginatedSchedule(schedule);
+      }
+    });
   }
 
   submitForm(): void {
@@ -103,4 +116,24 @@ export class AmortizationComponent implements OnInit, OnDestroy {
     // Reset state when navigating away
     this.store.dispatch(resetAmortization());
   }
+
+  private updatePaginatedSchedule(schedule: IAmortizationSchedule[]) {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedSchedule = schedule.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.scheduleSubscription?.unsubscribe();
+    this.scheduleSubscription = this.amortizationSchedule$.subscribe(schedule => {
+      this.updatePaginatedSchedule(schedule);
+    });
+  }
+
+  getTotalPages(length: number): number[] {
+    const pages = Math.ceil(length / this.itemsPerPage);
+    return Array.from({ length: pages }, (_, i) => i + 1);
+  }
+  
 }

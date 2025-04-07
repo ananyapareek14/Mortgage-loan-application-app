@@ -1,54 +1,115 @@
-<div class="container mt-4">
+<div class="container mt-4" @slideIn>
   <h2 class="text-center pb-4">Loan Amortization Calculator</h2>
   <br>
   <div class="row">
-    <!-- Left: Form -->
-    <div class="col-md-6 mt-4">
+    <div class="col-md-6 mt-4" @slideIn>
       <form [formGroup]="amortizationForm" (ngSubmit)="submitForm()">
 
         <!-- Loan Amount -->
         <div class="form-group">
-          <label>Loan Amount</label>
-          <input type="text" formControlName="LoanAmount" [(ngModel)]="amortizationForm.value.LoanAmount" class="form-control" />
-          <input type="range" formControlName="LoanAmount" [(ngModel)]="amortizationForm.value.LoanAmount" min="100000" max="100000000" step="100000" class="form-control-range" style="color:black" />
+          <div class="input-row d-flex justify-content-between align-items-center mb-2">
+            <label class="mb-0 me-2">Loan Amount</label>
+            <div class="input-group input-group-sm" style="width: 160px;">
+              <span class="input-group-text">$</span>
+              <input
+                type="text"
+                formControlName="LoanAmount"
+                [(ngModel)]="amortizationForm.value.LoanAmount"
+                class="form-control text-end uniform-input"
+              />
+            </div>
+
+        
+          </div>
+          <input
+            type="range"
+            formControlName="LoanAmount"
+            [(ngModel)]="amortizationForm.value.LoanAmount"
+            min="100000"
+            max="100000000"
+            step="100000"
+            class="custom-slider"
+          />
+          <div class="slider-labels">
+            <span>$100000</span>
+            <span>$10M</span>
+          </div>
         </div>
 
         <!-- Loan Term -->
         <div class="form-group">
-          <label>Tenure (Years)</label>
-          <input type="text" formControlName="LoanTermYears" [(ngModel)]="amortizationForm.value.LoanTermYears" class="form-control" />
-          <input type="range" formControlName="LoanTermYears" [(ngModel)]="amortizationForm.value.LoanTermYears" min="1" max="40" step="1" class="form-control-range" />
+          <div class="input-row">
+            <label>Tenure (Years)</label>
+            <input
+              type="text"
+              formControlName="LoanTermYears"
+              [(ngModel)]="amortizationForm.value.LoanTermYears"
+              class="form-control slim-input uniform-input"
+            />
+          </div>
+          <input
+            type="range"
+            formControlName="LoanTermYears"
+            [(ngModel)]="amortizationForm.value.LoanTermYears"
+            min="1"
+            max="40"
+            step="1"
+            class="custom-slider"
+          />
+          <div class="slider-labels">
+            <span>1</span>
+            <span>40</span>
+          </div>
         </div>
 
         <!-- Interest Rate -->
         <div class="form-group">
-          <label>Interest Rate (%)</label>
-          <input type="text" formControlName="InterestRate" [(ngModel)]="amortizationForm.value.InterestRate" class="form-control" />
-          <input type="range" formControlName="InterestRate" [(ngModel)]="amortizationForm.value.InterestRate" min="0.5" max="25" step="0.25" class="form-control-range" />
+          <div class="input-row">
+            <label>Interest Rate (%)</label>
+            <input
+              type="text"
+              formControlName="InterestRate"
+              [(ngModel)]="amortizationForm.value.InterestRate"
+              class="form-control slim-input uniform-input"
+            />
+          </div>
+          <input
+            type="range"
+            formControlName="InterestRate"
+            [(ngModel)]="amortizationForm.value.InterestRate"
+            min="0.5"
+            max="25"
+            step="0.25"
+            class="custom-slider"
+          />
+          <div class="slider-labels">
+            <span>0.5</span>
+            <span>25</span>
+          </div>
         </div>
 
-        <!--<button type="submit" class="btn fancy-button btn-block mt-1 w-100" style="--bg-color: #007bff; --text-color: white;">Calculate EMI</button>-->
+        <!-- Submit Button -->
         <button type="submit" class="fancy-button mt-1 w-100" style="--bg-color: black; --text-color: white; border: none;">
           <span class="text-wrapper">
             <span class="text-default">Calculate EMI</span>
             <span class="text-hover">Calculate EMI</span>
           </span>
         </button>
-
       </form>
     </div>
 
-    <!-- Right: Loan Summary & Chart -->
+    <!-- Summary -->
     <div class="col-md-6 text-center">
-      <h4>Monthly EMI: {{ monthlyPayment | currency }}</h4>
-      <p>Principal Amount: {{ amortizationForm.value.LoanAmount | currency }}</p>
-      <p>Interest Amount: {{ totalInterest | currency }}</p>
-      <p>Total Payable: {{ totalPayment | currency }}</p>
+      <h4>Monthly EMI: {{ monthlyPayment | currency:'USD' }}</h4>
+      <p>Principal Amount: {{ amortizationForm.value.LoanAmount | currency:'USD' }}</p>
+      <p>Interest Amount: {{ totalInterest | currency:'USD' }}</p>
+      <p>Total Payable: {{ totalPayment | currency:'USD' }}</p>
       <canvas id="pieChart"></canvas>
     </div>
   </div>
   <br>
-  <!-- Amortization Schedule Table -->
+  <h4 class="text-center mt-4">Amortization Schedule</h4>
+  <!-- Table -->
   <table class="table text-center mt-4">
     <thead>
       <tr>
@@ -62,12 +123,14 @@
     <tbody>
       <tr *ngFor="let row of amortizationSchedule$ | async">
         <td>{{ row.PaymentNumber }}</td>
-        <td>{{ row.PrincipalPayment | currency }}</td>
-        <td>{{ row.InterestPayment | currency }}</td>
-        <td>{{ row.MonthlyPayment | currency }}</td>
-        <td>{{ row.RemainingBalance | currency }}</td>
+        <td>{{ row.PrincipalPayment | currency:'USD' }}</td>
+        <td>{{ row.InterestPayment | currency:'USD' }}</td>
+        <td>{{ row.MonthlyPayment | currency:'USD' }}</td>
+        <td>{{ row.RemainingBalance | currency:'USD' }}</td>
       </tr>
     </tbody>
   </table>
 </div>
+
+
 

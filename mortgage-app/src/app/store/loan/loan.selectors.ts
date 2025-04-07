@@ -28,3 +28,9 @@ export const selectLoanById = createSelector(
   (state) => state?.selectedLoan || null
 );
 
+export const selectLoanAddSuccess = createSelector(
+  selectLoanState,
+  (state: LoanState) => state.lastAddedLoan
+);
+
+

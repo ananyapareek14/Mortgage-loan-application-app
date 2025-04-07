@@ -1,8 +1,8 @@
-<div class="container py-5">
-  <h2 class="text-center fw-bold mb-5">Loan Details</h2>
+<div class="container py-5" @slideIn>
+  <h2 class="text-center fw-bold mb-3">Loan Details</h2>
 
   <!-- Loan Summary Card -->
-  <div class="card border-0 shadow-sm mb-5 rounded-4 bg-white">
+  <div class="card border-0 px-3 shadow-sm mb-5 rounded-4 bg-white " @slideIn>
     <div *ngIf="loan$ | async as loan" class="row g-4 p-4">
 
       <div class="col-md-4">
@@ -49,9 +49,9 @@
 
   <!-- Chart Section -->
   <div class="chart-container mt-4">
-    <app-line-chart *ngIf="activeTab === 'line-chart'" [schedule]="amortizationSchedule$ | async"></app-line-chart>
-    <app-bar-chart *ngIf="activeTab === 'bar-chart'" [schedule]="amortizationSchedule$ | async"></app-bar-chart>
-    <app-pie-chart *ngIf="activeTab === 'pie-chart'" [schedule]="amortizationSchedule$ | async"></app-pie-chart>
+    <app-line-chart *ngIf="activeTab === 'line-chart'" [@chartSlideAnimation] [schedule]="amortizationSchedule$ | async"></app-line-chart>
+    <app-bar-chart *ngIf="activeTab === 'bar-chart'" [@chartSlideAnimation] [schedule]="amortizationSchedule$ | async"></app-bar-chart>
+    <app-pie-chart *ngIf="activeTab === 'pie-chart'" [@chartSlideAnimation] [schedule]="amortizationSchedule$ | async"></app-pie-chart>
   </div>
 
   <!-- Amortization Schedule Table -->

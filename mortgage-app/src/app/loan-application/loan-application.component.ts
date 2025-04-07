@@ -10,12 +10,15 @@ import { selectAllInterestRates } from '../store/interest-rates/interest-rate.se
 import { loadInterestRates } from '../store/interest-rates/interest-rate.actions';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { selectLoanAddSuccess } from '../store/loan/loan.selectors';
+import { slideIn } from '../../animations';
 
 @Component({
   selector: 'app-loan-application',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe],
   templateUrl: './loan-application.component.html',
   styleUrl: './loan-application.component.css',
+  animations: [slideIn],
 })
 
 export class LoanApplicationComponent implements OnInit {
@@ -29,6 +32,12 @@ export class LoanApplicationComponent implements OnInit {
       LoanAmount: ['', [Validators.required, Validators.min(1000)]],
       InterestRate: ['', Validators.required],
       LoanTermYears: ['', [Validators.required, Validators.min(1)]],
+    });
+
+    this.store.select(selectLoanAddSuccess).subscribe((loan) => {
+      if (loan) {
+        this.router.navigate(['/dashboard']);
+      }
     });
 
     this.store.dispatch(loadInterestRates());
@@ -47,7 +56,7 @@ export class LoanApplicationComponent implements OnInit {
       this.store.dispatch(addLoan({ loan: newLoan }));
       this.toastr.success('Loan application submitted successfully!', 'Success');
       this.loanForm.reset();
-      this.router.navigate(['/dashboard']);
+      // this.router.navigate(['/dashboard']);
     }
     else {
       this.toastr.error('Please fill in all required fields correctly.', 'Invalid Form');

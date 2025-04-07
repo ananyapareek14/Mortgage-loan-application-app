@@ -6,6 +6,19 @@ body{
     font-family: "Roboto Condensed", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
+main {
+  overflow-x: hidden;
+  position: relative;
+}
+
+.my-custom-toast {
+  top: 80px !important; /* leave space for navbar */
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+  position: fixed !important;
+}
+
 .fancy-button {
   --bg-color: white;
   --text-color: black;

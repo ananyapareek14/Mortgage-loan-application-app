@@ -12,13 +12,16 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { PieChartComponent } from './pie-chart.component';
 import { BarChartComponent } from './bar-chart.component';
 import { LineChartComponent } from './line-chart.component';
+import { chartSlideAnimation, slideIn, slideOut, staggerList } from '../../animations';
 
 
 @Component({
   selector: 'app-loan-detail',
+  standalone: true,
   imports: [PieChartComponent,BarChartComponent,LineChartComponent,CurrencyPipe, DatePipe, CommonModule],
   templateUrl: './loan-details.component.html',
   styleUrls: ['./loan-details.component.css'],
+  animations: [slideIn, slideOut, staggerList, chartSlideAnimation],
 })
 export class LoanDetailsComponent implements OnInit {
   loan$: Observable<ILoan | null>;

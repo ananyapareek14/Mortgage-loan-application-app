@@ -1,13 +1,14 @@
   import { CommonModule } from '@angular/common';
-  import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-  import { Component, OnInit } from '@angular/core';
-  import { Router, RouterLink } from '@angular/router';
+  import { FormsModule } from '@angular/forms';
+  import { Component, OnDestroy, OnInit } from '@angular/core';
+  import { Router } from '@angular/router';
   import { selectAuthError, selectAuthToken, selectIsLoading} from '../store/auth/auth.selectors';
   import { select, Store } from '@ngrx/store';
   import { login } from '../store/auth/auth.actions';
-  import { Observable } from 'rxjs';
+  import { Observable, Subject, takeUntil } from 'rxjs';
   import { AuthState } from '../store/auth/auth.state';
 import { ToastrService } from 'ngx-toastr';
+import { slideIn, slideOut } from '../../animations';
 
   @Component({
     selector: 'app-login',
@@ -15,10 +16,12 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './login.component.html',
     styleUrl: './login.component.css',
   })
-  export class LoginComponent {
+  export class LoginComponent implements OnInit, OnDestroy {
     credentials = { username: '', password: '' };
     isLoading$: Observable<boolean>;
     authError$: Observable<string | null>;
+    authToken$: Observable<string | null>;
+    private destroy$ = new Subject<void>();
 
     constructor(
       private store: Store<AuthState>,
@@ -27,22 +30,36 @@ import { ToastrService } from 'ngx-toastr';
     ) {
       this.isLoading$ = this.store.pipe(select(selectIsLoading));
       this.authError$ = this.store.pipe(select(selectAuthError));
+      this.authToken$ = this.store.pipe(select(selectAuthToken));
     }
 
-    // ngOnInit() {
-    //   this.isLoading$ = this.store.pipe(select(selectIsLoading));
-    // }
+    ngOnInit() {
+      this.authError$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((error) => {
+        if (error) {
+          this.toastr.error(error, 'Login Failed');
+          this.credentials = { username: '', password: '' };
+        }
+      });
+
+    this.authToken$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((token) => {
+        if (token) {
+          this.toastr.success('Login successful!', 'Welcome');
+          this.router.navigate(['/dashboard']);
+        }
+      });
+    }
+
+    ngOnDestroy() {
+      this.destroy$.next();
+      this.destroy$.complete();
+    }
 
     login() {
       this.store.dispatch(login({ credentials: this.credentials }));
-      this.authError$.subscribe((error) => {
-        if (error) {
-          this.toastr.error(error, 'Login Failed');
-        } else {
-          this.toastr.success('Login successful!', 'Welcome');
-          this.router.navigate(['/dashboard']); // Redirect after successful login
-        }
-      });
     }
   }
 

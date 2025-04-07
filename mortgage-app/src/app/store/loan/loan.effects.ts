@@ -35,6 +35,13 @@ export class LoanEffects {
     )
   );
 
+  refreshLoansAfterAdd$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoanActions.addLoanSuccess),
+      map(() => LoanActions.loadLoans())
+    )
+  );
+
   loadLoanById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LoanActions.loadLoanById),
@@ -45,5 +52,5 @@ export class LoanEffects {
         )
       )
     )
-  );
+  );  
 }

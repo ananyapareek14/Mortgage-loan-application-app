@@ -38,7 +38,11 @@ export const appConfig: ApplicationConfig = {
       InterestRateEffects,
       AmortizationEffects
     ),
-    provideToastr(),
+    provideToastr({
+      positionClass: 'my-custom-toast',
+      preventDuplicates: true,
+      timeOut: 3000
+    }),
     provideAnimations()
   ],
 };

@@ -4,12 +4,14 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { loginSuccess } from './store/auth/auth.actions';
+import { routeAnimations } from '../animations';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  animations: [routeAnimations],
 })
 export class AppComponent implements OnInit {
   title = 'mortgage-app';
@@ -33,5 +35,9 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.isAuthReady = true;
     }); // allow state update to propagate
+  }
+
+  getRouteAnimationData(outlet: RouterOutlet) {
+    return outlet.activatedRouteData['animation'];
   }
 }

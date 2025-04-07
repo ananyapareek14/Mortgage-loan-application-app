@@ -1,4 +1,6 @@
 <ng-container *ngIf="isAuthReady">
   <app-navbar *ngIf="!hideNavbar"></app-navbar>
-  <router-outlet></router-outlet>
+  <main [@routeAnimations]="getRouteAnimationData(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</main>
 </ng-container>
