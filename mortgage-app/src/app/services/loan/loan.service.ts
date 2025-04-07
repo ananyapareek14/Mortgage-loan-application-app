@@ -20,7 +20,7 @@ export class LoanService {
     return this.http.post<ILoan>(`${this.apiUrl}/loans`, loan);
   }
 
-  getLoanById(loanId: number): Observable<ILoan> {
-    return this.http.get<ILoan>(`${this.apiUrl}/loans/${loanId}`);
+  getLoanById(userLoanNumber: number): Observable<ILoan> {
+    return this.http.get<ILoan>(`${this.apiUrl}/loans/${userLoanNumber}`);
   }
 }

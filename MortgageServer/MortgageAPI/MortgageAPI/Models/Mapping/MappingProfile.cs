@@ -12,7 +12,7 @@ namespace MortgageAPI.Models.Mapping
             .ForMember(dest => dest.userId, opt => opt.MapFrom(_ => Guid.NewGuid())) // Generate new GUID
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // Will be hashed separately
 
-            CreateMap<Loan, LoanDto>();
+            CreateMap<Loan, LoanDto>().ForMember(dest => dest.UserLoanNumber, opt => opt.MapFrom(src => src.UserLoanNumber)); ;
             CreateMap<LoanRequest, Loan>();
 
             CreateMap<InterestRate, InterestRateDto>();

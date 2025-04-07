@@ -7,7 +7,7 @@ import {
 // Load amortization schedule for a loan
 export const loadAmortizationSchedule = createAction(
   '[Amortization] Load Amortization Schedule',
-  props<{ loanId: number }>()
+  props<{ userLoanNumber: number }>()
 );
 
 export const loadAmortizationScheduleSuccess = createAction(

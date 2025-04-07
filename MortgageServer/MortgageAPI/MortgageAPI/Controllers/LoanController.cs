@@ -72,11 +72,21 @@ namespace MortgageAPI.Controllers
         //    var loanDto = _mapper.Map<LoanDto>(loan);
         //    return Ok(loanDto);
         //}
-        [HttpGet("{loanId}")]
-        public async Task<IActionResult> GetLoanDetails(int loanId)
+        [HttpGet("{userLoanNumber}")]
+        //public async Task<IActionResult> GetLoanDetails(int loanId)
+        //{
+        //    var userId = GetUserIdFromToken();
+        //    var loan = await _loanRepository.GetLoanByIdAsync(loanId, userId); // Pass User ID
+
+        //    if (loan == null) return NotFound("Loan not found.");
+
+        //    var loanDto = _mapper.Map<LoanDto>(loan);
+        //    return Ok(loanDto);
+        //}
+        public async Task<IActionResult> GetLoanDetails(int userLoanNumber)
         {
             var userId = GetUserIdFromToken();
-            var loan = await _loanRepository.GetLoanByIdAsync(loanId, userId); // Pass User ID
+            var loan = await _loanRepository.GetLoanByUserLoanNumberAsync(userLoanNumber, userId); // Pass User ID
 
             if (loan == null) return NotFound("Loan not found.");
 
@@ -106,6 +116,5 @@ namespace MortgageAPI.Controllers
             var loansDto = _mapper.Map<IEnumerable<LoanDto>>(loans);
             return Ok(loansDto);
         }
-
     }
 }

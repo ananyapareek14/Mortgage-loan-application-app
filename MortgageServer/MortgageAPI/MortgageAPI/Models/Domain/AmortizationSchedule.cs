@@ -9,7 +9,8 @@ namespace MortgageAPI.Models.Domain
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
-        public int LoanId { get; set; }
+        //public int LoanId { get; set; }
+        public Guid LoanId { get; set; }
 
         [Required]
         public int PaymentNumber { get; set; }

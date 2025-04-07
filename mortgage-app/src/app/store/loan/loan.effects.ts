@@ -39,7 +39,7 @@ export class LoanEffects {
     this.actions$.pipe(
       ofType(LoanActions.loadLoanById),
       mergeMap((action) =>
-        this.loanService.getLoanById(action.loanId).pipe(
+        this.loanService.getLoanById(action.userLoanNumber).pipe(
           map((loan) => LoanActions.loadLoanByIdSuccess({ loan })),
           catchError((error) => of(LoanActions.loadLoanByIdFailure({ error })))
         )

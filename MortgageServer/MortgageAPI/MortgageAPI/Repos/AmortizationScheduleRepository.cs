@@ -18,13 +18,29 @@ namespace MortgageAPI.Repos
             _amortizationCalculator = amortizationCalculator;
         }
 
-        public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByLoanIdAsync(int loanId)
+        //public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByLoanIdAsync(Guid loanId)
+        //{
+        //    return await _context.AmortizationSchedules
+        //    .Where(a => a.LoanId == loanId)
+        //    .OrderBy(a => a.PaymentNumber)
+        //    .ToListAsync();
+        //}
+        public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByUserLoanNumberAsync(Guid userId, int userLoanNumber)
         {
+            var loan = await _context.Loans
+                .FirstOrDefaultAsync(l => l.UserId == userId && l.UserLoanNumber == userLoanNumber);
+
+            if (loan == null)
+            {
+                throw new KeyNotFoundException("Loan not found.");
+            }
+
             return await _context.AmortizationSchedules
-            .Where(a => a.LoanId == loanId)
-            .OrderBy(a => a.PaymentNumber)
-            .ToListAsync();
+                .Where(a => a.LoanId == loan.LoanId)
+                .OrderBy(a => a.PaymentNumber)
+                .ToListAsync();
         }
+
 
         public async Task<List<AmortizationSchedule>> GenerateAmortizationScheduleAsync(LoanRequest loanRequest)
         {

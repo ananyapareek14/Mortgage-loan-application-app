@@ -11,11 +11,20 @@ export class AmortizationService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  calculateAmortization(request: IAmortizationRequest) : Observable<IAmortizationSchedule[]> {
-    return this.http.post<IAmortizationSchedule[]>(`${this.apiUrl}/amortization/calculate`,request);
+  calculateAmortization(
+    request: IAmortizationRequest
+  ): Observable<IAmortizationSchedule[]> {
+    return this.http.post<IAmortizationSchedule[]>(
+      `${this.apiUrl}/amortization/calculate`,
+      request
+    );
   }
 
-  getAmortizationByLoanId(loanId: number): Observable<IAmortizationSchedule[]> {
-    return this.http.get<IAmortizationSchedule[]>(`${this.apiUrl}/amortization/${loanId}`);
+  getAmortizationByLoanId(
+    userLoanNumber: number
+  ): Observable<IAmortizationSchedule[]> {
+    return this.http.get<IAmortizationSchedule[]>(
+      `${this.apiUrl}/amortization/${userLoanNumber}`
+    );
   }
 }

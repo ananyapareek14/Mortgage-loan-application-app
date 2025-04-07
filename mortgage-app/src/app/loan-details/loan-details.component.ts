@@ -34,10 +34,10 @@ export class LoanDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const loanId = Number(this.route.snapshot.paramMap.get('id'));
-    if (loanId) {
-      this.store.dispatch(loadLoanById({ loanId }));
-      this.store.dispatch(loadAmortizationSchedule({ loanId }));
+    const userLoanNumber = Number(this.route.snapshot.paramMap.get('id'));
+    if (userLoanNumber) {
+      this.store.dispatch(loadLoanById({ userLoanNumber }));
+      this.store.dispatch(loadAmortizationSchedule({ userLoanNumber }));
       this.amortizationSchedule$.subscribe((schedule) => {
         if (schedule) {
           this.calculateSummary(schedule);

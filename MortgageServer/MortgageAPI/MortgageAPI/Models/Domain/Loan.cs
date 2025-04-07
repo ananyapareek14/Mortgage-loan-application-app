@@ -13,10 +13,13 @@ namespace MortgageAPI.Models.Domain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int LoanId { get; set; }
+        public Guid LoanId { get; set; } = Guid.NewGuid();
 
         [Required]
         public Guid UserId { get; set; }  // Foreign key to User
+
+        [Required]
+        public int UserLoanNumber { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

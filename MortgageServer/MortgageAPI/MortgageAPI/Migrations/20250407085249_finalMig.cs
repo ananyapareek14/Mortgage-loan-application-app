@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MortgageAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMig : Migration
+    public partial class finalMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,9 +42,9 @@ namespace MortgageAPI.Migrations
                 name: "Loans",
                 columns: table => new
                 {
-                    LoanId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LoanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserLoanNumber = table.Column<int>(type: "int", nullable: false),
                     LoanAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InterestRate = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     LoanTermYears = table.Column<int>(type: "int", nullable: false),
@@ -67,7 +67,7 @@ namespace MortgageAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoanId = table.Column<int>(type: "int", nullable: false),
+                    LoanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PaymentNumber = table.Column<int>(type: "int", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthlyPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

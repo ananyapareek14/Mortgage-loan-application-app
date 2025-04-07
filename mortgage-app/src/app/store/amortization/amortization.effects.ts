@@ -21,8 +21,8 @@ export class AmortizationEffects {
   loadAmortization$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadAmortizationSchedule),
-      mergeMap(({ loanId }) =>
-        this.amortizationService.getAmortizationByLoanId(loanId).pipe(
+      mergeMap(({ userLoanNumber }) =>
+        this.amortizationService.getAmortizationByLoanId(userLoanNumber).pipe(
           map((schedule) => loadAmortizationScheduleSuccess({ schedule })),
           catchError((error) =>
             of(loadAmortizationScheduleFailure({ error: error.message }))

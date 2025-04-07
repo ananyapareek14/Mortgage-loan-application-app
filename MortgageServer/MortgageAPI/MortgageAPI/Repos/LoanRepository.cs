@@ -19,6 +19,12 @@ namespace MortgageAPI.Repos
 
         public async Task AddLoanAsync(Loan loan)
         {
+            int nextUserLoanNumber = await _context.Loans
+        .Where(l => l.UserId == loan.UserId)
+        .MaxAsync(l => (int?)l.UserLoanNumber) ?? 0;
+
+            loan.UserLoanNumber = nextUserLoanNumber + 1;
+
             await _context.Loans.AddAsync(loan);
             await _context.SaveChangesAsync();
 
@@ -48,12 +54,18 @@ namespace MortgageAPI.Repos
         //    return loan ?? throw new KeyNotFoundException("Loan not found.");
         //}
 
-        public async Task<Loan> GetLoanByIdAsync(int loanId, Guid userId)
-        {
-            var loan = await _context.Loans
-                .FirstOrDefaultAsync(l => l.LoanId == loanId && l.UserId == userId);
+        //public async Task<Loan> GetLoanByIdAsync(int loanId, Guid userId)
+        //{
+        //    var loan = await _context.Loans
+        //        .FirstOrDefaultAsync(l => l.LoanId == loanId && l.UserId == userId);
 
-            return loan ?? throw new KeyNotFoundException("Loan not found.");
+        //    return loan ?? throw new KeyNotFoundException("Loan not found.");
+        //}
+
+        public async Task<Loan> GetLoanByUserLoanNumberAsync(int userLoanNumber, Guid userId)
+        {
+            return await _context.Loans
+                .FirstOrDefaultAsync(l => l.UserLoanNumber == userLoanNumber && l.UserId == userId);
         }
     }
 }
