@@ -18,7 +18,7 @@ export const routes: Routes = [
     data: { animation: 'DashboardPage' },
   },
   {
-    path: 'details',
+    path: 'dashboard',
     loadChildren: () => import('./loan-details/route').then((m) => m.default),
     data: { animation: 'LoanDetailPage' },
   },

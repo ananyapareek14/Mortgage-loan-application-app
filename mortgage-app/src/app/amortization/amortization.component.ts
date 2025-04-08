@@ -56,13 +56,6 @@ export class AmortizationComponent implements OnInit, OnDestroy {
 
     // Load amortization schedule on initialization
     this.loadDefaultAmortization();
-
-    this.scheduleSubscription = this.amortizationSchedule$.subscribe((schedule) => {
-      if (schedule.length > 0) {
-        this.calculateSummary(schedule);
-        this.renderChart();
-      }
-    });
   }
 
   submitForm(): void {
@@ -112,7 +105,12 @@ export class AmortizationComponent implements OnInit, OnDestroy {
       this.scheduleSubscription.unsubscribe();
     }
 
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     // Reset state when navigating away
     this.store.dispatch(resetAmortization());
+
   }
 }
