@@ -17,11 +17,13 @@ namespace MortgageAPI.Controllers
     {
         private readonly IAmortizationScheduleRepository _amortizationRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<AmortizationController> _logger;
 
-        public AmortizationController(IAmortizationScheduleRepository amortizationRepository, IMapper mapper)
+        public AmortizationController(IAmortizationScheduleRepository amortizationRepository, IMapper mapper, ILogger<AmortizationController> logger)
         {
             _amortizationRepository = amortizationRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         private Guid GetUserIdFromToken()
@@ -40,8 +42,12 @@ namespace MortgageAPI.Controllers
         [HttpPost("calculate")]
         public async Task<IActionResult> CalculateAmortization([FromBody] LoanRequest loanRequest)
         {
+            _logger.LogInformation("Calculating amortization: Amount={Amount}, Term={Term}, Rate={Rate}",
+                loanRequest.LoanAmount, loanRequest.LoanTermYears, loanRequest.InterestRate);
+
             if (loanRequest.LoanAmount <= 0 || loanRequest.LoanTermYears <= 0 || loanRequest.InterestRate <= 0)
             {
+                _logger.LogWarning("Invalid loan data provided");
                 return BadRequest("Invalid loan details. Ensure all values are greater than zero.");
             }
 
@@ -51,23 +57,17 @@ namespace MortgageAPI.Controllers
             return Ok(scheduleDto);
         }
 
-
-        //[HttpGet("{loanId}")]
-        //public async Task<IActionResult> GetAmortizationSchedule(Guid loanId)
-        //{
-        //    var schedule = await _amortizationRepository.GetScheduleByLoanIdAsync(loanId);
-        //    var scheduleDto = _mapper.Map<IEnumerable<AmortizationScheduleDto>>(schedule);
-        //    return Ok(scheduleDto);
-        //}
-
         [HttpGet("{userLoanNumber}")]
         public async Task<IActionResult> GetSchedule(int userLoanNumber)
         {
-            var userId = GetUserIdFromToken(); // From your JWT
+            var userId = GetUserIdFromToken(); // From JWT
+            _logger.LogInformation("Fetching amortization schedule for user {UserId} and loan {LoanNumber}", userId, userLoanNumber);
+
             var schedule = await _amortizationRepository.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber);
 
             if (!schedule.Any())
             {
+                _logger.LogWarning("No schedule found for user {UserId} and loan {LoanNumber}", userId, userLoanNumber);
                 return NotFound("Schedule not found.");
             }
 

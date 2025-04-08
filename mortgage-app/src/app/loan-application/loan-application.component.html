@@ -1,7 +1,7 @@
   <div class="container mt-5" @slideIn>
     <h2 class="text-center">Apply for a Loan</h2>
 
-    <form [formGroup]="loanForm" (ngSubmit)="submitLoan()" class="loan-form">
+    <form [formGroup]="loanForm" (ngSubmit)="submitLoan()" class="loan-form" autocomplete="off">
       <!-- Loan Amount -->
       <div class="form-group">
         <label for="loanAmount">Loan Amount</label>
