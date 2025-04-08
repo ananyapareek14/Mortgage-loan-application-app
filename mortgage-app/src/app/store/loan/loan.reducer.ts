@@ -36,7 +36,7 @@ export const loanReducer = createReducer(
     loading: false,
     error: null,
   })),
-  
+
   on(LoanActions.addLoanFailure, (state, { error }) => ({
     ...state,
     loading: false,
@@ -48,17 +48,22 @@ export const loanReducer = createReducer(
     loading: true,
     error: null,
   })),
-  
+
   on(LoanActions.loadLoanByIdSuccess, (state, { loan }) => ({
     ...state,
     selectedLoan: loan,
     loading: false,
   })),
-  
+
   on(LoanActions.loadLoanByIdFailure, (state, { error }) => ({
     ...state,
     selectedLoan: null,
     loading: false,
     error,
+  })),
+
+  on(LoanActions.clearLastAddedLoan, (state) => ({
+  ...state,
+  lastAddedLoan: null,
   })),
 );

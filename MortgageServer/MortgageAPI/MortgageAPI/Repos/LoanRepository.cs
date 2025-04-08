@@ -37,6 +37,7 @@ namespace MortgageAPI.Repos
         {
             return await _context.Loans
                 .Where(l => l.UserId == userId)
+                .OrderBy(l => l.UserLoanNumber)
                 .ToListAsync();
         }
 

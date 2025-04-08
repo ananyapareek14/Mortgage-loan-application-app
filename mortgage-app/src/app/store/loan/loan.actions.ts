@@ -42,3 +42,5 @@ export const loadLoanByIdFailure = createAction(
   '[Loan] Load Loan By ID Failure',
   props<{ error: string }>()
 );
+
+export const clearLastAddedLoan = createAction('[Loan] Clear Last Added Loan');

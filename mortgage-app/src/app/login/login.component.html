@@ -12,7 +12,7 @@
         <button class="btn btn-light w-50 border">Signup</button>
       </div>-->
 
-      <form (ngSubmit)="login()" #f="ngForm" novalidate>
+      <form (ngSubmit)="login()" #f="ngForm" novalidate autocomplete="off">
         <div class="mb-3">
           <label class="form-label">Username</label>
           <div class="input-group">
@@ -49,27 +49,13 @@
                 class="fancy-button w-100"
                 style="--bg-color: black; --text-color:white;"
                 >
-          <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm me-2"></span>
+          <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm me-2 mt-2"></span>
           <span class="text-wrapper">
             <span class="text-default">Continue</span>
             <span class="text-hover">Continue</span>
           </span>
         </button>
       </form>
-
-      <!--<div class="text-center my-3 text-muted">Or Continue With</div>
-
-      <div class="d-flex justify-content-center gap-3">
-        <button class="btn btn-outline-secondary rounded-circle">
-          <i class="bi bi-google"></i>
-        </button>
-        <button class="btn btn-dark rounded-circle">
-          <i class="bi bi-apple"></i>
-        </button>
-        <button class="btn btn-primary rounded-circle">
-          <i class="bi bi-facebook"></i>
-        </button>
-      </div>-->
 
       <p class="text-muted small text-center mt-4">
         Join the millions of smart investors who trust us to manage their finances...

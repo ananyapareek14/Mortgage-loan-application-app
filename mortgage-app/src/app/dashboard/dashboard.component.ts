@@ -31,6 +31,6 @@ export class DashboardComponent implements OnInit {
     const userLoanNumber = loan.UserLoanNumber ?? 0;
 
     // Navigate to LoanDetailComponent using path parameter
-    this.router.navigate(['/dashboard', userLoanNumber]);
+    this.router.navigate(['/details', userLoanNumber]);
   }
 }

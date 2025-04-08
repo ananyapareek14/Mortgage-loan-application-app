@@ -5,7 +5,7 @@ import { ILoan } from '../models/ILoan';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IInterestRate } from '../models/IInterestRate';
-import { addLoan } from '../store/loan/loan.actions';
+import { addLoan, clearLastAddedLoan } from '../store/loan/loan.actions';
 import { selectAllInterestRates } from '../store/interest-rates/interest-rate.selectors';
 import { loadInterestRates } from '../store/interest-rates/interest-rate.actions';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,7 @@ import { slideIn } from '../../animations';
 
 @Component({
   selector: 'app-loan-application',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe],
   templateUrl: './loan-application.component.html',
   styleUrl: './loan-application.component.css',
@@ -37,6 +38,12 @@ export class LoanApplicationComponent implements OnInit {
     this.store.select(selectLoanAddSuccess).subscribe((loan) => {
       if (loan) {
         this.router.navigate(['/dashboard']);
+        this.store.dispatch(clearLastAddedLoan());
+        this.toastr.info('Redirecting to dashboard...', 'Redirecting');
+        this.toastr.success(
+          'Loan application submitted successfully!',
+          'Success'
+        );
       }
     });
 
@@ -54,7 +61,8 @@ export class LoanApplicationComponent implements OnInit {
       };
 
       this.store.dispatch(addLoan({ loan: newLoan }));
-      this.toastr.success('Loan application submitted successfully!', 'Success');
+      
+
       this.loanForm.reset();
       // this.router.navigate(['/dashboard']);
     }

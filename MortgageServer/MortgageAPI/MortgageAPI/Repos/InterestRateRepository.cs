@@ -16,7 +16,7 @@ namespace MortgageAPI.Repos
 
         public async Task<IEnumerable<InterestRate>> GetAllInterestRatesAsync()
         {
-            return await _context.InterestRates.ToListAsync();
+            return await _context.InterestRates.OrderBy(l => l.Rate).ToListAsync();
         }
     }
 }

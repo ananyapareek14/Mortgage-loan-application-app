@@ -5,31 +5,33 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: { animation: 'LoginPage' }
+    data: { animation: 'LoginPage' },
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/route').then(m => m.default),
-    data: { animation: 'DashboardPage' }
+    loadChildren: () => import('./dashboard/route').then((m) => m.default),
+    data: { animation: 'DashboardPage' },
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./loan-details/route').then(m => m.default),
-    data: { animation: 'LoanDetailPage' }
-  },
-  {
-    path: 'loan-application',
-    loadChildren: () => import('./loan-application/route').then(m => m.default),
-    data: { animation: 'LoanApplicationPage' }
+    path: 'details',
+    loadChildren: () => import('./loan-details/route').then((m) => m.default),
+    data: { animation: 'LoanDetailPage' },
   },
   {
     path: 'amortization',
-    loadChildren: () => import('./amortization/route').then(m => m.default),
-    data: { animation: 'AmortizationPage' }
-  }
+    loadChildren: () => import('./amortization/route').then((m) => m.default),
+    data: { animation: 'AmortizationPage' },
+  },
+  {
+    path: 'loan-application',
+    loadChildren: () =>
+      import('./loan-application/route').then((m) => m.default),
+    data: { animation: 'LoanApplicationPage' },
+  },
+  
 ];

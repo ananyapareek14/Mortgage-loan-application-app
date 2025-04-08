@@ -61,7 +61,6 @@ export class AmortizationComponent implements OnInit, OnDestroy {
       if (schedule.length > 0) {
         this.calculateSummary(schedule);
         this.renderChart();
-        this.updatePaginatedSchedule(schedule);
       }
     });
   }
@@ -116,24 +115,4 @@ export class AmortizationComponent implements OnInit, OnDestroy {
     // Reset state when navigating away
     this.store.dispatch(resetAmortization());
   }
-
-  private updatePaginatedSchedule(schedule: IAmortizationSchedule[]) {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.paginatedSchedule = schedule.slice(start, end);
-  }
-
-  goToPage(page: number) {
-    this.currentPage = page;
-    this.scheduleSubscription?.unsubscribe();
-    this.scheduleSubscription = this.amortizationSchedule$.subscribe(schedule => {
-      this.updatePaginatedSchedule(schedule);
-    });
-  }
-
-  getTotalPages(length: number): number[] {
-    const pages = Math.ceil(length / this.itemsPerPage);
-    return Array.from({ length: pages }, (_, i) => i + 1);
-  }
-  
 }

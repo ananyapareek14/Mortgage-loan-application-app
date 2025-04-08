@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideToastr({
       positionClass: 'my-custom-toast',
       preventDuplicates: true,
-      timeOut: 3000
+      timeOut: 2000
     }),
     provideAnimations()
   ],

@@ -5,12 +5,12 @@ using MortgageAPI.Repos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using MortgageAPI.Models.Domain;
 using System.Reflection;
 using MortgageAPI.Repos.Helper;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

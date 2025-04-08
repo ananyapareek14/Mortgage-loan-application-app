@@ -60,7 +60,7 @@ namespace MortgageAPI.Controllers
         //    return Ok(scheduleDto);
         //}
 
-        [HttpGet("schedule/{userLoanNumber}")]
+        [HttpGet("{userLoanNumber}")]
         public async Task<IActionResult> GetSchedule(int userLoanNumber)
         {
             var userId = GetUserIdFromToken(); // From your JWT
