@@ -41,28 +41,6 @@ namespace MortgageAPI.Repos
                 .ToListAsync();
         }
 
-        //public async Task<IEnumerable<Loan>> GetAllLoansAsync()
-        //{
-        //    return await _context.Loans.Include(l => l.UserId).ToListAsync();
-        //}
-
-        //public async Task<Loan> GetLoanByIdAsync(int loanId)
-        //{
-        //    var loan = await _context.Loans
-        //        .Include(l => l.UserId)
-        //        .FirstOrDefaultAsync(l => l.LoanId == loanId);
-
-        //    return loan ?? throw new KeyNotFoundException("Loan not found.");
-        //}
-
-        //public async Task<Loan> GetLoanByIdAsync(int loanId, Guid userId)
-        //{
-        //    var loan = await _context.Loans
-        //        .FirstOrDefaultAsync(l => l.LoanId == loanId && l.UserId == userId);
-
-        //    return loan ?? throw new KeyNotFoundException("Loan not found.");
-        //}
-
         public async Task<Loan> GetLoanByUserLoanNumberAsync(int userLoanNumber, Guid userId)
         {
             return await _context.Loans

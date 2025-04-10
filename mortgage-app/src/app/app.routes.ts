@@ -33,5 +33,4 @@ export const routes: Routes = [
       import('./loan-application/route').then((m) => m.default),
     data: { animation: 'LoanApplicationPage' },
   },
-  
 ];

@@ -17,10 +17,9 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Use Serilog via extension
+// Using Serilog via extension
 builder.Host.AddSerilogLogging(configuration);
 
 Log.Information("Starting MortgageLoanApp...");

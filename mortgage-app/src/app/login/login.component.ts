@@ -7,8 +7,7 @@
   import { login } from '../store/auth/auth.actions';
   import { Observable, Subject, takeUntil } from 'rxjs';
   import { AuthState } from '../store/auth/auth.state';
-import { ToastrService } from 'ngx-toastr';
-import { slideIn, slideOut } from '../../animations';
+  import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-login',

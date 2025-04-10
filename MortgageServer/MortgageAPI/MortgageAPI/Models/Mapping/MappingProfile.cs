@@ -16,7 +16,6 @@ namespace MortgageAPI.Models.Mapping
             CreateMap<LoanRequest, Loan>();
 
             CreateMap<InterestRate, InterestRateDto>();
-            //CreateMap<AmortizationSchedule, AmortizationScheduleDto>();
             CreateMap<AmortizationSchedule, AmortizationScheduleDto>()
             .ForMember(dest => dest.MonthlyPayment, opt => opt.MapFrom(src => Math.Round(src.MonthlyPayment, 2)))
             .ForMember(dest => dest.PrincipalPayment, opt => opt.MapFrom(src => Math.Round(src.PrincipalPayment, 2)))

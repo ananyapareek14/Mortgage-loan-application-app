@@ -61,10 +61,8 @@ export class LoanApplicationComponent implements OnInit {
       };
 
       this.store.dispatch(addLoan({ loan: newLoan }));
-      
 
       this.loanForm.reset();
-      // this.router.navigate(['/dashboard']);
     }
     else {
       this.toastr.error('Please fill in all required fields correctly.', 'Invalid Form');

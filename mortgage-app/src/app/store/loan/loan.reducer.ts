@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialState, LoanState } from './loan.state';
+import { initialState } from './loan.state';
 import * as LoanActions from './loan.actions';
 
 export const loanReducer = createReducer(

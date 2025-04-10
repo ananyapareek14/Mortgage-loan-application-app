@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
-using MortgageAPI.Repos;
 using MortgageAPI.Repos.Interfaces;
 
 namespace MortgageAPI.Controllers

@@ -18,13 +18,6 @@ namespace MortgageAPI.Repos
             _amortizationCalculator = amortizationCalculator;
         }
 
-        //public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByLoanIdAsync(Guid loanId)
-        //{
-        //    return await _context.AmortizationSchedules
-        //    .Where(a => a.LoanId == loanId)
-        //    .OrderBy(a => a.PaymentNumber)
-        //    .ToListAsync();
-        //}
         public async Task<IEnumerable<AmortizationSchedule>> GetScheduleByUserLoanNumberAsync(Guid userId, int userLoanNumber)
         {
             var loan = await _context.Loans
@@ -52,7 +45,7 @@ namespace MortgageAPI.Repos
                 ApplicationDate = DateTime.UtcNow // Temporary date for calculation
             };
 
-            // Use the amortization calculator to generate the schedule
+            // Using the amortization calculator to generate the schedule
             return await Task.FromResult(_amortizationCalculator.GenerateSchedule(loan));
         }
     }

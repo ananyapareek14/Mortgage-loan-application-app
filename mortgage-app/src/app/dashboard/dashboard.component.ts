@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ILoan } from '../models/ILoan';
 import { Store } from '@ngrx/store';
-import { selectLoans, selectSelectedLoan } from '../store/loan/loan.selectors';
+import { selectLoans } from '../store/loan/loan.selectors';
 import * as LoanActions from '../store/loan/loan.actions';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';

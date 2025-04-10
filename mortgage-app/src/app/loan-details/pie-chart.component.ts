@@ -32,7 +32,7 @@ export class PieChartComponent implements AfterViewInit,OnChanges {
       }
 
       Chart.register(...registerables);
-    this.chart = new Chart(this.chartRef.nativeElement, {
+      this.chart = new Chart(this.chartRef.nativeElement, {
         type: 'pie',
         data: {
           labels: ['Principal', 'Interest'],
@@ -48,10 +48,10 @@ export class PieChartComponent implements AfterViewInit,OnChanges {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // Allow custom width & height
+            maintainAspectRatio: false,
             plugins: {
               legend: {
-                position: 'bottom', // Adjust legend position
+                position: 'bottom',
               },
             },
         },

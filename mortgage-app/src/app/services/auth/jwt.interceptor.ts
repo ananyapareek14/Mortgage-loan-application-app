@@ -4,13 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, distinctUntilChanged, first, Observable, switchMap } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { AuthState } from '../../store/auth/auth.state';
-import { selectAuthToken } from '../../store/auth/auth.selectors';
-import { logout } from '../../store/auth/auth.actions';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
