@@ -9,8 +9,9 @@ namespace MortgageAPI.Repos.Helper
             var schedule = new List<AmortizationSchedule>();
             decimal monthlyRate = loan.InterestRate / 100 / 12;
             int months = loan.LoanTermYears * 12;
-            decimal monthlyPayment = loan.LoanAmount * (monthlyRate * (decimal)Math.Pow((1 + (double)monthlyRate), months)) /
-                                     ((decimal)Math.Pow((1 + (double)monthlyRate), months) - 1);
+            decimal monthlyPayment = loan.LoanAmount * (monthlyRate * (decimal)Math.Pow(
+                (1 + (double)monthlyRate), months)) /
+                ((decimal)Math.Pow((1 + (double)monthlyRate), months) - 1);
             decimal balance = loan.LoanAmount;
 
             for (int i = 1; i <= months; i++)

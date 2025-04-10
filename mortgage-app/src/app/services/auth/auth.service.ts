@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import ILogin, { ILoginCredentials } from '../../models/IAuth';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth/auth.state';
-import { login, loginFailure, loginSuccess, logout } from '../../store/auth/auth.actions';
+import { login } from '../../store/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root',

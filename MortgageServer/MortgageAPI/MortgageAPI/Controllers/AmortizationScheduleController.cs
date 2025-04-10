@@ -74,6 +74,5 @@ namespace MortgageAPI.Controllers
             var scheduleDto = _mapper.Map<IEnumerable<AmortizationScheduleDto>>(schedule);
             return Ok(scheduleDto);
         }
-
     }
 }

@@ -6,7 +6,7 @@
     <div *ngIf="loan$ | async as loan" class="row g-4 p-4">
 
       <div class="col-md-4">
-        <p><strong>Loan ID:</strong> {{ loan.LoanId }}</p>
+        <p><strong>Loan Number:</strong> {{ loan.UserLoanNumber }}</p>
         <p><strong>Loan Amount:</strong> {{ loan.LoanAmount | currency }}</p>
         <p><strong>Term:</strong> {{ loan.LoanTermYears }} years</p>
         <p><strong>Application Date:</strong> {{ loan.ApplicationDate | date:'fullDate' }}</p>
