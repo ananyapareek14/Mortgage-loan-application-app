@@ -56,10 +56,10 @@ main {
   .fancy-button .text-hover {
     opacity: 1 !important;
     visibility: visible !important;
-    height: 2.5rem;
+    height: 2.3rem;
     color: var(--text-color);
     background-color: var(--bg-color);
-    line-height: 2.5rem;
+    line-height: 2.3rem;
     white-space: nowrap;
     display: block;
     width: 100%;
@@ -69,7 +69,7 @@ main {
 .fancy-button .text-hover {
   transform: translateY(100%);
   position: absolute;
-  top: 0rem;
+  top: 0.2rem;
   left: 0;
   width: 100%;
   text-align: center;   

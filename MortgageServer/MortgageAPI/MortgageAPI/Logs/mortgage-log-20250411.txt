@@ -1,0 +1,200 @@
+[2025-04-11 15:17:26 INF] Starting MortgageLoanApp...
+[2025-04-11 15:17:38 INF] HTTP GET /swagger/index.html responded 200 in 156.1107 ms
+[2025-04-11 15:17:38 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 34.4718 ms
+[2025-04-11 15:22:31 INF] HTTP OPTIONS /api/auth/login responded 204 in 10.1981 ms
+[2025-04-11 15:22:34 INF] Login attempt for user: abc@example.com
+[2025-04-11 15:22:42 INF] User abc@example.com logged in successfully.
+[2025-04-11 15:22:42 INF] HTTP POST /api/auth/login responded 200 in 10959.4526 ms
+[2025-04-11 15:22:42 INF] HTTP OPTIONS /api/loans responded 204 in 0.5743 ms
+[2025-04-11 15:22:43 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 15:22:43 INF] HTTP GET /api/loans responded 200 in 687.0600 ms
+[2025-04-11 15:23:45 INF] HTTP OPTIONS /api/loans responded 204 in 0.1939 ms
+[2025-04-11 15:23:45 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 15:23:45 INF] HTTP GET /api/loans responded 200 in 173.1528 ms
+[2025-04-11 15:30:50 INF] HTTP OPTIONS /api/auth/login responded 204 in 8.6597 ms
+[2025-04-11 15:30:50 INF] Login attempt for user: abc@example.com
+[2025-04-11 15:30:51 INF] User abc@example.com logged in successfully.
+[2025-04-11 15:30:51 INF] HTTP POST /api/auth/login responded 200 in 1278.3878 ms
+[2025-04-11 15:30:51 INF] HTTP OPTIONS /api/loans responded 204 in 0.2327 ms
+[2025-04-11 15:30:51 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 15:30:52 INF] HTTP GET /api/loans responded 200 in 86.9914 ms
+[2025-04-11 15:31:03 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 2.6442 ms
+[2025-04-11 15:31:03 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 15:31:03 INF] HTTP POST /api/amortization/calculate responded 200 in 116.8134 ms
+[2025-04-11 15:31:42 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.7603 ms
+[2025-04-11 15:31:42 INF] Calculating amortization: Amount=500000, Term=5, Rate=7
+[2025-04-11 15:31:42 INF] HTTP POST /api/amortization/calculate responded 200 in 48.7318 ms
+[2025-04-11 15:31:49 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1762 ms
+[2025-04-11 15:31:49 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.25
+[2025-04-11 15:31:49 INF] HTTP POST /api/amortization/calculate responded 200 in 22.9449 ms
+[2025-04-11 15:31:55 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1841 ms
+[2025-04-11 15:31:55 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 15:31:55 INF] HTTP POST /api/amortization/calculate responded 200 in 11.2795 ms
+[2025-04-11 15:32:34 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.9680 ms
+[2025-04-11 15:32:34 INF] Fetching interest rates
+[2025-04-11 15:32:34 INF] HTTP GET /api/interestrates responded 200 in 129.7996 ms
+[2025-04-11 15:33:30 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 13.7035 ms
+[2025-04-11 15:33:30 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 15:33:30 INF] HTTP POST /api/amortization/calculate responded 200 in 10.2913 ms
+[2025-04-11 15:34:15 INF] HTTP OPTIONS /api/loans responded 204 in 1.1968 ms
+[2025-04-11 15:34:15 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 15:34:15 INF] HTTP GET /api/loans responded 200 in 23.0089 ms
+[2025-04-11 15:36:16 INF] HTTP OPTIONS /api/amortization/2 responded 204 in 0.1710 ms
+[2025-04-11 15:36:16 INF] HTTP OPTIONS /api/loans/2 responded 204 in 0.2020 ms
+[2025-04-11 15:36:16 INF] Fetching amortization schedule for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 2
+[2025-04-11 15:36:16 INF] Fetching loan details for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan number 2
+[2025-04-11 15:36:16 INF] HTTP GET /api/loans/2 responded 200 in 72.0294 ms
+[2025-04-11 15:36:16 INF] HTTP GET /api/amortization/2 responded 200 in 380.0492 ms
+[2025-04-11 15:59:29 INF] Starting MortgageLoanApp...
+[2025-04-11 15:59:35 INF] HTTP GET /swagger/index.html responded 200 in 213.1967 ms
+[2025-04-11 15:59:35 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 43.7970 ms
+[2025-04-11 16:00:14 INF] HTTP OPTIONS /api/loans responded 204 in 9.5241 ms
+[2025-04-11 16:00:16 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:00:22 INF] HTTP GET /api/loans responded 200 in 8458.0314 ms
+[2025-04-11 16:00:26 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.5472 ms
+[2025-04-11 16:00:27 INF] Login attempt for user: abc@example.com
+[2025-04-11 16:00:27 INF] User abc@example.com logged in successfully.
+[2025-04-11 16:00:27 INF] HTTP POST /api/auth/login responded 200 in 705.7676 ms
+[2025-04-11 16:00:27 INF] HTTP OPTIONS /api/loans responded 204 in 0.3263 ms
+[2025-04-11 16:00:27 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:00:28 INF] HTTP GET /api/loans responded 200 in 302.1372 ms
+[2025-04-11 16:00:34 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.2019 ms
+[2025-04-11 16:00:34 INF] Fetching interest rates
+[2025-04-11 16:00:35 INF] HTTP GET /api/interestrates responded 200 in 122.1267 ms
+[2025-04-11 16:00:37 INF] HTTP OPTIONS /api/loans responded 204 in 0.2684 ms
+[2025-04-11 16:00:37 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:00:37 INF] HTTP GET /api/loans responded 200 in 37.1897 ms
+[2025-04-11 16:00:41 INF] HTTP OPTIONS /api/loans/1 responded 204 in 3.1919 ms
+[2025-04-11 16:00:41 INF] HTTP OPTIONS /api/amortization/1 responded 204 in 23.2168 ms
+[2025-04-11 16:00:41 INF] Fetching loan details for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan number 1
+[2025-04-11 16:00:41 INF] Fetching amortization schedule for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 1
+[2025-04-11 16:00:41 INF] HTTP GET /api/loans/1 responded 200 in 90.3229 ms
+[2025-04-11 16:00:41 INF] HTTP GET /api/amortization/1 responded 200 in 374.0818 ms
+[2025-04-11 16:02:13 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.7144 ms
+[2025-04-11 16:02:13 INF] Fetching interest rates
+[2025-04-11 16:02:13 INF] HTTP GET /api/interestrates responded 200 in 29.4655 ms
+[2025-04-11 16:02:29 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 2.1622 ms
+[2025-04-11 16:02:29 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 16:02:29 INF] HTTP POST /api/amortization/calculate responded 200 in 66.2881 ms
+[2025-04-11 16:02:43 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.1630 ms
+[2025-04-11 16:02:43 INF] Fetching interest rates
+[2025-04-11 16:02:43 INF] HTTP GET /api/interestrates responded 200 in 28.1968 ms
+[2025-04-11 16:02:47 INF] HTTP OPTIONS /api/loans responded 204 in 0.1642 ms
+[2025-04-11 16:02:47 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:02:47 INF] HTTP GET /api/loans responded 200 in 64.2766 ms
+[2025-04-11 16:02:52 INF] HTTP OPTIONS /api/interestrates responded 204 in 5.2836 ms
+[2025-04-11 16:02:52 INF] Fetching interest rates
+[2025-04-11 16:02:52 INF] HTTP GET /api/interestrates responded 200 in 70.1286 ms
+[2025-04-11 16:03:00 INF] HTTP OPTIONS /api/loans responded 204 in 0.1903 ms
+[2025-04-11 16:03:00 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:03:01 INF] HTTP GET /api/loans responded 200 in 24.8571 ms
+[2025-04-11 16:03:26 INF] HTTP OPTIONS /api/loans/1 responded 204 in 2.6560 ms
+[2025-04-11 16:03:26 INF] HTTP OPTIONS /api/amortization/1 responded 204 in 0.2521 ms
+[2025-04-11 16:03:26 INF] Fetching loan details for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan number 1
+[2025-04-11 16:03:26 INF] Fetching amortization schedule for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 1
+[2025-04-11 16:03:26 INF] HTTP GET /api/loans/1 responded 200 in 58.8203 ms
+[2025-04-11 16:03:26 INF] HTTP GET /api/amortization/1 responded 200 in 72.2572 ms
+[2025-04-11 16:03:31 INF] HTTP OPTIONS /api/loans responded 204 in 0.2257 ms
+[2025-04-11 16:03:31 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:03:31 INF] HTTP GET /api/loans responded 200 in 23.5221 ms
+[2025-04-11 16:04:05 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 5.9231 ms
+[2025-04-11 16:04:05 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 16:04:05 INF] HTTP POST /api/amortization/calculate responded 200 in 60.1511 ms
+[2025-04-11 16:04:12 INF] HTTP OPTIONS /api/loans responded 204 in 1.1927 ms
+[2025-04-11 16:04:12 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:04:12 INF] HTTP GET /api/loans responded 200 in 18.5864 ms
+[2025-04-11 16:04:16 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2673 ms
+[2025-04-11 16:04:16 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 16:04:16 INF] HTTP POST /api/amortization/calculate responded 200 in 17.8763 ms
+[2025-04-11 16:04:18 INF] HTTP OPTIONS /api/loans responded 204 in 0.1386 ms
+[2025-04-11 16:04:18 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:04:18 INF] HTTP GET /api/loans responded 200 in 18.6351 ms
+[2025-04-11 16:04:22 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.4822 ms
+[2025-04-11 16:04:22 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 16:04:22 INF] HTTP POST /api/amortization/calculate responded 200 in 15.7502 ms
+[2025-04-11 16:04:23 INF] HTTP OPTIONS /api/loans responded 204 in 0.0893 ms
+[2025-04-11 16:04:23 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:04:23 INF] HTTP GET /api/loans responded 200 in 28.9229 ms
+[2025-04-11 16:04:36 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.8337 ms
+[2025-04-11 16:04:36 INF] Fetching interest rates
+[2025-04-11 16:04:36 INF] HTTP GET /api/interestrates responded 200 in 23.5940 ms
+[2025-04-11 16:05:09 INF] HTTP OPTIONS /api/loans responded 204 in 0.0982 ms
+[2025-04-11 16:05:09 INF] Submitting loan for user 403ae3da-4c12-4e73-a43e-df1efcc76036
+[2025-04-11 16:05:10 ERR] HTTP POST /api/loans responded 500 in 1168.6706 ms
+System.OverflowException: Value was either too large or too small for a Decimal.
+   at System.Number.ThrowOverflowException(String message)
+   at System.Decimal.DecCalc.VarDecFromR8(Double input, DecCalc& result)
+   at System.Decimal.op_Explicit(Double value)
+   at MortgageAPI.Repos.Helper.AmortizationCalculator.GenerateSchedule(Loan loan) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\Helper\AmortizationCalculator.cs:line 12
+   at MortgageAPI.Repos.LoanRepository.AddLoanAsync(Loan loan) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\LoanRepository.cs:line 31
+   at MortgageAPI.Controllers.LoanController.SubmitLoan(LoanRequest request) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Controllers\LoanController.cs:line 60
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+[2025-04-11 16:05:10 ERR] An unhandled exception has occurred while executing the request.
+System.OverflowException: Value was either too large or too small for a Decimal.
+   at System.Number.ThrowOverflowException(String message)
+   at System.Decimal.DecCalc.VarDecFromR8(Double input, DecCalc& result)
+   at System.Decimal.op_Explicit(Double value)
+   at MortgageAPI.Repos.Helper.AmortizationCalculator.GenerateSchedule(Loan loan) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\Helper\AmortizationCalculator.cs:line 12
+   at MortgageAPI.Repos.LoanRepository.AddLoanAsync(Loan loan) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\LoanRepository.cs:line 31
+   at MortgageAPI.Controllers.LoanController.SubmitLoan(LoanRequest request) in C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Controllers\LoanController.cs:line 60
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-04-11 16:05:14 INF] HTTP OPTIONS /api/loans responded 204 in 0.1603 ms
+[2025-04-11 16:05:14 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:05:14 INF] HTTP GET /api/loans responded 200 in 45.5204 ms
+[2025-04-11 16:05:22 INF] HTTP OPTIONS /api/loans/5 responded 204 in 0.2064 ms
+[2025-04-11 16:05:22 INF] HTTP OPTIONS /api/amortization/5 responded 204 in 0.1020 ms
+[2025-04-11 16:05:22 INF] Fetching loan details for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan number 5
+[2025-04-11 16:05:22 INF] Fetching amortization schedule for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 5
+[2025-04-11 16:05:22 INF] HTTP GET /api/loans/5 responded 200 in 48.5852 ms
+[2025-04-11 16:05:22 WRN] No schedule found for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 5
+[2025-04-11 16:05:22 INF] HTTP GET /api/amortization/5 responded 404 in 127.1348 ms
+[2025-04-11 16:05:41 INF] HTTP OPTIONS /api/interestrates responded 204 in 1.6758 ms
+[2025-04-11 16:05:41 INF] Fetching interest rates
+[2025-04-11 16:05:41 INF] HTTP GET /api/interestrates responded 200 in 25.9032 ms
+[2025-04-11 16:05:57 INF] HTTP OPTIONS /api/loans responded 204 in 1.9696 ms
+[2025-04-11 16:05:57 INF] Submitting loan for user 403ae3da-4c12-4e73-a43e-df1efcc76036
+[2025-04-11 16:05:58 INF] Loan submitted successfully for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:05:58 INF] HTTP POST /api/loans responded 200 in 530.9910 ms
+[2025-04-11 16:05:58 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:05:58 INF] HTTP GET /api/loans responded 200 in 36.3574 ms
+[2025-04-11 16:05:58 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:05:58 INF] HTTP GET /api/loans responded 200 in 26.3422 ms
+[2025-04-11 16:06:02 INF] HTTP OPTIONS /api/loans/6 responded 204 in 0.2056 ms
+[2025-04-11 16:06:02 INF] HTTP OPTIONS /api/amortization/6 responded 204 in 0.1336 ms
+[2025-04-11 16:06:02 INF] Fetching loan details for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan number 6
+[2025-04-11 16:06:02 INF] Fetching amortization schedule for user "403ae3da-4c12-4e73-a43e-df1efcc76036" and loan 6
+[2025-04-11 16:06:02 INF] HTTP GET /api/loans/6 responded 200 in 32.8126 ms
+[2025-04-11 16:06:02 INF] HTTP GET /api/amortization/6 responded 200 in 99.1795 ms
+[2025-04-11 16:06:21 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 1.4399 ms
+[2025-04-11 16:06:21 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-11 16:06:21 INF] HTTP POST /api/amortization/calculate responded 200 in 20.1785 ms
+[2025-04-11 16:06:23 INF] HTTP OPTIONS /api/loans responded 204 in 0.8050 ms
+[2025-04-11 16:06:23 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-11 16:06:23 INF] HTTP GET /api/loans responded 200 in 25.8376 ms
