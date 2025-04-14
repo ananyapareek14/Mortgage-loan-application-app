@@ -25,9 +25,6 @@ export class AmortizationComponent implements OnInit, OnDestroy {
   monthlyPayment: number = 0;
   chart!: Chart;
   scheduleSubscription!: Subscription;
-  currentPage = 1;
-  itemsPerPage = 12;
-  paginatedSchedule: IAmortizationSchedule[] = [];
 
   constructor(private fb: FormBuilder, private store: Store, private router: Router) {}
 

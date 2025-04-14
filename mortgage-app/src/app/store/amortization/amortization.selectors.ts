@@ -13,7 +13,7 @@ export const selectAmortizationSchedule = createSelector(
 
 export const selectAmortizationLoading = createSelector(
   selectAmortizationState,
-  (state) => state.loading
+  (state) => state.isLoading
 );
 
 export const selectAmortizationError = createSelector(
