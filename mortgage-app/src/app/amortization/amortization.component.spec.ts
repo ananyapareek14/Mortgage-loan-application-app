@@ -1,108 +1,131 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AmortizationComponent } from './amortization.component';
-import { FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { By } from '@angular/platform-browser';
+import {
+  calculateAmortization,
+  resetAmortization,
+} from '../store/amortization/amortization.actions';
 import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
+import { Router } from '@angular/router';
+import { selectAmortizationSchedule } from '../store/amortization/amortization.selectors';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-describe('AmortizationComponent', () => {
+describe('Amortization Component', () => {
   let component: AmortizationComponent;
   let fixture: ComponentFixture<AmortizationComponent>;
   let store: MockStore;
 
   const mockSchedule: IAmortizationSchedule[] = [
-    { 
+    {
       PaymentNumber: 1,
-      PaymentDate: new Date('2025-01-01'),
-      MonthlyPayment: 1500,
-      PrincipalPayment: 1005,
-      InterestPayment: 495,
-      RemainingBalance: 489000
+      PaymentDate: new Date(),
+      MonthlyPayment: 10000,
+      PrincipalPayment: 8000,
+      InterestPayment: 2000,
+      RemainingBalance: 490000,
     },
-    { 
-      PaymentNumber: 2,
-      PaymentDate: new Date('2025-02-01'),
-      MonthlyPayment: 1500,
-      PrincipalPayment: 1010,
-      InterestPayment: 490,
-      RemainingBalance: 487990
-    }
   ];
-
-  const initialState = {
-    amortization: {
-      schedule: mockSchedule,
-      loanDetails: {
-        loanAmount: 500000,
-        interestRate: 5,
-        loanTermYears: 30
-      }
-    }
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AmortizationComponent ],
+      imports: [AmortizationComponent], 
       providers: [
-        provideMockStore({ initialState }),
-        FormBuilder
-      ]
+        provideMockStore({
+          selectors: [
+            {
+              selector: selectAmortizationSchedule, 
+              value: mockSchedule,
+            },
+          ],
+        }),
+        provideAnimations(),
+        {
+          provide: Router,
+          useValue: { navigate: jasmine.createSpy('navigate') },
+        },
+      ],
     }).compileComponents();
 
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(AmortizationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // VERY important
+
+    // Provide a dummy canvas for Chart.js
+    const canvas = document.createElement('canvas');
+    canvas.id = 'pieChart';
+    document.body.appendChild(canvas);
+
+    fixture.detectChanges(); // trigger ngOnInit
   });
 
-  it('should create', () => {
+  afterEach(() => {
+    const canvas = document.getElementById('pieChart');
+    if (canvas) {
+      canvas.remove();
+    }
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initialize form with default values', () => {
-    const formValue = component.amortizationForm.value;
-    expect(formValue.loanAmount).toBe(500000);
-    expect(formValue.interestRate).toBe(5);
-    expect(formValue.loanTermYears).toBe(30);
+    expect(component.amortizationForm.value).toEqual({
+      LoanAmount: 500000,
+      InterestRate: 7.5,
+      LoanTermYears: 5,
+    });
   });
 
-  it('should render form inputs', () => {
-    const inputs = fixture.debugElement.queryAll(By.css('input'));
-    expect(inputs.length).toBeGreaterThan(0);
-  });
-
-  it('should calculate summary correctly when schedule updates', () => {
-    component.scheduleSubscription = mockSchedule;
-    component.calculateSummary();
-
-    expect(component.totalInterest).toBe(495 + 490); // 985
-    expect(component.totalPayment).toBe(1500 * 2); // 3000
-  });
-
-  it('should destroy chart and subscription on ngOnDestroy', () => {
-    const chartMock = { destroy: jasmine.createSpy('destroy') };
-    const subscriptionMock = { unsubscribe: jasmine.createSpy('unsubscribe') };
-
-    component.chart = chartMock as any;
-    component.scheduleSubscription = subscriptionMock as any;
-
-    component.ngOnDestroy();
-
-    expect(chartMock.destroy).toHaveBeenCalled();
-    expect(subscriptionMock.unsubscribe).toHaveBeenCalled();
-  });
-
-  it('should dispatch calculateAmortization on form submit', () => {
+  it('should dispatch calculateAmortization on submit', () => {
     const dispatchSpy = spyOn(store, 'dispatch');
-
     component.amortizationForm.setValue({
-      loanAmount: 400000,
-      interestRate: 4.5,
-      loanTermYears: 20
+      LoanAmount: 600000,
+      InterestRate: 6.5,
+      LoanTermYears: 10,
     });
 
     component.submitForm();
 
-    expect(dispatchSpy).toHaveBeenCalled();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      calculateAmortization({ request: component.amortizationForm.value })
+    );
+  });
+
+  it('should calculate summary from schedule', () => {
+    component['calculateSummary'](mockSchedule);
+
+    expect(component.totalInterest).toBe(2000);
+    expect(component.totalPayment).toBe(10000);
+    expect(component.monthlyPayment).toBe(10000);
+  });
+
+  it('should render a chart', () => {
+    component.totalInterest = 2000;
+    component.amortizationForm.setValue({
+      LoanAmount: 500000,
+      InterestRate: 7.5,
+      LoanTermYears: 5,
+    });
+
+    component['renderChart']();
+
+    expect(component.chart).toBeTruthy();
+    expect(component.chart.config.data?.datasets?.[0]?.data).toEqual([
+      500000, 2000,
+    ]);
+  });
+
+  it('should dispatch resetAmortization on destroy', () => {
+    const dispatchSpy = spyOn(store, 'dispatch');
+    component.ngOnDestroy();
+    expect(dispatchSpy).toHaveBeenCalledWith(resetAmortization());
+  });
+
+  it('should unsubscribe from schedule on destroy', () => {
+    const subSpy = jasmine.createSpyObj('Subscription', ['unsubscribe']);
+    component.scheduleSubscription = subSpy;
+    component.ngOnDestroy();
+    expect(subSpy.unsubscribe).toHaveBeenCalled();
   });
 });

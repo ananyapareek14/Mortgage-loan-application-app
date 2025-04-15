@@ -9,7 +9,7 @@ import { logout } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
