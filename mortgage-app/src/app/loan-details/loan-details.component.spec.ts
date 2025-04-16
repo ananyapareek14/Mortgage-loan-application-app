@@ -88,4 +88,31 @@ describe('Loan Details Component', () => {
     component.setActiveTab('bar-chart');
     expect(component.activeTab).toBe('bar-chart');
   });
+
+  it('should call calculateSummary when schedule is emitted and not null', () => {
+    const schedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 1000,
+        InterestPayment: 300,
+        PrincipalPayment: 700,
+        RemainingBalance: 93000,
+      },
+    ];
+
+    // spy on calculateSummary
+    const calcSpy = spyOn<any>(component, 'calculateSummary');
+
+    component['amortizationSchedule$'] = of(schedule);
+    component.ngOnInit();
+
+    expect(calcSpy).toHaveBeenCalledWith(schedule);
+  });
+
+  it('should set monthlyPayment to 0 if schedule is empty', () => {
+    component['calculateSummary']([]);
+    expect(component.monthlyPayment).toBe(0);
+  });
+
 });

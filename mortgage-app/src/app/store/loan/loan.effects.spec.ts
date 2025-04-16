@@ -1,60 +1,134 @@
-// import { TestBed } from '@angular/core/testing';
-// import { Actions } from '@ngrx/effects';
-// import { StoreModule } from '@ngrx/store';
-// import { of, throwError } from 'rxjs';
-// import { LoanService } from '../../services/loan/loan.service';
-// import { LoanEffects } from './loan.effects';
-// import * as LoanActions from './loan.actions';
-// import { provideMockStore } from '@ngrx/store/testing';
+import { TestBed } from '@angular/core/testing';
+import { LoanEffects } from './loan.effects';
+import { LoanService } from '../../services/loan/loan.service';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { of, throwError, Subject } from 'rxjs';
+import * as LoanActions from './loan.actions';
+import { ILoan } from '../../models/ILoan';
+import { Action } from '@ngrx/store';
 
-// describe('LoanEffects', () => {
-//   let actions$: Actions;
-//   let effects: LoanEffects;
-//   let loanService: jasmine.SpyObj<LoanService>;
+describe('LoanEffects', () => {
+  let actions$: Subject<Action>;
+  let effects: LoanEffects;
+  let loanService: jasmine.SpyObj<LoanService>;
+  let mockLoan: ILoan;
 
-//   beforeEach(() => {
-//     const spy = jasmine.createSpyObj('LoanService', ['getLoans', 'createLoan', 'getLoanById']);
+  beforeEach(() => {
+    mockLoan = {
+      LoanId: 1,
+      UserLoanNumber: 1001,
+      LoanAmount: 150000,
+      InterestRate: 4.5,
+      LoanTermYears: 15,
+      ApplicationDate: '2024-01-01',
+      ApprovalStatus: 'Pending',
+    };
 
-//     TestBed.configureTestingModule({
-//       imports: [StoreModule.forRoot({})],
-//       providers: [
-//         LoanEffects,
-//         { provide: LoanService, useValue: spy },
-//         provideMockStore(),
-//       ],
-//     });
+    const spy = jasmine.createSpyObj('LoanService', [
+      'getLoans',
+      'createLoan',
+      'getLoanById',
+    ]);
 
-//     actions$ = TestBed.inject(Actions);
-//     effects = TestBed.inject(LoanEffects);
-//     loanService = TestBed.inject(LoanService) as jasmine.SpyObj<LoanService>;
-//   });
+    TestBed.configureTestingModule({
+      providers: [
+        LoanEffects,
+        provideMockActions(() => actions$),
+        { provide: LoanService, useValue: spy },
+      ],
+    });
 
-//   it('should load loans successfully', () => {
-//     const mockLoans = [
-//       { LoanId: 1, UserLoanNumber: 123, LoanAmount: 1000, InterestRate: 5, LoanTermYears: 5, ApplicationDate: '2021-01-01', ApprovalStatus: 'Approved' },
-//     ];
+    effects = TestBed.inject(LoanEffects);
+    loanService = TestBed.inject(LoanService) as jasmine.SpyObj<LoanService>;
+    actions$ = new Subject<Action>();
+  });
 
-//     loanService.getLoans.and.returnValue(of(mockLoans));
+  afterEach(() => {
+    actions$.complete();
+  });
 
-//     const action = LoanActions.loadLoans();
-//     const completion = LoanActions.loadLoansSuccess({ loans: mockLoans });
+  it('should return loadLoansSuccess on successful loadLoans', (done) => {
+    const loans = [mockLoan];
+    loanService.getLoans.and.returnValue(of(loans));
 
-//     actions$ = of(action);
-//     effects.loadLoans$.subscribe(result => {
-//       expect(result).toEqual(completion);
-//     });
-//   });
+    effects.loadLoans$.subscribe((result) => {
+      expect(result).toEqual(LoanActions.loadLoansSuccess({ loans }));
+      done();
+    });
 
-//   it('should handle failure to load loans', () => {
-//     const errorMessage = 'Failed to load loans';
-//     loanService.getLoans.and.returnValue(throwError(() => new Error(errorMessage)));
+    actions$.next(LoanActions.loadLoans());
+  });
 
-//     const action = LoanActions.loadLoans();
-//     const completion = LoanActions.loadLoansFailure({ error: errorMessage });
+  it('should return loadLoansFailure on loadLoans error', (done) => {
+    const error = 'Failed to load';
+    loanService.getLoans.and.returnValue(throwError(() => error));
 
-//     actions$ = of(action);
-//     effects.loadLoans$.subscribe(result => {
-//       expect(result).toEqual(completion);
-//     });
-//   });
-// });
+    effects.loadLoans$.subscribe((result) => {
+      expect(result).toEqual({ type: '[Loan] Load Loans Failure', error });
+      done();
+    });
+
+    actions$.next(LoanActions.loadLoans());
+  });
+
+  it('should return addLoanSuccess on successful addLoan', (done) => {
+    loanService.createLoan.and.returnValue(of(mockLoan));
+
+    effects.addLoan$.subscribe((result) => {
+      expect(result).toEqual(LoanActions.addLoanSuccess({ loan: mockLoan }));
+      done();
+    });
+
+    actions$.next(LoanActions.addLoan({ loan: mockLoan }));
+  });
+
+  it('should return addLoanFailure on addLoan error', (done) => {
+    const error = 'Failed to add loan';
+    loanService.createLoan.and.returnValue(throwError(() => error));
+
+    effects.addLoan$.subscribe((result) => {
+      expect(result).toEqual({ type: '[Loan] Add Loan Failure', error });
+      done();
+    });
+
+    actions$.next(LoanActions.addLoan({ loan: mockLoan }));
+  });
+
+  it('should dispatch loadLoans after addLoanSuccess', (done) => {
+    effects.refreshLoansAfterAdd$.subscribe((result) => {
+      expect(result).toEqual(LoanActions.loadLoans());
+      done();
+    });
+
+    actions$.next(LoanActions.addLoanSuccess({ loan: mockLoan }));
+  });
+
+  it('should return loadLoanByIdSuccess on successful loadLoanById', (done) => {
+    loanService.getLoanById.and.returnValue(of(mockLoan));
+
+    effects.loadLoanById$.subscribe((result) => {
+      expect(result).toEqual(
+        LoanActions.loadLoanByIdSuccess({ loan: mockLoan })
+      );
+      done();
+    });
+
+    actions$.next(
+      LoanActions.loadLoanById({ userLoanNumber: mockLoan.UserLoanNumber })
+    );
+  });
+
+  it('should return loadLoanByIdFailure on error', (done) => {
+    const error = 'Not found';
+    loanService.getLoanById.and.returnValue(throwError(() => error));
+
+    effects.loadLoanById$.subscribe((result) => {
+      expect(result).toEqual(LoanActions.loadLoanByIdFailure({ error }));
+      done();
+    });
+
+    actions$.next(
+      LoanActions.loadLoanById({ userLoanNumber: mockLoan.UserLoanNumber })
+    );
+  });
+});
