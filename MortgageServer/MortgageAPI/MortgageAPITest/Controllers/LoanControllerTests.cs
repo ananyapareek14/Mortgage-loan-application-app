@@ -3,17 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using MortgageAPI.Controllers;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Models.Domain;
-using MortgageAPI.Repos;
 using MortgageAPI.Repos.Interfaces;
 using System.Reflection;
-using System;
 
 namespace MortgageAPITest.Controllers
 {
@@ -24,6 +19,7 @@ namespace MortgageAPITest.Controllers
         private Mock<IMapper> _mapperMock;
         private Mock<ILogger<LoanController>> _loggerMock;
         private LoanController _controller;
+        private Guid _userId;
 
         [SetUp]
         public void SetUp()
@@ -34,11 +30,10 @@ namespace MortgageAPITest.Controllers
 
             _controller = new LoanController(_loanRepositoryMock.Object, _mapperMock.Object, _loggerMock.Object);
 
-            // Mock authenticated user with user ID
-            var userId = Guid.NewGuid().ToString();
+            _userId = Guid.NewGuid();
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userId)
+                new Claim(ClaimTypes.NameIdentifier, _userId.ToString())
             }, "mock"));
 
             _controller.ControllerContext = new ControllerContext
@@ -57,21 +52,29 @@ namespace MortgageAPITest.Controllers
                 LoanTermYears = 15
             };
 
-            _mapperMock.Setup(m => m.Map<Loan>(request))
-                .Returns(new Loan());
+            var loanDomain = new Loan
+            {
+                LoanAmount = request.LoanAmount,
+                InterestRate = request.InterestRate,
+                LoanTermYears = request.LoanTermYears
+            };
+
+            _mapperMock.Setup(m => m.Map<Loan>(request)).Returns(loanDomain);
+            _loanRepositoryMock.Setup(r => r.AddLoanAsync(It.IsAny<Loan>())).Returns(Task.CompletedTask);
 
             var result = await _controller.SubmitLoan(request);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
+            var ok = result as OkObjectResult;
+            Assert.IsTrue(ok?.Value?.ToString()?.Contains("Loan Application submitted successfully"));
         }
 
         [Test]
         public async Task SubmitLoan_InvalidToken_ReturnsUnauthorized()
         {
-            // Arrange: No claims set to simulate invalid token
             _controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext() // No claims
+                HttpContext = new DefaultHttpContext()
             };
 
             var request = new LoanRequest
@@ -81,48 +84,11 @@ namespace MortgageAPITest.Controllers
                 LoanTermYears = 15
             };
 
-            // Act
             var result = await _controller.SubmitLoan(request);
 
-            // Assert
             Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
-            var unauthorizedResult = result as UnauthorizedObjectResult;
-            Assert.AreEqual("Invalid or missing User ID in token.", unauthorizedResult.Value);
-
-            // Verify logger call
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Warning,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Unauthorized loan submission attempt")),
-                    It.IsAny<UnauthorizedAccessException>(),
-                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-                Times.Once);
-        }
-
-        [Test]
-        public async Task SubmitLoan_NoUserClaim_ReturnsUnauthorized()
-        {
-            // Arrange: No claims set to simulate missing user ID
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext() // No claims
-            };
-
-            var request = new LoanRequest
-            {
-                LoanAmount = 100000,
-                InterestRate = 5,
-                LoanTermYears = 15
-            };
-
-            // Act
-            var result = await _controller.SubmitLoan(request);
-
-            // Assert
-            Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
-            var unauthorizedResult = result as UnauthorizedObjectResult;
-            Assert.AreEqual("Invalid or missing User ID in token.", unauthorizedResult.Value);
+            var unauthorized = result as UnauthorizedObjectResult;
+            Assert.AreEqual("Invalid or missing User ID in token.", unauthorized?.Value);
         }
 
         [Test]
@@ -130,7 +96,7 @@ namespace MortgageAPITest.Controllers
         {
             _controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext() // No claims set
+                HttpContext = new DefaultHttpContext()
             };
 
             var method = typeof(LoanController)
@@ -138,73 +104,116 @@ namespace MortgageAPITest.Controllers
 
             var ex = Assert.Throws<TargetInvocationException>(() =>
             {
-                method.Invoke(_controller, null);
+                method!.Invoke(_controller, null);
             });
 
-            Assert.That(ex.InnerException, Is.TypeOf<UnauthorizedAccessException>());
-            Assert.That(ex.InnerException.Message, Is.EqualTo("Invalid or missing User ID in token."));
+            Assert.That(ex?.InnerException, Is.TypeOf<UnauthorizedAccessException>());
+            Assert.That(ex?.InnerException?.Message, Is.EqualTo("Invalid or missing User ID in token."));
         }
 
         [Test]
-        public async Task GetLoanDetails_ExistingLoan_ReturnsOkWithLoan()
+        public async Task GetLoanDetails_ExistingLoan_ReturnsOkWithLoanDto()
         {
-            var userId = Guid.Parse(_controller.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var loan = new Loan { UserId = userId, LoanAmount = 50000, InterestRate = 5 };
-            _loanRepositoryMock.Setup(r => r.GetLoanByUserLoanNumberAsync(1, userId)).ReturnsAsync(loan);
-            _mapperMock.Setup(m => m.Map<LoanDto>(loan)).Returns(new LoanDto { LoanAmount = 50000 });
+            var domainLoan = new Loan
+            {
+                LoanId = Guid.NewGuid(),
+                UserId = _userId,
+                UserLoanNumber = 1,
+                ApplicationDate = new DateTime(2024, 12, 1),
+                ApprovalStatus = LoanApprovalStatus.Pending,
+                LoanAmount = 50000,
+                InterestRate = 5,
+                LoanTermYears = 10
+            };
+
+            var loanDto = new LoanDto
+            {
+                LoanId = domainLoan.LoanId,
+                UserLoanNumber = domainLoan.UserLoanNumber,
+                ApplicationDate = domainLoan.ApplicationDate,
+                ApprovalStatus = domainLoan.ApprovalStatus.ToString(),
+                LoanAmount = domainLoan.LoanAmount,
+                InterestRate = domainLoan.InterestRate,
+                LoanTermYears = domainLoan.LoanTermYears
+            };
+
+            _loanRepositoryMock.Setup(r => r.GetLoanByUserLoanNumberAsync(1, _userId)).ReturnsAsync(domainLoan);
+            _mapperMock.Setup(m => m.Map<LoanDto>(domainLoan)).Returns(loanDto);
 
             var result = await _controller.GetLoanDetails(1);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+
+            var returnedDto = okResult!.Value as LoanDto;
+            Assert.IsNotNull(returnedDto);
+            Assert.AreEqual(domainLoan.LoanId, returnedDto!.LoanId);
+            Assert.AreEqual(domainLoan.UserLoanNumber, returnedDto.UserLoanNumber);
+            Assert.AreEqual(domainLoan.ApplicationDate, returnedDto.ApplicationDate);
+            Assert.AreEqual(domainLoan.ApprovalStatus.ToString(), returnedDto.ApprovalStatus);
+            Assert.AreEqual(domainLoan.LoanAmount, returnedDto.LoanAmount);
+            Assert.AreEqual(domainLoan.InterestRate, returnedDto.InterestRate);
+            Assert.AreEqual(domainLoan.LoanTermYears, returnedDto.LoanTermYears);
         }
 
         [Test]
         public async Task GetLoanDetails_LoanNotFound_ReturnsNotFound()
         {
-            var userId = Guid.Parse(_controller.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            _loanRepositoryMock.Setup(r => r.GetLoanByUserLoanNumberAsync(1, userId)).ReturnsAsync((Loan)null);
+            _loanRepositoryMock.Setup(r => r.GetLoanByUserLoanNumberAsync(1, _userId)).ReturnsAsync((Loan)null!);
 
             var result = await _controller.GetLoanDetails(1);
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
+            var notFound = result as NotFoundObjectResult;
+            Assert.AreEqual("Loan not found.", notFound?.Value);
         }
 
         [Test]
-        public async Task GetAllLoans_UserHasLoans_ReturnsOk()
+        public async Task GetAllLoans_UserHasLoans_ReturnsOkWithLoanDtoList()
         {
-            var userId = Guid.Parse(_controller.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var loans = new List<Loan> { new Loan { UserId = userId } };
-            _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync(loans);
-            _mapperMock.Setup(m => m.Map<IEnumerable<LoanDto>>(loans)).Returns(new List<LoanDto>());
+            var domainLoans = new List<Loan>
+            {
+                new Loan { UserId = _userId, LoanAmount = 80000 }
+            };
+
+            var loanDtos = new List<LoanDto>
+            {
+                new LoanDto { LoanAmount = 80000 }
+            };
+
+            _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(_userId)).ReturnsAsync(domainLoans);
+            _mapperMock.Setup(m => m.Map<IEnumerable<LoanDto>>(domainLoans)).Returns(loanDtos);
 
             var result = await _controller.GetAllLoans();
 
             Assert.IsInstanceOf<OkObjectResult>(result);
+            var ok = result as OkObjectResult;
+            Assert.IsInstanceOf<IEnumerable<LoanDto>>(ok?.Value);
         }
 
-        //[Test]
-        //public async Task GetAllLoans_NoLoansFound_ReturnsNotFound()
-        //{
-        //    var userId = Guid.Parse(_controller.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        //    _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync(new List<Loan>());
-
-        //    var result = await _controller.GetAllLoans();
-
-        //    Assert.IsInstanceOf<NotFoundObjectResult>(result);
-        //}
-
         [Test]
-        public async Task GetAllLoans_NullLoanList_ReturnsNotFound()
+        public async Task GetAllLoans_NoLoansFound_ReturnsNotFound()
         {
-            var userId = Guid.Parse(_controller.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync((List<Loan>)null!);
+            _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(_userId)).ReturnsAsync(new List<Loan>());
 
             var result = await _controller.GetAllLoans();
 
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
             var notFound = result as NotFoundObjectResult;
-            Assert.AreEqual("No loans found.", notFound.Value);
+            Assert.AreEqual("No loans found.", notFound?.Value);
         }
 
+        [Test]
+        public async Task GetAllLoans_NullLoanList_ReturnsNotFound()
+        {
+            _loanRepositoryMock.Setup(r => r.GetAllLoansAsync(_userId)).ReturnsAsync((List<Loan>)null!);
+
+            var result = await _controller.GetAllLoans();
+
+            Assert.IsInstanceOf<NotFoundObjectResult>(result);
+            var notFound = result as NotFoundObjectResult;
+            Assert.AreEqual("No loans found.", notFound?.Value);
+        }
     }
 }

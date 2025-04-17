@@ -1,5 +1,5 @@
 import { authReducer } from './auth.reducer';
-import { login, loginSuccess, loginFailure } from './auth.actions';
+import { login, loginSuccess, loginFailure, logout } from './auth.actions';
 
 describe('Auth Reducer', () => {
   it('should set isLoading to true when login is initiated', () => {
@@ -45,5 +45,24 @@ describe('Auth Reducer', () => {
     const state = authReducer(initialState, action);
 
     expect(state.error).toBe('Login failed');
+  });
+
+  it('should reset state on logout', () => {
+    const loggedInState = {
+      token: 'mock-token',
+      username: 'user',
+      error: 'Some error',
+      isLoading: true,
+    };
+
+    const action = logout();
+    const state = authReducer(loggedInState, action);
+
+    expect(state).toEqual({
+      token: null,
+      username: null,
+      error: null,
+      isLoading: false,
+    });
   });
 });

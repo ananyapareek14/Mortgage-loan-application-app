@@ -31,28 +31,74 @@ namespace MortgageAPITest.Controllers
             _controller = new InterestRateController(_mockInterestRateRepository.Object, _mockMapper.Object, _mockLogger.Object);
         }
 
+        //    [Test]
+        //    public async Task GetInterestRates_ShouldReturnOkResult_WithInterestRates()
+        //    {
+        //        // Arrange
+        //        var interestRates = new List<InterestRate>
+        //{
+        //    new InterestRate { Id = Guid.NewGuid(), Rate = 5.5m },
+        //    new InterestRate { Id = Guid.NewGuid(), Rate = 6.0m }
+        //};
+
+        //        var interestRateDtos = new List<InterestRateDto>
+        //{
+        //    new InterestRateDto { Rate = 5.5m },
+        //    new InterestRateDto { Rate = 6.0m }
+        //};
+
+        //        _mockInterestRateRepository
+        //            .Setup(repo => repo.GetAllInterestRatesAsync())
+        //            .ReturnsAsync(interestRates);
+
+        //        _mockMapper
+        //            .Setup(m => m.Map<IEnumerable<InterestRateDto>>(interestRates))
+        //            .Returns(interestRateDtos);
+
+        //        // Act
+        //        var result = await _controller.GetInterestRates();
+
+        //        // Assert
+        //        var okResult = result as OkObjectResult;
+        //        Assert.IsNotNull(okResult);
+        //        Assert.AreEqual(200, okResult.StatusCode);
+
+        //        var returnedRates = okResult.Value as IEnumerable<InterestRateDto>;
+        //        Assert.IsNotNull(returnedRates);
+
+        //        var rateList = returnedRates.ToList();
+        //        Assert.AreEqual(2, rateList.Count);
+        //        Assert.AreEqual(5.5m, rateList[0].Rate);
+        //        Assert.AreEqual(6.0m, rateList[1].Rate);
+        //    }
+
         [Test]
-        public async Task GetInterestRates_ShouldReturnOkResult_WithInterestRates()
+        public async Task GetInterestRates_ShouldReturnOkResult_WithCompleteInterestRateDtos()
         {
             // Arrange
+            var id1 = Guid.NewGuid();
+            var id2 = Guid.NewGuid();
+            var validFrom1 = new DateTime(2024, 01, 01);
+            var validFrom2 = new DateTime(2024, 06, 01);
+
             var interestRates = new List<InterestRate>
-            {
-                new InterestRate { Id = Guid.NewGuid(), Rate = 5.5m },
-                new InterestRate { Id = Guid.NewGuid(), Rate = 6.0m }
-            };
+    {
+        new InterestRate { Id = id1, Rate = 5.5m, ValidFrom = validFrom1 },
+        new InterestRate { Id = id2, Rate = 6.0m, ValidFrom = validFrom2 }
+    };
 
             var interestRateDtos = new List<InterestRateDto>
-            {
-                new InterestRateDto { Rate = 5.5m },
-                new InterestRateDto { Rate = 6.0m }
-            };
+    {
+        new InterestRateDto { Id = id1, Rate = 5.5m, ValidFrom = validFrom1 },
+        new InterestRateDto { Id = id2, Rate = 6.0m, ValidFrom = validFrom2 }
+    };
 
             _mockInterestRateRepository
                 .Setup(repo => repo.GetAllInterestRatesAsync())
                 .ReturnsAsync(interestRates);
 
             _mockMapper
-                .Setup(m => m.Map<IEnumerable<InterestRateDto>>(It.IsAny<IEnumerable<InterestRate>>()))
+                .Setup(m => m.Map<IEnumerable<InterestRateDto>>(interestRates))
                 .Returns(interestRateDtos);
 
             // Act
@@ -65,8 +111,18 @@ namespace MortgageAPITest.Controllers
 
             var returnedRates = okResult.Value as IEnumerable<InterestRateDto>;
             Assert.IsNotNull(returnedRates);
-            Assert.AreEqual(2, returnedRates.Count());
-            Assert.AreEqual(5.5m, returnedRates.First().Rate);
+
+            var rateList = returnedRates.ToList();
+            Assert.AreEqual(2, rateList.Count);
+
+            Assert.AreEqual(id1, rateList[0].Id);
+            Assert.AreEqual(5.5m, rateList[0].Rate);
+            Assert.AreEqual(validFrom1, rateList[0].ValidFrom);
+
+            Assert.AreEqual(id2, rateList[1].Id);
+            Assert.AreEqual(6.0m, rateList[1].Rate);
+            Assert.AreEqual(validFrom2, rateList[1].ValidFrom);
         }
+
     }
 }
