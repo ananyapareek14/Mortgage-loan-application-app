@@ -281,5 +281,44 @@ namespace MortgageAPITest.Controllers
             // Verify AddUserAsync was called with the same user
             _userRepoMock.Verify(repo => repo.AddUserAsync(mappedUser), Times.Once);
         }
+
+        [Test]
+        public async Task AddUser_AdminRole_RegistersSuccessfully()
+        {
+            var request = new RegisterRequest
+            {
+                username = "adminuser",
+                password = "adminpass",
+                role = "Admin"
+            };
+
+            var mappedUser = new User { Username = "adminuser" };
+
+            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("adminuser"))
+                         .ReturnsAsync((User?)null);
+
+            _mapperMock.Setup(x => x.Map<User>(request))
+                       .Returns(mappedUser);
+
+            _userRepoMock.Setup(x => x.AddUserAsync(It.IsAny<User>()))
+                         .Returns(Task.CompletedTask);
+
+            var result = await _controller.AddUser(request);
+
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.AreEqual("Admin", mappedUser.Role);
+
+            _loggerMock.Verify(
+                x => x.Log(
+                    LogLevel.Information,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("registered successfully")),
+                    null,
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                Times.Once);
+        }
+
     }
 }

@@ -11,14 +11,14 @@ namespace MortgageAPI.Controllers
 {
     [Route("api/loans")]
     [ApiController]
-    [Authorize] // Require authentication for all endpoints
+    [Authorize]
     public class LoanController : ControllerBase
     {
         private readonly ILoanRepository _loanRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger<AuthController> _logger;
+        private readonly ILogger<LoanController> _logger;
 
-        public LoanController(ILoanRepository loanRepository, IMapper mapper, ILogger<AuthController> logger)
+        public LoanController(ILoanRepository loanRepository, IMapper mapper, ILogger<LoanController> logger)
         {
             _loanRepository = loanRepository;
             _mapper = mapper;
@@ -38,32 +38,35 @@ namespace MortgageAPI.Controllers
             return userId;
         }
 
-
         [HttpPost]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> SubmitLoan([FromBody] LoanRequest request)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                              ?? User.FindFirst(JwtRegisteredClaimNames.NameId)?.Value;
-            _logger.LogInformation("Submitting loan for user {UserId}", userIdClaim);
-
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
+            try
             {
-                return Unauthorized("Invalid or missing User ID in token.");
+                var userId = GetUserIdFromToken();
+                _logger.LogInformation("Submitting loan for user {UserId}", userId);
+
+                var loan = _mapper.Map<Loan>(request);
+                loan.UserId = userId;
+                loan.ApplicationDate = DateTime.UtcNow;
+                loan.ApprovalStatus = LoanApprovalStatus.Pending;
+
+                await _loanRepository.AddLoanAsync(loan);
+                _logger.LogInformation("Loan submitted successfully for user {UserId}", userId);
+
+                return Ok(new
+                {
+                    message = "Loan Application submitted successfully"
+                });
             }
-
-            var loan = _mapper.Map<Loan>(request);
-            loan.UserId = userId;
-            loan.ApplicationDate = DateTime.UtcNow;
-            loan.ApprovalStatus = LoanApprovalStatus.Pending;
-
-            await _loanRepository.AddLoanAsync(loan);
-            _logger.LogInformation("Loan submitted successfully for user {UserId}", userId);
-            return Ok(new
-            { 
-                message = "Loan Application submitted successfully"
-            });
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning(ex, "Unauthorized loan submission attempt.");
+                return Unauthorized(ex.Message);
+            }
         }
+
 
         [HttpGet("{userLoanNumber}")]
         public async Task<IActionResult> GetLoanDetails(int userLoanNumber)

@@ -26,11 +26,6 @@ namespace MortgageAPI.Repos
             return verificationResult == PasswordVerificationResult.Success ? user : null;
         }
 
-        public async Task<User?> GetUserByIdAsync(Guid userId)
-        {
-            return await _context.Users.FindAsync(userId);
-        }
-
         public async Task<User?> GetUserByUsernameAsync(string userName)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);

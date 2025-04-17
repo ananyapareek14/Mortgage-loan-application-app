@@ -80,5 +80,40 @@ namespace MortgageAPITest.Repos
 
             Assert.IsNull(result);
         }
+
+        [Test]
+        public async Task AuthenticateUserAsync_NonExistentUser_ReturnsNull()
+        {
+            var result = await _repo.AuthenticateUserAsync("ghostuser", "anyPassword");
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public async Task GetUserByUsernameAsync_ExistingUser_ReturnsUser()
+        {
+            var user = new User
+            {
+                Username = "testuser",
+                PasswordHash = "hashedpass"
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var result = await _repo.GetUserByUsernameAsync("testuser");
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("testuser", result!.Username);
+        }
+
+        [Test]
+        public async Task GetUserByUsernameAsync_NonExistingUser_ReturnsNull()
+        {
+            var result = await _repo.GetUserByUsernameAsync("nonexistent");
+
+            Assert.IsNull(result);
+        }
+
     }
 }
