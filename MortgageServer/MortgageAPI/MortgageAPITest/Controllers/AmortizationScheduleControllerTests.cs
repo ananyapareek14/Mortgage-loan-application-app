@@ -158,8 +158,3 @@ namespace MortgageAPI.Tests
         }
     }
 }
-
-
-//There are a few warnings in the tests, help me rectify them: 
-//    Severity Code	Description	Project	File	Line	Suppression State
-//Warning (active)	NUnit2005	Consider using the constraint model, Assert.That(actual, Is.EqualTo(expected)), instead of the classic model, Assert.AreEqual(expected, actual).	MortgageAPITest	C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs	51	
