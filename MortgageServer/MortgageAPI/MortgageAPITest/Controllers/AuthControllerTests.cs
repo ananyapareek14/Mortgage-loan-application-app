@@ -1,324 +1,270 @@
-﻿//using AutoMapper;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Logging;
-//using Moq;
-//using MortgageAPI.Controllers;
-//using MortgageAPI.Models.Domain;
-//using MortgageAPI.Models.DTO;
-//using MortgageAPI.Repos.Interfaces;
-
-//namespace MortgageAPITest.Controllers
-//{
-//    public class AuthControllerTests
-//    {
-//        private Mock<IAuthService> _authServiceMock = null!;
-//        private Mock<IUserRepository> _userRepoMock = null!;
-//        private Mock<IMapper> _mapperMock = null!;
-//        private Mock<ILogger<AuthController>> _loggerMock = null!;
-//        private AuthController _controller = null!;
-
-//        [SetUp]
-//        public void Setup()
-//        {
-//            _authServiceMock = new Mock<IAuthService>();
-//            _userRepoMock = new Mock<IUserRepository>();
-//            _mapperMock = new Mock<IMapper>();
-//            _loggerMock = new Mock<ILogger<AuthController>>();
-
-//            _controller = new AuthController(_authServiceMock.Object, _userRepoMock.Object, _mapperMock.Object, _loggerMock.Object);
-//        }
-
-//        [Test]
-//        public async Task Login_ValidCredentials_ReturnsOkWithToken()
-//        {
-//            var request = new LoginRequest { username = "test", password = "pass" };
-//            _authServiceMock.Setup(x => x.AuthenticateAsync("test", "pass")).ReturnsAsync("mocktoken");
-
-//            var result = await _controller.Login(request) as OkObjectResult;
-
-//            Assert.IsNotNull(result);
-//            Assert.AreEqual(200, result.StatusCode);
-//        }
-
-//        [Test]
-//        public async Task Login_InvalidCredentials_ReturnsUnauthorized()
-//        {
-//            var request = new LoginRequest { username = "bad", password = "pass" };
-//            _authServiceMock.Setup(x => x.AuthenticateAsync("bad", "pass")).ReturnsAsync((string?)null);
-
-//            var result = await _controller.Login(request);
-
-//            Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
-//        }
-
-//        [Test]
-//        public async Task AddUser_UsernameTaken_ReturnsBadRequest()
-//        {
-//            var request = new RegisterRequest { username = "existing", password = "pass", role = "User" };
-//            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("existing")).ReturnsAsync(new User());
-
-//            var result = await _controller.AddUser(request);
-
-//            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-//        }
-
-//        [Test]
-//        public async Task AddUser_InvalidRole_ReturnsBadRequest()
-//        {
-//            var request = new RegisterRequest { username = "new", password = "pass", role = "InvalidRole" };
-//            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("new")).ReturnsAsync((User?)null);
-
-//            var result = await _controller.AddUser(request);
-
-//            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-//        }
-
-//        [Test]
-//        public async Task AddUser_NullRole_DefaultsToUser()
-//        {
-//            var request = new RegisterRequest
-//            {
-//                username = "user123",
-//                password = "pass",
-//                role = null // should fallback to "User"
-//            };
-
-//            var mappedUser = new User { Username = "user123" };
-
-//            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("user123")).ReturnsAsync((User?)null);
-//            _mapperMock.Setup(x => x.Map<User>(request)).Returns(mappedUser);
-
-//            var result = await _controller.AddUser(request);
-
-//            Assert.IsInstanceOf<OkObjectResult>(result);
-//            Assert.AreEqual("User", mappedUser.Role);
-//        }
-
-
-//        [Test]
-//        public async Task AddUser_ValidRequest_AddsUserAndReturnsOk()
-//        {
-//            // Arrange
-//            var request = new RegisterRequest
-//            {
-//                username = "newuser",
-//                password = "securepass",
-//                role = "User"
-//            };
-
-//            var mappedUser = new User { Username = "newuser" };
-
-//            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("newuser"))
-//                         .ReturnsAsync((User?)null);
-
-//            _mapperMock.Setup(x => x.Map<User>(request))
-//                       .Returns(mappedUser);
-
-//            _userRepoMock.Setup(x => x.AddUserAsync(It.IsAny<User>()))
-//                         .Returns(Task.CompletedTask);
-
-//            // Act
-//            var result = await _controller.AddUser(request);
-
-//            // Assert
-//            var okResult = result as OkObjectResult;
-//            Assert.IsNotNull(okResult);
-//            Assert.AreEqual(200, okResult.StatusCode);
-
-//            _loggerMock.Verify(
-//                x => x.Log(
-//                    LogLevel.Information,
-//                    It.IsAny<EventId>(),
-//                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("registered successfully")),
-//                    null,
-//                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-//                Times.Once);
-//        }
-//    }
-//}
-
-
-using AutoMapper;
+﻿using Moq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
+using AutoMapper;
 using MortgageAPI.Controllers;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Repos.Interfaces;
+using NUnit.Framework.Internal.Commands;
+using System.Linq.Expressions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using NUnit.Framework;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System;
+using System.Diagnostics;
 
-namespace MortgageAPITest.Controllers
+namespace MortgageAPI.Tests;
+
+[TestFixture]
+public class AuthControllerTests
 {
-    public class AuthControllerTests
+    private Mock<IAuthService> _mockAuthService;
+    private Mock<IUserRepository> _mockUserRepository;
+    private Mock<IMapper> _mockMapper;
+    private Mock<ILogger<AuthController>> _mockLogger;
+    private AuthController _controller;
+
+    [SetUp]
+    public void Setup()
     {
-        private Mock<IAuthService> _authServiceMock = null!;
-        private Mock<IUserRepository> _userRepoMock = null!;
-        private Mock<IMapper> _mapperMock = null!;
-        private Mock<ILogger<AuthController>> _loggerMock = null!;
-        private AuthController _controller = null!;
+        _mockAuthService = new Mock<IAuthService>();
+        _mockUserRepository = new Mock<IUserRepository>();
+        _mockMapper = new Mock<IMapper>();
+        _mockLogger = new Mock<ILogger<AuthController>>();
+        _controller = new AuthController(_mockAuthService.Object, _mockUserRepository.Object, _mockMapper.Object, _mockLogger.Object);
+    }
 
-        [SetUp]
-        public void Setup()
+    [Test]
+    public async Task Login_ValidCredentials_ReturnsOkResult()
+    {
+        // Arrange
+        var request = new LoginRequest { username = "testuser", password = "password123" };
+        _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("valid_token");
+
+        // Act
+        var result = await _controller.Login(request);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+        var okResult = result as OkObjectResult;
+        Assert.IsNotNull(okResult);
+        dynamic value = okResult.Value;
+        Assert.AreEqual("Signed in successfully", value.message);
+        Assert.AreEqual("valid_token", value.token);
+        Assert.AreEqual("testuser", value.username);
+    }
+
+    [Test]
+    public async Task Login_InvalidCredentials_ReturnsUnauthorized()
+    {
+        // Arrange
+        var request = new LoginRequest { username = "invaliduser", password = "wrongpassword" };
+        _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string)null);
+
+        // Act
+        var result = await _controller.Login(request);
+
+        // Assert
+        Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
+        var unauthorizedResult = result as UnauthorizedObjectResult;
+        Assert.IsNotNull(unauthorizedResult);
+        Assert.AreEqual("Invalid username or password", unauthorizedResult.Value);
+    }
+
+    [Test]
+public async Task AddUser_ValidRequest_ReturnsOkResult()
+{
+    // Arrange
+    var user = new RegisterRequest
+    {
+        // Set up user properties as needed for a valid request
+        username = "newuser",
+        password = "newpassword",
+        role = "User"
+    };
+
+    // Act
+    var result = await _controller.AddUser(user) as OkObjectResult;
+
+    // Assert
+    Assert.IsNotNull(result);
+    Assert.That(result.StatusCode, Is.EqualTo(200));
+
+    var responseValue = result.Value as dynamic;
+    Assert.IsNotNull(responseValue);
+    Assert.That(responseValue.message, Is.EqualTo("User added successfully."));
+}
+
+    [Test]
+    public async Task AddUser_ExistingUsername_ReturnsBadRequest()
+    {
+        // Arrange
+        var request = new RegisterRequest { username = "existinguser", password = "password" };
+        _mockUserRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(new User());
+
+        // Act
+        var result = await _controller.AddUser(request);
+
+        // Assert
+        Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        var badRequestResult = result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequestResult);
+        Assert.AreEqual("Username already taken.", badRequestResult.Value);
+    }
+
+    [Test]
+    public async Task AddUser_InvalidRole_ReturnsBadRequest()
+    {
+        // Arrange
+        var request = new RegisterRequest { username = "newuser", password = "password", role = "InvalidRole" };
+        _mockUserRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync((User)null);
+
+        // Act
+        var result = await _controller.AddUser(request);
+
+        // Assert
+        Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        var badRequestResult = result as BadRequestObjectResult;
+        Assert.IsNotNull(badRequestResult);
+        Assert.AreEqual("Invalid role. Allowed roles are 'Admin' or 'User'.", badRequestResult.Value);
+    }
+
+    [Test]
+    public void AddUser_NullRole_SetsDefaultRoleToUser()
+    {
+        // Arrange
+        var mockMapper = new Mock<IMapper>();
+        var mockUserRepository = new Mock<IUserRepository>();
+
+        var request = new RegisterRequest
         {
-            _authServiceMock = new Mock<IAuthService>();
-            _userRepoMock = new Mock<IUserRepository>();
-            _mapperMock = new Mock<IMapper>();
-            _loggerMock = new Mock<ILogger<AuthController>>();
+            username = "testuser",
+            password = "password123",
+            role = null // Explicitly set role to null for this test
+        };
 
-            _controller = new AuthController(_authServiceMock.Object, _userRepoMock.Object, _mapperMock.Object, _loggerMock.Object);
-        }
-
-        [Test]
-        public async Task Login_ValidCredentials_ReturnsOkWithToken()
+        var expectedUser = new User
         {
-            var request = new LoginRequest { username = "test", password = "pass" };
-            _authServiceMock.Setup(x => x.AuthenticateAsync("test", "pass")).ReturnsAsync("mocktoken");
+            Username = request.username,
+            Role = "User" // Expected default role
+        };
 
-            var result = await _controller.Login(request) as OkObjectResult;
+        mockMapper.Setup(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == null)))
+                  .Returns(expectedUser)
+                  .Verifiable();
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-        }
+        mockUserRepository.Setup(x => x.AddUserAsync(It.IsAny<User>()))
+                          .Returns(Task.CompletedTask);
 
-        [Test]
-        public async Task Login_InvalidCredentials_ReturnsUnauthorized()
+        // Act
+        var result = _controller.AddUser(request).Result;
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+        mockMapper.Verify(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == null)), Times.Once);
+        mockUserRepository.Verify(x => x.AddUserAsync(It.Is<User>(u => u.Role == "User")), Times.Once);
+    }
+
+    [Test]
+    public async Task Login_EmptyUsername_ReturnsUnauthorized()
+    {
+        // Arrange
+        var request = new LoginRequest { username = "", password = "password123" };
+        _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string)null);
+
+        // Act
+        var result = await _controller.Login(request);
+
+        // Assert
+        Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
+    }
+
+    [Test]
+    public async Task Login_NullPassword_ReturnsUnauthorized()
+    {
+        // Arrange
+        var request = new LoginRequest { username = "testuser", password = null };
+        _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string)null);
+
+        // Act
+        var result = await _controller.Login(request);
+
+        // Assert
+        Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
+    }
+
+    [Test]
+    public async Task AddUser_MaxLengthUsername_ReturnsOkResult()
+    {
+        // Arrange
+        var maxLengthUsername = new string('a', 50); // Assuming max length is 50
+        var request = new RegisterRequest { username = maxLengthUsername, password = "password", role = "User" };
+        _mockUserRepository.Setup(x => x.GetUserByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync((User)null);
+        _mockMapper.Setup(x => x.Map<User>(It.IsAny<RegisterRequest>()))
+            .Returns(new User());
+
+        // Act
+        var result = await _controller.AddUser(request);
+
+        // Assert
+        Assert.IsInstanceOf<OkObjectResult>(result);
+    }
+
+    [Test]
+    public async Task AddUser_EmptyPassword_ReturnsBadRequest()
+    {
+        // Arrange
+        var registerRequest = new RegisterRequest
         {
-            var request = new LoginRequest { username = "bad", password = "pass" };
-            _authServiceMock.Setup(x => x.AuthenticateAsync("bad", "pass")).ReturnsAsync((string?)null);
+            username = "testuser",
+            password = string.Empty,
+            role = "testrole"
+        };
 
-            var result = await _controller.Login(request);
+        // Act
+        var result = await _controller.AddUser(registerRequest);
 
-            Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
-        }
-
-        [Test]
-        public async Task AddUser_UsernameTaken_ReturnsBadRequest()
-        {
-            var request = new RegisterRequest { username = "existing", password = "pass", role = "User" };
-            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("existing")).ReturnsAsync(new User());
-
-            var result = await _controller.AddUser(request);
-
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        }
-
-        [Test]
-        public async Task AddUser_InvalidRole_ReturnsBadRequest()
-        {
-            var request = new RegisterRequest { username = "new", password = "pass", role = "InvalidRole" };
-            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("new")).ReturnsAsync((User?)null);
-
-            var result = await _controller.AddUser(request);
-
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        }
-
-        [Test]
-        public async Task AddUser_NullRole_DefaultsToUser()
-        {
-            var request = new RegisterRequest
-            {
-                username = "user123",
-                password = "pass",
-                role = null // should fallback to "User"
-            };
-
-            var mappedUser = new User { Username = "user123" };
-
-            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("user123")).ReturnsAsync((User?)null);
-            _mapperMock.Setup(x => x.Map<User>(request)).Returns(mappedUser);
-
-            var result = await _controller.AddUser(request);
-
-            Assert.IsInstanceOf<OkObjectResult>(result);
-            Assert.AreEqual("User", mappedUser.Role);
-        }
-
-        [Test]
-        public async Task AddUser_ValidRequest_AddsUserAndReturnsOk()
-        {
-            // Arrange
-            var request = new RegisterRequest
-            {
-                username = "newuser",
-                password = "securepass",
-                role = "User"
-            };
-
-            var mappedUser = new User { Username = "newuser" };
-
-            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("newuser"))
-                         .ReturnsAsync((User?)null);
-
-            _mapperMock.Setup(x => x.Map<User>(request))
-                       .Returns(mappedUser);
-
-            _userRepoMock.Setup(x => x.AddUserAsync(It.IsAny<User>()))
-                         .Returns(Task.CompletedTask);
-
-            // Act
-            var result = await _controller.AddUser(request);
-
-            // Assert
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);
-
-            // Check that Role and PasswordHash were set on mappedUser
-            Assert.AreEqual("User", mappedUser.Role);
-            Assert.AreEqual("securepass", mappedUser.PasswordHash);
-
-            // Verify logging was called
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Information,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("registered successfully")),
-                    null,
-                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-                Times.Once);
-
-            // Verify AddUserAsync was called with the same user
-            _userRepoMock.Verify(repo => repo.AddUserAsync(mappedUser), Times.Once);
-        }
-
-        [Test]
-        public async Task AddUser_AdminRole_RegistersSuccessfully()
-        {
-            var request = new RegisterRequest
-            {
-                username = "adminuser",
-                password = "adminpass",
-                role = "Admin"
-            };
-
-            var mappedUser = new User { Username = "adminuser" };
-
-            _userRepoMock.Setup(x => x.GetUserByUsernameAsync("adminuser"))
-                         .ReturnsAsync((User?)null);
-
-            _mapperMock.Setup(x => x.Map<User>(request))
-                       .Returns(mappedUser);
-
-            _userRepoMock.Setup(x => x.AddUserAsync(It.IsAny<User>()))
-                         .Returns(Task.CompletedTask);
-
-            var result = await _controller.AddUser(request);
-
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);
-            Assert.AreEqual("Admin", mappedUser.Role);
-
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Information,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("registered successfully")),
-                    null,
-                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-                Times.Once);
-        }
-
+        // Assert
+        Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+        var badRequestResult = result as BadRequestObjectResult;
+        Assert.That(badRequestResult, Is.Not.Null);
+        Assert.That(badRequestResult.Value, Is.EqualTo("Password cannot be empty"));
     }
 }
+
+
+
+// Some of the tests failed. The error message is:  
+// AddUser_ValidRequest_ReturnsOkResult
+//  Source: AuthControllerTests.cs line 73
+
+//  Duration: 37 ms
+
+//  Message: 
+//Microsoft.CSharp.RuntimeBinder.RuntimeBinderException : 'object' does not contain a definition for 'message'
+
+//  Stack Trace: 
+//CallSite.Target(Closure, CallSite, Object)
+//UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+//AuthControllerTests.AddUser_ValidRequest_ReturnsOkResult() line 88
+//GenericAdapter`1.GetResult()
+//AsyncToSyncAdapter.Await(Func`1 invoke)
+//TestMethodCommand.RunTestMethod(TestExecutionContext context)
+//TestMethodCommand.Execute(TestExecutionContext context)
+//<>c__DisplayClass1_0.<Execute>b__0()
+//DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
+
+//in the actual controller, this line of code is written:
+//return Ok(new
+            //{
+            //    message = "User added successfully."
+            //});

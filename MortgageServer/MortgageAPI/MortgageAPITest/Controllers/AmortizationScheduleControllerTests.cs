@@ -2,139 +2,123 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Moq;
 using MortgageAPI.Controllers;
+using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Repos.Interfaces;
-using Moq;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Reflection;
-using MortgageAPI.Models.Domain;
+using System.Security.Claims;
 
-namespace MortgageAPITest.Controllers
+namespace MortgageAPI.Tests
 {
     [TestFixture]
-    public class AmortizationScheduleControllerTests
+    public class AmortizationControllerTests
     {
-        private Mock<IAmortizationScheduleRepository> _mockRepo;
+        private Mock<IAmortizationScheduleRepository> _mockRepository;
         private Mock<IMapper> _mockMapper;
         private Mock<ILogger<AmortizationController>> _mockLogger;
         private AmortizationController _controller;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            _mockRepo = new Mock<IAmortizationScheduleRepository>();
+            _mockRepository = new Mock<IAmortizationScheduleRepository>();
             _mockMapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<AmortizationController>>();
-
-            _controller = new AmortizationController(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+            _controller = new AmortizationController(_mockRepository.Object, _mockMapper.Object, _mockLogger.Object);
         }
 
         [Test]
-        public async Task CalculateAmortization_ValidLoanRequest_ReturnsOk()
+        public async Task CalculateAmortization_ValidInput_ReturnsOkResult()
         {
-            var request = new LoanRequest { LoanAmount = 100000, InterestRate = 5, LoanTermYears = 30 };
-            var schedule = new List<AmortizationSchedule> { new() };
-            var scheduleDto = new List<AmortizationScheduleDto>();
+            // Arrange
+            var loanRequest = new LoanRequest { LoanAmount = 100000, LoanTermYears = 30, InterestRate = 3.5m };
+            var schedule = new List<AmortizationSchedule> { new AmortizationSchedule() };
+            var scheduleDto = new List<AmortizationScheduleDto> { new AmortizationScheduleDto() };
 
-            _mockRepo.Setup(r => r.GenerateAmortizationScheduleAsync(request)).ReturnsAsync(schedule);
-            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(schedule)).Returns(scheduleDto);
+            _mockRepository.Setup(r => r.GenerateAmortizationScheduleAsync(It.IsAny<LoanRequest>()))
+                .ReturnsAsync(schedule);
+            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(It.IsAny<IEnumerable<AmortizationSchedule>>()))
+                .Returns(scheduleDto);
 
-            var result = await _controller.CalculateAmortization(request);
+            // Act
+            var result = await _controller.CalculateAmortization(loanRequest);
 
+            // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
+            var okResult = result as OkObjectResult;
+            Assert.AreEqual(scheduleDto, okResult.Value);
         }
 
         [Test]
-        public async Task CalculateAmortization_InvalidLoanRequest_ReturnsBadRequest()
+        public async Task CalculateAmortization_InvalidInput_ReturnsBadRequest()
         {
-            var request = new LoanRequest { LoanAmount = -1, InterestRate = 0, LoanTermYears = 0 };
+            // Arrange
+            var loanRequest = new LoanRequest { LoanAmount = 0, LoanTermYears = 30, InterestRate = 3.5m };
 
-            var result = await _controller.CalculateAmortization(request);
+            // Act
+            var result = await _controller.CalculateAmortization(loanRequest);
 
+            // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(result);
         }
 
         [Test]
-        public async Task GetSchedule_NameIdentifierClaimExists_ReturnsOk()
+        public async Task GetSchedule_ExistingSchedule_ReturnsOkResult()
         {
+            // Arrange
             var userId = Guid.NewGuid();
             var userLoanNumber = 1;
+            var schedule = new List<AmortizationSchedule> { new AmortizationSchedule() };
+            var scheduleDto = new List<AmortizationScheduleDto> { new AmortizationScheduleDto() };
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-            };
+            SetupUserContext(userId);
+            _mockRepository.Setup(r => r.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber))
+                .ReturnsAsync(schedule);
+            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(It.IsAny<IEnumerable<AmortizationSchedule>>()))
+                .Returns(scheduleDto);
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "mock"));
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
-            };
-
-            var schedule = new List<AmortizationSchedule> { new() };
-            var scheduleDto = new List<AmortizationScheduleDto>();
-
-            _mockRepo.Setup(r => r.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber)).ReturnsAsync(schedule);
-            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(schedule)).Returns(scheduleDto);
-
+            // Act
             var result = await _controller.GetSchedule(userLoanNumber);
 
+            // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
+            var okResult = result as OkObjectResult;
+            Assert.AreEqual(scheduleDto, okResult.Value);
         }
 
         [Test]
-        public async Task GetSchedule_NameIdClaimUsedAsFallback_ReturnsOk()
+        public async Task GetSchedule_NonExistingSchedule_ReturnsNotFound()
         {
+            // Arrange
             var userId = Guid.NewGuid();
             var userLoanNumber = 1;
 
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, userId.ToString())
-            };
+            SetupUserContext(userId);
+            _mockRepository.Setup(r => r.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber))
+                .ReturnsAsync(new List<AmortizationSchedule>());
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "mock"));
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
-            };
-
-            var schedule = new List<AmortizationSchedule> { new() };
-            var scheduleDto = new List<AmortizationScheduleDto>();
-
-            _mockRepo.Setup(r => r.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber)).ReturnsAsync(schedule);
-            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(schedule)).Returns(scheduleDto);
-
+            // Act
             var result = await _controller.GetSchedule(userLoanNumber);
 
-            Assert.IsInstanceOf<OkObjectResult>(result);
-        }
-
-        [Test]
-        public async Task GetSchedule_ScheduleNotFound_ReturnsNotFound()
-        {
-            var userId = Guid.NewGuid();
-            var userLoanNumber = 1;
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-            };
-
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "mock"));
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
-            };
-
-            _mockRepo.Setup(r => r.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber))
-                     .ReturnsAsync(new List<AmortizationSchedule>());
-
-            var result = await _controller.GetSchedule(userLoanNumber);
-
+            // Assert
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
+        }
+
+        [Test]
+        public void GetUserIdFromToken_ValidToken_ReturnsUserId()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            SetupUserContext(userId);
+
+            // Act
+            var result = _controller.GetType().GetMethod("GetUserIdFromToken", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .Invoke(_controller, null);
+
+            // Assert
+            Assert.AreEqual(userId, result);
         }
 
         [Test]
@@ -142,19 +126,40 @@ namespace MortgageAPITest.Controllers
         {
             _controller.ControllerContext = new ControllerContext
             {
-                HttpContext = new DefaultHttpContext() // No claims set
+                HttpContext = new DefaultHttpContext()
             };
 
-            var method = typeof(AmortizationController)
-                .GetMethod("GetUserIdFromToken", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            var ex = Assert.Throws<TargetInvocationException>(() =>
+            // Act & Assert
+            var exception = Assert.Throws<TargetInvocationException>(() =>
             {
-                method.Invoke(_controller, null);
+                typeof(AmortizationController)
+                    .GetMethod("GetUserIdFromToken", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Invoke(_controller, null);
             });
 
-            Assert.That(ex.InnerException, Is.TypeOf<UnauthorizedAccessException>());
-            Assert.That(ex.InnerException.Message, Is.EqualTo("Invalid or missing User ID in token."));
+            Assert.That(exception.InnerException, Is.TypeOf<UnauthorizedAccessException>());
+            Assert.That(exception.InnerException.Message, Is.EqualTo("Invalid or missing User ID in token."));
+        }
+
+        private void SetupUserContext(Guid? userId)
+        {
+            var claims = new List<Claim>();
+            if (userId.HasValue)
+            {
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, userId.Value.ToString()));
+            }
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext { User = claimsPrincipal }
+            };
         }
     }
 }
+
+
+//There are a few warnings in the tests, help me rectify them: 
+//    Severity Code	Description	Project	File	Line	Suppression State
+//Warning (active)	NUnit2005	Consider using the constraint model, Assert.That(actual, Is.EqualTo(expected)), instead of the classic model, Assert.AreEqual(expected, actual).	MortgageAPITest	C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs	51	
