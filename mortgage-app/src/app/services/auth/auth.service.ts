@@ -20,5 +20,3 @@ export class AuthService {
     return this.http.post<ILogin>(`${this.apiUrl}/auth/login`, credentials);
   }
 }
-
-
