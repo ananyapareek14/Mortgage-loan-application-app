@@ -1,10 +1,5 @@
-﻿using NUnit.Framework;
-using MortgageAPI.Models.Domain;
+﻿using MortgageAPI.Models.Domain;
 using MortgageAPI.Repos.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 
 namespace MortgageAPITest.Repos.Helper
 {

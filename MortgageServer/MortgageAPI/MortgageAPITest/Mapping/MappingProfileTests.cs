@@ -2,7 +2,6 @@
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Models.Mapping;
-using NUnit.Framework;
 
 namespace MortgageAPITest.Mappings
 {

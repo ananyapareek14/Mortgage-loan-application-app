@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -30,47 +25,6 @@ namespace MortgageAPITest.Controllers
             _mockLogger = new Mock<ILogger<InterestRateController>>();
             _controller = new InterestRateController(_mockInterestRateRepository.Object, _mockMapper.Object, _mockLogger.Object);
         }
-
-        //    [Test]
-        //    public async Task GetInterestRates_ShouldReturnOkResult_WithInterestRates()
-        //    {
-        //        // Arrange
-        //        var interestRates = new List<InterestRate>
-        //{
-        //    new InterestRate { Id = Guid.NewGuid(), Rate = 5.5m },
-        //    new InterestRate { Id = Guid.NewGuid(), Rate = 6.0m }
-        //};
-
-        //        var interestRateDtos = new List<InterestRateDto>
-        //{
-        //    new InterestRateDto { Rate = 5.5m },
-        //    new InterestRateDto { Rate = 6.0m }
-        //};
-
-        //        _mockInterestRateRepository
-        //            .Setup(repo => repo.GetAllInterestRatesAsync())
-        //            .ReturnsAsync(interestRates);
-
-        //        _mockMapper
-        //            .Setup(m => m.Map<IEnumerable<InterestRateDto>>(interestRates))
-        //            .Returns(interestRateDtos);
-
-        //        // Act
-        //        var result = await _controller.GetInterestRates();
-
-        //        // Assert
-        //        var okResult = result as OkObjectResult;
-        //        Assert.IsNotNull(okResult);
-        //        Assert.AreEqual(200, okResult.StatusCode);
-
-        //        var returnedRates = okResult.Value as IEnumerable<InterestRateDto>;
-        //        Assert.IsNotNull(returnedRates);
-
-        //        var rateList = returnedRates.ToList();
-        //        Assert.AreEqual(2, rateList.Count);
-        //        Assert.AreEqual(5.5m, rateList[0].Rate);
-        //        Assert.AreEqual(6.0m, rateList[1].Rate);
-        //    }
 
         [Test]
         public async Task GetInterestRates_ShouldReturnOkResult_WithCompleteInterestRateDtos()
