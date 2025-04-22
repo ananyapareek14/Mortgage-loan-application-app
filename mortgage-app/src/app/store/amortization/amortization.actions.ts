@@ -3,6 +3,7 @@ import {
   IAmortizationRequest,
   IAmortizationSchedule,
 } from '../../models/IAmortizationSchedule';
+import { AmortizationState } from './amortization.reducer';
 
 // Load amortization schedule for a loan
 export const loadAmortizationSchedule = createAction(
@@ -17,7 +18,7 @@ export const loadAmortizationScheduleSuccess = createAction(
 
 export const loadAmortizationScheduleFailure = createAction(
   '[Amortization] Load Amortization Schedule Failure',
-  props<{ error: string }>()
+  props<{ error: string | null }>()
 );
 
 export const calculateAmortization = createAction(
@@ -32,7 +33,12 @@ export const calculateAmortizationSuccess = createAction(
 
 export const calculateAmortizationFailure = createAction(
   '[Amortization] Calculate Amortization Failure',
-  props<{ error: string }>()
+  props<{ error: string | null }>()
+);
+
+export const setState = createAction(
+  '[Amortization] Set State',
+  props<{ state: AmortizationState | undefined }>()
 );
 
 export const resetAmortization = createAction('[Amortization] Reset');

@@ -1,106 +1,332 @@
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { amortizationReducer, AmortizationState } from './amortization.reducer';
-import * as fromActions from './amortization.actions';
-import { IAmortizationSchedule } from '../../models/IAmortizationSchedule';
+import * as AmortizationActions from './amortization.actions';
+import { IAmortizationRequest, IAmortizationSchedule } from '../../models/IAmortizationSchedule';
 
-describe('Amortization Reducer', () => {
-  const initialState: AmortizationState = {
-    schedule: null,
-    loading: false,
-    error: null,
-    isLoading: false
-  };
+describe('AmortizationReducer', () => {
+  let store: Store<AmortizationState>;
 
-  it('should set isLoading to true when loadAmortizationSchedule is dispatched', () => {
-    const action = fromActions.loadAmortizationSchedule({ userLoanNumber: 123 });
-
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.isLoading).toBeTrue();
-  });
-
-  it('should set schedule when loadAmortizationScheduleSuccess is dispatched', () => {
-    const schedule: IAmortizationSchedule[] = [{ PaymentNumber: 1, PaymentDate: new Date(), MonthlyPayment: 1000, PrincipalPayment: 900, InterestPayment: 100, RemainingBalance: 9900 }];
-    const action = fromActions.loadAmortizationScheduleSuccess({ schedule });
-
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.schedule).toEqual(schedule);
-    expect(state.isLoading).toBeFalse();
-  });
-
-  it('should set error when loadAmortizationScheduleFailure is dispatched', () => {
-    const error = 'Failed to load schedule';
-    const action = fromActions.loadAmortizationScheduleFailure({ error });
-
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.error).toBe(error);
-    expect(state.isLoading).toBeFalse();
-  });
-
-  it('should set isLoading to true and clear error when calculateAmortization is dispatched', () => {
-    const action = fromActions.calculateAmortization({
-      request: { loanAmount: 10000, interestRate: 5, term: 12 } as any,
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({ amortization: amortizationReducer })],
     });
 
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.isLoading).toBeTrue();
-    expect(state.error).toBeNull();
+    store = TestBed.inject(Store);
   });
 
-
-  it('should update schedule and set isLoading to false on calculateAmortizationSuccess', () => {
-    const schedule: IAmortizationSchedule[] = [
-      {
-        PaymentNumber: 1,
-        PaymentDate: new Date(),
-        MonthlyPayment: 1000,
-        PrincipalPayment: 800,
-        InterestPayment: 200,
-        RemainingBalance: 9200,
-      },
-    ];
-
-    const action = fromActions.calculateAmortizationSuccess({ schedule });
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.schedule).toEqual(schedule);
-    expect(state.isLoading).toBeFalse();
-    expect(state.error).toBeNull();
-  });
-
-  it('should set error and isLoading to false on calculateAmortizationFailure', () => {
-    const error = 'Calculation failed';
-    const action = fromActions.calculateAmortizationFailure({ error });
-
-    const state = amortizationReducer(initialState, action);
-
-    expect(state.error).toBe(error);
-    expect(state.isLoading).toBeFalse();
-  });
-
-  it('should reset to initial state on resetAmortization', () => {
-    const modifiedState: AmortizationState = {
-      schedule: [
-        {
-          PaymentNumber: 1,
-          PaymentDate: new Date(),
-          MonthlyPayment: 1000,
-          PrincipalPayment: 800,
-          InterestPayment: 200,
-          RemainingBalance: 9200,
-        },
-      ],
-      loading: true,
-      error: 'Some error',
-      isLoading: true,
+  it('should return the initial state', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
     };
 
-    const action = fromActions.resetAmortization();
-    const state = amortizationReducer(modifiedState, action);
+    const action = { type: 'NOOP' };
+    const state = amortizationReducer(undefined, action);
 
     expect(state).toEqual(initialState);
   });
 
+  it('should set isLoading to true when loadAmortizationSchedule is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
+    };
+
+    const action = AmortizationActions.loadAmortizationSchedule({
+      userLoanNumber: 101,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(true);
+    expect(state.error).toBeNull();
+  });
+
+  it('should update state correctly when loadAmortizationScheduleSuccess is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const mockSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-06-01'),
+        MonthlyPayment: 1000,
+        PrincipalPayment: 800,
+        InterestPayment: 200,
+        RemainingBalance: 99000,
+      },
+    ];
+
+    const action = AmortizationActions.loadAmortizationScheduleSuccess({
+      schedule: mockSchedule,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBeNull();
+    expect(state.schedule).toEqual(mockSchedule);
+  });
+
+  it('should set error and isLoading to false when loadAmortizationScheduleFailure is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const errorMessage = 'An error occurred';
+    const action = AmortizationActions.loadAmortizationScheduleFailure({
+      error: errorMessage,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBe(errorMessage);
+  });
+
+  it('should set isLoading to true when calculateAmortization is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
+      };
+      
+      const mockLoanRequest: IAmortizationRequest = {
+        LoanAmount: 100000,
+        InterestRate: 5,
+        LoanTermYears: 30,
+      };
+
+    const action = AmortizationActions.calculateAmortization({
+      request: mockLoanRequest,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(true);
+    expect(state.error).toBeNull();
+  });
+
+  it('should update state correctly when calculateAmortizationSuccess is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const mockSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-06-01'),
+        MonthlyPayment: 1000,
+        PrincipalPayment: 800,
+        InterestPayment: 200,
+        RemainingBalance: 99000,
+      },
+    ];
+
+    const action = AmortizationActions.calculateAmortizationSuccess({
+      schedule: mockSchedule,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBeNull();
+    expect(state.schedule).toEqual(mockSchedule);
+  });
+
+  it('should set error and isLoading to false when calculateAmortizationFailure is dispatched', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const errorMessage = 'Calculation failed';
+    const action = AmortizationActions.calculateAmortizationFailure({
+      error: errorMessage,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBe(errorMessage);
+  });
+
+  it('should reset state to initial state when resetAmortization is dispatched', () => {
+    const currentState: AmortizationState = {
+      schedule: [
+        {
+          PaymentNumber: 1,
+          PaymentDate: new Date('2023-06-01'),
+          MonthlyPayment: 1000,
+          PrincipalPayment: 800,
+          InterestPayment: 200,
+          RemainingBalance: 99000,
+        },
+      ],
+      loading: false,
+      error: 'Some error',
+      isLoading: true,
+    };
+
+    const action = AmortizationActions.resetAmortization();
+    const state = amortizationReducer(currentState, action);
+
+    expect(state).toEqual({
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
+    });
+  });
+
+  // Edge case: Dispatching actions in sequence
+  it('should handle multiple actions in sequence correctly', () => {
+    let state: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
+    };
+
+    state = amortizationReducer(
+      state,
+      AmortizationActions.loadAmortizationSchedule({
+        userLoanNumber: 101,
+      })
+    );
+    expect(state.isLoading).toBe(true);
+
+    const mockSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-06-01'),
+        MonthlyPayment: 1000,
+        PrincipalPayment: 800,
+        InterestPayment: 200,
+        RemainingBalance: 99000,
+      },
+    ];
+    state = amortizationReducer(
+      state,
+      AmortizationActions.loadAmortizationScheduleSuccess({
+        schedule: mockSchedule,
+      })
+    );
+    expect(state.isLoading).toBe(false);
+    expect(state.schedule).toEqual(mockSchedule);
+
+    state = amortizationReducer(state, AmortizationActions.resetAmortization());
+    expect(state).toEqual({
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: false,
+    });
+  });
+
+  // Boundary condition: Empty schedule
+  it('should handle empty schedule correctly', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const action = AmortizationActions.loadAmortizationScheduleSuccess({
+      schedule: [],
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.schedule).toEqual([]);
+  });
+
+  // Error handling: Null error
+  it('should handle null error correctly', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: 'Previous error',
+      isLoading: true,
+    };
+
+    const action = AmortizationActions.loadAmortizationScheduleFailure({
+      error: null,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBeNull();
+  });
+
+  // Edge case: Large loan amount
+  it('should handle large loan amount correctly', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const mockSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-06-01'),
+        MonthlyPayment: 1000000,
+        PrincipalPayment: 800000,
+        InterestPayment: 200000,
+        RemainingBalance: 99000000,
+      },
+    ];
+
+    const action = AmortizationActions.calculateAmortizationSuccess({
+      schedule: mockSchedule,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.schedule).toEqual(mockSchedule);
+  });
+
+  // Edge case: Zero interest rate
+  it('should handle zero interest rate correctly', () => {
+    const initialState: AmortizationState = {
+      schedule: null,
+      loading: false,
+      error: null,
+      isLoading: true,
+    };
+
+    const mockSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-06-01'),
+        MonthlyPayment: 1000,
+        PrincipalPayment: 1000,
+        InterestPayment: 0,
+        RemainingBalance: 99000,
+      },
+    ];
+
+    const action = AmortizationActions.calculateAmortizationSuccess({
+      schedule: mockSchedule,
+    });
+    const state = amortizationReducer(initialState, action);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.schedule).toEqual(mockSchedule);
+  });
 });

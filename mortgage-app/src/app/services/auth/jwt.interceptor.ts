@@ -10,20 +10,21 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-
 export class jwtInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    let token: string | null = null;
 
-    // Retrieve the token from localStorage
-    const storedAuth = localStorage.getItem('auth');
-    let token = null;
-
-    if (storedAuth) {
-      const authData = JSON.parse(storedAuth);
-      token = authData.token;
+    try {
+      const storedAuth = localStorage.getItem('auth');
+      if (storedAuth) {
+        const authData = JSON.parse(storedAuth);
+        token = authData?.token ?? null;
+      }
+    } catch (error) {
+      console.error('Error parsing auth data from localStorage:', error);
     }
 
     if (token) {
@@ -33,7 +34,6 @@ export class jwtInterceptor implements HttpInterceptor {
         },
       });
     }
-
     return next.handle(request);
   }
 }

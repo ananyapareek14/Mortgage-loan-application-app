@@ -10,7 +10,8 @@ export class LineChartComponent implements AfterViewInit, OnChanges {
   @Input() schedule: IAmortizationSchedule[] | null = [];
   @ViewChild('lineChart') chartRef!: ElementRef<HTMLCanvasElement>;
 
-  private chart: Chart | undefined;
+  // private chart: Chart | undefined;
+  public chart: Chart | undefined;
   private viewInitialized = false;
 
   ngAfterViewInit(): void {

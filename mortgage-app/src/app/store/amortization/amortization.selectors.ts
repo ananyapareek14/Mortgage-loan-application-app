@@ -20,6 +20,3 @@ export const selectAmortizationError = createSelector(
   selectAmortizationState,
   (state) => state.error
 );
-
-
-

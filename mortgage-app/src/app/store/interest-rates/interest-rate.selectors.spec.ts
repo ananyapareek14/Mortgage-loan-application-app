@@ -1,32 +1,160 @@
-import { selectInterestRatesLoading, selectAllInterestRates, selectInterestRatesError } from './interest-rate.selectors';
-import { InterestRateState } from './interest-rate.reducer';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import {
+  selectInterestRateState,
+  selectAllInterestRates,
+  selectInterestRatesLoading,
+  selectInterestRatesError,
+} from './interest-rate.selectors';
+import {
+  interestRateReducer,
+  InterestRateState,
+} from './interest-rate.reducer';
+import { IInterestRate } from '../../models/IInterestRate';
 
 describe('Interest Rate Selectors', () => {
-  let state: InterestRateState;
+  let store: Store<{ interestRates: InterestRateState }>;
 
   beforeEach(() => {
-    state = {
-      interestRates: [
-        { Id: '1', Rate: 5.5, ValidFrom: '2021-01-01' },
-        { Id: '2', Rate: 3.7, ValidFrom: '2021-06-01' }
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          interestRates: interestRateReducer,
+        }),
       ],
-      loading: true,
-      error: null
-    };
+    });
+
+    store = TestBed.inject(Store);
   });
 
-  it('should select the correct interest rates', () => {
-    const result = selectAllInterestRates.projector(state);
-    expect(result).toEqual(state.interestRates);
+  describe('selectInterestRateState', () => {
+    it('should select the interest rate feature state', (done) => {
+      const initialState: InterestRateState = {
+        interestRates: [],
+        loading: false,
+        error: null,
+      };
+
+      store.select(selectInterestRateState).subscribe((state) => {
+        expect(state).toEqual(initialState);
+        done();
+      });
+    });
   });
 
-  it('should select the loading state', () => {
-    const result = selectInterestRatesLoading.projector(state);
-    expect(result).toBe(state.loading);
+  describe('selectAllInterestRates', () => {
+    it('should select all interest rates', (done) => {
+      const mockInterestRates: IInterestRate[] = [
+        { Id: '1', Rate: 0.05, ValidFrom: '2023-01-01' },
+        { Id: '2', Rate: 0.07, ValidFrom: '2023-02-01' },
+      ];
+
+      store.dispatch({
+        type: '[Interest Rate] Set Interest Rates',
+        payload: mockInterestRates,
+      });
+
+      store.select(selectAllInterestRates).subscribe((interestRates) => {
+        expect(interestRates).toEqual(mockInterestRates);
+        done();
+      });
+    });
+
+    it('should return an empty array when no interest rates are available', (done) => {
+      store.select(selectAllInterestRates).subscribe((interestRates) => {
+        expect(interestRates).toEqual([]);
+        done();
+      });
+    });
   });
 
-  it('should select the error state', () => {
-    const result = selectInterestRatesError.projector(state);
-    expect(result).toBe(state.error);
+  describe('selectInterestRatesLoading', () => {
+    it('should select the loading state', (done) => {
+      store.dispatch({ type: '[Interest Rate] Load Interest Rates' });
+
+      store.select(selectInterestRatesLoading).subscribe((loading) => {
+        expect(loading).toBe(true);
+        done();
+      });
+    });
+
+    it('should return false when not loading', (done) => {
+      store.select(selectInterestRatesLoading).subscribe((loading) => {
+        expect(loading).toBe(false);
+        done();
+      });
+    });
+  });
+
+  describe('selectInterestRatesError', () => {
+    it('should select the error state', (done) => {
+      const mockError = 'An error occurred';
+      store.dispatch({
+        type: '[Interest Rate] Load Interest Rates Failure',
+        payload: mockError,
+      });
+
+      store.select(selectInterestRatesError).subscribe((error) => {
+        expect(error).toBe(mockError);
+        done();
+      });
+    });
+
+    it('should return null when there is no error', (done) => {
+      store.select(selectInterestRatesError).subscribe((error) => {
+        expect(error).toBeNull();
+        done();
+      });
+    });
+  });
+
+  // Edge case: Testing selectors with undefined state
+  describe('Selectors with undefined state', () => {
+    it('should handle undefined state in selectAllInterestRates', (done) => {
+      (store as any).setState({ interestRates: undefined });
+
+      store.select(selectAllInterestRates).subscribe((interestRates) => {
+        expect(interestRates).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should handle undefined state in selectInterestRatesLoading', (done) => {
+      (store as any).setState({ interestRates: undefined });
+
+      store.select(selectInterestRatesLoading).subscribe((loading) => {
+        expect(loading).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should handle undefined state in selectInterestRatesError', (done) => {
+      (store as any).setState({ interestRates: undefined });
+
+      store.select(selectInterestRatesError).subscribe((error) => {
+        expect(error).toBeUndefined();
+        done();
+      });
+    });
+  });
+
+  // Edge case: Testing with invalid date formats
+  describe('Selectors with invalid date formats', () => {
+    it('should handle invalid date format in ValidFrom', (done) => {
+      const invalidInterestRates: IInterestRate[] = [
+        { Id: '1', Rate: 0.05, ValidFrom: 'invalid-date' },
+        { Id: '2', Rate: 0.07, ValidFrom: '2023-02-01' },
+      ];
+
+      store.dispatch({
+        type: '[Interest Rate] Set Interest Rates',
+        payload: invalidInterestRates,
+      });
+
+      store.select(selectAllInterestRates).subscribe((interestRates) => {
+        expect(interestRates).toEqual(invalidInterestRates);
+        done();
+      });
+    });
   });
 });

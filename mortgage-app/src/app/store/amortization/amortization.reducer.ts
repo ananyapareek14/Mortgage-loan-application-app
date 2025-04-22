@@ -7,6 +7,7 @@ import {
   calculateAmortizationSuccess,
   calculateAmortizationFailure,
   resetAmortization,
+  setState
 } from './amortization.actions';
 import { IAmortizationSchedule } from '../../models/IAmortizationSchedule';
 
@@ -62,5 +63,6 @@ export const amortizationReducer = createReducer(
     isLoading: false,
     error,
   })),
+  on(setState, (_, { state }) => state || initialState),
   on(resetAmortization, () => initialState)
 );

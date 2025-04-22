@@ -10,7 +10,7 @@ using MortgageAPI.Repos.Interfaces;
 using System.Reflection;
 using System.Security.Claims;
 
-namespace MortgageAPI.Tests
+namespace MortgageAPITest.Controllers
 {
     [TestFixture]
     public class AmortizationControllerTests

@@ -4,17 +4,32 @@ import { InterestRateState } from './interest-rate.reducer';
 export const selectInterestRateState =
   createFeatureSelector<InterestRateState>('interestRates');
 
+// export const selectAllInterestRates = createSelector(
+//   selectInterestRateState,
+//   (state) => state.interestRates
+// );
+
 export const selectAllInterestRates = createSelector(
   selectInterestRateState,
-  (state) => state.interestRates
+  (state: InterestRateState) => state.interestRates
 );
+
+// export const selectInterestRatesLoading = createSelector(
+//   selectInterestRateState,
+//   (state) => state.loading
+// );
+
+// export const selectInterestRatesError = createSelector(
+//   selectInterestRateState,
+//   (state) => state.error
+// );
 
 export const selectInterestRatesLoading = createSelector(
   selectInterestRateState,
-  (state) => state.loading
+  (state: InterestRateState) => state.loading
 );
 
 export const selectInterestRatesError = createSelector(
   selectInterestRateState,
-  (state) => state.error
+  (state: InterestRateState) => state.error
 );

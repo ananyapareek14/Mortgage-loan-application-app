@@ -1,0 +1,21 @@
+[2025-04-21 14:11:34 INF] Starting MortgageLoanApp...
+[2025-04-21 14:12:31 INF] HTTP GET /swagger/index.html responded 200 in 516.4550 ms
+[2025-04-21 14:12:34 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 101.8655 ms
+[2025-04-21 14:14:38 INF] HTTP OPTIONS /api/auth/login responded 204 in 9.3073 ms
+[2025-04-21 14:14:41 INF] Login attempt for user: abc@example.com
+[2025-04-21 14:14:51 INF] User abc@example.com logged in successfully.
+[2025-04-21 14:14:51 INF] HTTP POST /api/auth/login responded 200 in 12855.3503 ms
+[2025-04-21 14:14:51 INF] HTTP OPTIONS /api/loans responded 204 in 0.5006 ms
+[2025-04-21 14:14:52 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-21 14:14:52 INF] HTTP GET /api/loans responded 200 in 1002.0606 ms
+[2025-04-21 14:14:55 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.1715 ms
+[2025-04-21 14:14:55 INF] Fetching interest rates
+[2025-04-21 14:14:55 INF] HTTP GET /api/interestrates responded 200 in 460.6255 ms
+[2025-04-21 14:15:08 INF] HTTP OPTIONS /api/loans responded 204 in 2.2910 ms
+[2025-04-21 14:15:09 INF] Submitting loan for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-21 14:15:10 INF] Loan submitted successfully for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-21 14:15:10 INF] HTTP POST /api/loans responded 200 in 1388.1866 ms
+[2025-04-21 14:15:10 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-21 14:15:10 INF] HTTP GET /api/loans responded 200 in 61.2551 ms
+[2025-04-21 14:15:10 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-04-21 14:15:10 INF] HTTP GET /api/loans responded 200 in 23.7635 ms

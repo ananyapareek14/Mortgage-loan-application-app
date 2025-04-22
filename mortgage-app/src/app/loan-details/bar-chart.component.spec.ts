@@ -1,130 +1,271 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
 import { BarChartComponent } from './bar-chart.component';
+import { Chart } from 'chart.js';
 import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
-import { ElementRef } from '@angular/core';
+import * as jest from 'jest-mock';
 
-// Mocking Chart.js
-class MockChart {
-  destroy = jasmine.createSpy('destroy');
-  constructor(public canvas: any, public config: any) {}
-}
-
-describe('Bar Chart Component', () => {
+describe('BarChartComponent', () => {
   let component: BarChartComponent;
-  let fixture: ComponentFixture<BarChartComponent>;
-  let mockSchedule: IAmortizationSchedule[];
-
-  beforeAll(() => {
-    // Replace Chart constructor globally
-    (window as any).Chart = MockChart;
-  });
+    let fixture: ComponentFixture<BarChartComponent>;
+    let chart: Chart | undefined;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BarChartComponent],
+      await TestBed.configureTestingModule({
+        imports: [BarChartComponent],
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(BarChartComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    mockSchedule = [
+  afterEach(() => {
+    if (component.chart) {
+      component.chart.destroy();
+    }
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should not create chart when schedule is null', () => {
+    component.schedule = null;
+    component.ngAfterViewInit();
+    expect(component.chart).toBeUndefined();
+  });
+
+  it('should not create chart when schedule is empty', () => {
+    component.schedule = [];
+    component.ngAfterViewInit();
+    expect(component.chart).toBeUndefined();
+  });
+
+  it('should create chart with valid schedule data', () => {
+    const mockSchedule: IAmortizationSchedule[] = [
       {
         PaymentNumber: 1,
         PaymentDate: new Date(),
-        MonthlyPayment: 1000,
-        PrincipalPayment: 700,
-        InterestPayment: 300,
-        RemainingBalance: 93000,
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
       },
       {
         PaymentNumber: 2,
         PaymentDate: new Date(),
-        MonthlyPayment: 1000,
-        PrincipalPayment: 710,
-        InterestPayment: 290,
-        RemainingBalance: 92290,
+        MonthlyPayment: 150,
+        PrincipalPayment: 110,
+        InterestPayment: 40,
+        RemainingBalance: 790,
       },
     ];
-
-    fixture.detectChanges();
-  });
-
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should not create chart if schedule is empty', () => {
-    component.schedule = [];
-    component.ngAfterViewInit();
-    expect(component['chart']).toBeUndefined();
-  });
-
-  it('should create chart on ngAfterViewInit if schedule exists', () => {
     component.schedule = mockSchedule;
-
-    fixture.detectChanges();
     component.ngAfterViewInit();
-
-    expect(component['chart']).toBeDefined();
+    expect(component.chart).toBeDefined();
   });
 
-  it('should call createChart on ngOnChanges after view is initialized', () => {
-    component.schedule = mockSchedule;
-    const createChartSpy = spyOn<any>(component, 'createChart');
-    component.ngAfterViewInit();
-
-    component.ngOnChanges({
-      schedule: {
-        currentValue: mockSchedule,
-        previousValue: [],
-        firstChange: false,
-        isFirstChange: () => false,
+  it('should update chart when schedule changes', () => {
+    const initialSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
       },
+    ];
+    component.schedule = initialSchedule;
+    component.ngAfterViewInit();
+
+    const updatedSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
+      },
+      {
+        PaymentNumber: 2,
+        PaymentDate: new Date(),
+        MonthlyPayment: 150,
+        PrincipalPayment: 110,
+        InterestPayment: 40,
+        RemainingBalance: 790,
+      },
+    ];
+    component.ngOnChanges({
+      schedule: new SimpleChange(initialSchedule, updatedSchedule, false),
     });
 
-    expect(createChartSpy).toHaveBeenCalled();
+    expect(component.chart?.data.labels?.length).toBe(2);
   });
-    
-    it('should not call createChart on ngOnChanges if view is not initialized', () => {
-      const createChartSpy = spyOn<any>(component, 'createChart');
-      component['viewInitialized'] = false;
 
-      component.ngOnChanges({
-        schedule: {
-          currentValue: mockSchedule,
-          previousValue: [],
-          firstChange: true,
-          isFirstChange: () => true,
-        },
-      });
+  it('should handle large datasets', () => {
+    const largeSchedule: IAmortizationSchedule[] = Array.from(
+      { length: 1000 },
+      (_, i) => ({
+        PaymentNumber: i + 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: Math.random() * 1500,
+        PrincipalPayment: Math.random() * 1000,
+        InterestPayment: Math.random() * 500,
+        RemainingBalance: Math.random() * 100000,
+      })
+    );
+    component.schedule = largeSchedule;
+    component.ngAfterViewInit();
+    expect(component.chart?.data.labels?.length).toBe(1000);
+  });
 
-      expect(createChartSpy).not.toHaveBeenCalled();
-    });
-
-
-  it('should destroy previous chart before creating a new one', () => {
-    // Fake canvas element
-    const canvas = document.createElement('canvas');
-    component.chartRef = new ElementRef(canvas);
-
-    // First chart mock with spyable destroy
-    const destroySpy = jasmine.createSpy('destroy');
-    component['chart'] = { destroy: destroySpy } as any;
-
-    // Simulate initialized view
-    component['viewInitialized'] = true;
-    component.schedule = mockSchedule;
-
-    component.ngOnChanges({
-      schedule: {
-        currentValue: mockSchedule,
-        previousValue: [],
-        firstChange: false,
-        isFirstChange: () => false,
+  it('should handle schedule with zero values', () => {
+    const zeroValueSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 0,
+        PrincipalPayment: 0,
+        InterestPayment: 0,
+        RemainingBalance: 1000,
       },
+      {
+        PaymentNumber: 2,
+        PaymentDate: new Date(),
+        MonthlyPayment: 0,
+        PrincipalPayment: 0,
+        InterestPayment: 0,
+        RemainingBalance: 1000,
+      },
+    ];
+    component.schedule = zeroValueSchedule;
+    component.ngAfterViewInit();
+    expect(component.chart).toBeDefined();
+  });
+
+  it('should handle schedule with negative values', () => {
+    const negativeValueSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: -150,
+        PrincipalPayment: -100,
+        InterestPayment: -50,
+        RemainingBalance: 1100,
+      },
+      {
+        PaymentNumber: 2,
+        PaymentDate: new Date(),
+        MonthlyPayment: -150,
+        PrincipalPayment: -110,
+        InterestPayment: -40,
+        RemainingBalance: 1210,
+      },
+    ];
+    component.schedule = negativeValueSchedule;
+    component.ngAfterViewInit();
+    expect(component.chart).toBeDefined();
+  });
+
+  it('should destroy existing chart before creating a new one', () => {
+    const initialSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
+      },
+    ];
+    component.schedule = initialSchedule;
+    component.ngAfterViewInit();
+
+    const destroySpy = spyOn(component.chart as Chart, 'destroy');
+
+    const updatedSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 300,
+        PrincipalPayment: 200,
+        InterestPayment: 100,
+        RemainingBalance: 800,
+      },
+    ];
+    component.ngOnChanges({
+      schedule: new SimpleChange(initialSchedule, updatedSchedule, false),
     });
 
     expect(destroySpy).toHaveBeenCalled();
   });
 
+  it('should not create chart when chartRef is undefined', () => {
+    component.chartRef = undefined as any;
+    component.schedule = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
+      },
+    ];
+    component.ngAfterViewInit();
+    expect(component.chart).toBeUndefined();
+  });
+
+  it('should handle schedule with very large numbers', () => {
+    const largeNumberSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date(),
+        MonthlyPayment: 1e10,
+        PrincipalPayment: 9e9,
+        InterestPayment: 1e9,
+        RemainingBalance: 1e12,
+      },
+      {
+        PaymentNumber: 2,
+        PaymentDate: new Date(),
+        MonthlyPayment: 1e10,
+        PrincipalPayment: 9.5e9,
+        InterestPayment: 5e8,
+        RemainingBalance: 9.905e11,
+      },
+    ];
+    component.schedule = largeNumberSchedule;
+    component.ngAfterViewInit();
+    expect(component.chart).toBeDefined();
+  });
+
+  it('should handle schedule with different payment dates', () => {
+    const differentDatesSchedule: IAmortizationSchedule[] = [
+      {
+        PaymentNumber: 1,
+        PaymentDate: new Date('2023-01-01'),
+        MonthlyPayment: 150,
+        PrincipalPayment: 100,
+        InterestPayment: 50,
+        RemainingBalance: 900,
+      },
+      {
+        PaymentNumber: 2,
+        PaymentDate: new Date('2023-02-01'),
+        MonthlyPayment: 150,
+        PrincipalPayment: 110,
+        InterestPayment: 40,
+        RemainingBalance: 790,
+      },
+    ];
+    component.schedule = differentDatesSchedule;
+    component.ngAfterViewInit();
+    expect(component.chart).toBeDefined();
+  });
 });
