@@ -1,0 +1,1472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ESLint Results</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+  
+    .eslint-report {
+      font-family: "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      padding: 20px 40px;
+    }
+  
+    .eslint-report h1 {
+      border-bottom: 1px solid #ddd;
+      line-height: 1;
+      padding-bottom: 12px;
+    }
+  
+    .eslint-report h2 {
+      padding-bottom: 9px;
+      line-height: 1;
+      margin-top: 24px;
+      margin-bottom: 9px;
+    }
+  
+    .eslint-report h3 {
+      line-height: 1;
+      margin-top: 0;
+    }
+  
+    .eslint-report a {
+      text-decoration: none;
+    }
+  
+    .eslint-report table {
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+  
+    .toggle-all-link {
+      font-size: 14px;
+    }
+  
+    .report-table {
+      font-size: 14px;
+      min-width: 800px;
+      border: 1px solid #e6e6e6;
+      margin: 10px;
+    }
+  
+    .report-table thead {
+      background-color: #eee;
+    }
+  
+    .report-table th {
+      text-align: left;
+      vertical-align: middle;
+    }
+  
+    .report-table th,
+    .report-table td {
+      padding: 4px 9px;
+      border: 1px solid #ccc;
+    }
+  
+    .report-table td {
+      line-height: 1.5;
+      vertical-align: top;
+    }
+  
+    .report-table .error-col {
+      width: 41px;
+    }
+  
+    .report-table .warning-col {
+      width: 63px;
+    }
+  
+    .report-table .toggle-link {
+      display: block;
+    }
+  
+    .report-table .danger td {
+      background-color: rgba(242, 222, 222, 0.8);
+    }
+  
+    .report-table .danger:hover td {
+      background-color: rgba(242, 222, 222, 1);
+    }
+  
+    .report-table .warning td {
+      background-color: rgba(252, 248, 227, 0.8);
+    }
+  
+    .report-table .warning:hover td {
+      background-color: rgba(252, 248, 227, 1);
+    }
+  
+    .report-table .success td {
+      background-color: rgba(223, 240, 216, 0.8);
+    }
+  
+    .report-table .success:hover td {
+      background-color: rgba(223, 240, 216, 1);
+    }
+  
+    .table-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      width: 600px;
+      align-items: flex-end;
+    }
+  
+    .table-wrapper.occurrences {
+      align-items: flex-start;
+    }
+  
+    .table-wrapper.occurrences .table-column {
+      height: 180px;
+      overflow-y: auto;
+    }
+  
+    .table-column {
+      flex: 1;
+      margin: 10px;
+    }
+  
+    .summary-table {
+      width: 100%;
+    }
+  
+    .summary-table a {
+      display: block;
+    }
+  
+    .summary-table td {
+      padding: 4px 0;
+    }
+  
+    .summary-table td:last-child {
+      text-align: right;
+    }
+  
+    .summary-table tfoot td {
+      border-top: 2px solid #666;
+      font-weight: bold;
+    }
+  
+    .details-row.hidden {
+      display: none;
+    }
+  
+    .details-table {
+      font-size: 12px;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .details-table td {
+      border: 0;
+      padding: 1px 6px;
+    }
+  
+    .details-table td:first-child {
+      padding-left: 0;
+    }
+  
+    .details-table .location-col {
+      width: 25px;
+    }
+  
+    .details-table .rule-col {
+      white-space: nowrap;
+      width: 100px;
+    }
+  
+    .details-table .rule-col a {
+      display: block;
+    }
+  
+    .details-table .rule-col a:hover {
+      text-decoration: underline;
+    }
+  
+    .details-table .severity-col {
+      width: 45px;
+    }
+  
+    .details-table .msg-danger .severity-col {
+      color: #900;
+    }
+  
+    .details-table .msg-warning .severity-col {
+      color: #f90;
+    }
+  </style>
+
+    <script>
+      // yolo
+      function toggleAllDetails(node) {
+        var rows = document.querySelectorAll("tr.details-row");
+    
+        if (node.innerHTML === "(expand all)") {
+          node.innerHTML = "(collapse all)";
+    
+          for (var x = 0; x < rows.length; x++) {
+            var row = rows[x];
+            row.className = "details-row";
+          }
+        } else {
+          node.innerHTML = "(expand all)";
+    
+          for (var x = 0; x < rows.length; x++) {
+            var row = rows[x];
+            row.className = "details-row hidden";
+          }
+        }
+      }
+    
+      function toggleDetails(node) {
+        var parentRow = node.parentNode.parentNode;
+        var detailsRow = parentRow.nextSibling;
+    
+        if (detailsRow.className === "details-row hidden") {
+          detailsRow.className = "details-row";
+        } else {
+          detailsRow.className = "details-row hidden";
+        }
+      }
+    </script>
+</head>
+<body>
+  <div class="eslint-report">
+    <h1>ESLint Results</h1>
+
+      <h2>Summary</h2>
+      
+      <div class="table-wrapper">
+        <div class="table-column">
+          <table class="summary-table">
+              <tbody>
+                <tr>
+                  <td>Errors</td>
+                  <td>84</td>
+                </tr>
+                <tr>
+                  <td>Warnings</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total alerts</td>
+                  <td>89</td>
+                </tr>
+              </tfoot>
+          </table>
+        </div>
+        <div class="table-column">
+          <table class="summary-table">
+              <tbody>
+                <tr>
+                  <td>Files with errors</td>
+                  <td>32</td>
+                </tr>
+                <tr>
+                  <td>Files with only warnings</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>Clean files</td>
+                  <td>133</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total files linted</td>
+                  <td>170</td>
+                </tr>
+              </tfoot>
+          </table>
+        </div>
+      </div>
+
+        <h2>Most-Common Errors and Warnings</h2>
+        
+        <div class="table-wrapper occurrences">
+          <div class="table-column">
+            <h3>Errors</h3>
+        
+              <table class="summary-table">
+                <tbody>
+                    <tr class="occurrence row-0">
+                        <td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+                      <td>39</td>
+                    </tr>
+                    <tr class="occurrence row-1">
+                        <td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+                      <td>22</td>
+                    </tr>
+                    <tr class="occurrence row-2">
+                        <td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+                      <td>7</td>
+                    </tr>
+                    <tr class="occurrence row-3">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+                      <td>5</td>
+                    </tr>
+                    <tr class="occurrence row-4">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+                      <td>5</td>
+                    </tr>
+                    <tr class="occurrence row-5">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/contextual-lifecycle">@angular-eslint/contextual-lifecycle</a></td>
+                      <td>2</td>
+                    </tr>
+                    <tr class="occurrence row-6">
+                        <td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-non-null-assertion">@typescript-eslint/no-non-null-assertion</a></td>
+                      <td>1</td>
+                    </tr>
+                    <tr class="occurrence row-7">
+                        <td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-empty-function">@typescript-eslint/no-empty-function</a></td>
+                      <td>1</td>
+                    </tr>
+                    <tr class="occurrence row-8">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/template/click-events-have-key-events">@angular-eslint/template/click-events-have-key-events</a></td>
+                      <td>1</td>
+                    </tr>
+                    <tr class="occurrence row-9">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/template/interactive-supports-focus">@angular-eslint/template/interactive-supports-focus</a></td>
+                      <td>1</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class="table-column">
+            <h3>Warnings</h3>
+        
+              <table class="summary-table">
+                <tbody>
+                    <tr class="occurrence row-0">
+                        <td><a href="http://eslint.org/docs/rules/null"></a></td>
+                      <td>3</td>
+                    </tr>
+                    <tr class="occurrence row-1">
+                        <td><a href="http://eslint.org/docs/rules/@angular-eslint/use-lifecycle-interface">@angular-eslint/use-lifecycle-interface</a></td>
+                      <td>2</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+
+      <h2>File Breakdown
+          <a id="toggle" href="javascript:;" onclick="toggleAllDetails(this)" class="toggle-all-link">(expand all)</a></h2>
+      
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th class="error-col">Errors</th>
+            <th class="warning-col">Warnings</th>
+          </tr>
+        </thead>
+        <tbody><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\auth\jwt.interceptor.spec.ts</a></td>
+              <td>17</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              6:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;HttpInterceptor&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              9:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;Observable&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              39:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              52:31
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              61:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              73:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              85:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              97:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              112:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              117:31
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              143:39
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              143:54
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              144:64
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              149:33
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              163:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              178:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              191:62
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\environment\environment.ts.html</a></td>
+              <td>5</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              66:34
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&lt;a&gt; should have content</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              67:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&lt;a&gt; should have content</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              68:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&lt;a&gt; should have content</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              69:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&lt;a&gt; should have content</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              70:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&lt;a&gt; should have content</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/elements-content">@angular-eslint/template/elements-content</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\amortization\amortization.service.spec.ts</a></td>
+              <td>5</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              91:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              112:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              132:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              188:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              205:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\loan-details.component.ts</a></td>
+              <td>4</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              29:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              30:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              31:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              32:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type string trivially inferred from a string literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\loan\loan.service.spec.ts</a></td>
+              <td>4</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              74:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              119:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              157:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              174:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\amortization\amortization.component.html</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              11:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">A label component must be associated with a form element</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              42:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">A label component must be associated with a form element</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              68:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">A label component must be associated with a form element</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\amortization\amortization.component.ts</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              23:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              24:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              25:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Type number trivially inferred from a number literal, remove type annotation.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-inferrable-types">@typescript-eslint/no-inferrable-types</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\bar-chart.component.spec.ts</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              6:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;jest&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              11:9
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;chart&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              209:39
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\interestRate\interest-rate.service.ts</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              17:26
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              18:18
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              24:18
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.effects.spec.ts</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              3:22
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;of&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              3:26
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;throwError&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              16:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.selectors.spec.ts</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              114:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              123:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              132:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\common\navbar\navbar.component.html</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              53:15
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">click must be accompanied by either keyup, keydown or keypress event for accessibility.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/click-events-have-key-events">@angular-eslint/template/click-events-have-key-events</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              53:15
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Elements with interaction handlers must be focusable.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/interactive-supports-focus">@angular-eslint/template/interactive-supports-focus</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\line-chart.component.spec.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              4:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;Chart&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              155:39
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\pie-chart.component.spec.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              4:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;Chart&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              185:39
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\login\login.component.html</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              12:11
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">A label component must be associated with a form element</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              28:11
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">A label component must be associated with a form element</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/template/label-has-associated-control">@angular-eslint/template/label-has-associated-control</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\auth\auth.guard.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              2:47
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;GuardResult&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2:60
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;MaybeAsync&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\auth\jwt.interceptor.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              15:26
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              17:27
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.actions.spec.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              1:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;createAction&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;props&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.effects.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              4:45
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;logout&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              5:43
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;switchMap&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.actions.spec.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              1:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;createAction&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;props&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.reducer.spec.ts</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              9:7
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;store&#x27; is assigned a value but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              20:40
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@ngrx_effects.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              573:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Definition for rule &#x27;@typescript-eslint/no-non-null-assertion&#x27; was not found.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-non-null-assertion">@typescript-eslint/no-non-null-assertion</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chart__js.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              5656:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Definition for rule &#x27;@typescript-eslint/no-empty-function&#x27; was not found.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-empty-function">@typescript-eslint/no-empty-function</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-LLD5PQMB.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              1225:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Definition for rule &#x27;@angular-eslint/contextual-lifecycle&#x27; was not found.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/contextual-lifecycle">@angular-eslint/contextual-lifecycle</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\dist\mortgage-app\browser\main.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              46634:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Definition for rule &#x27;@angular-eslint/contextual-lifecycle&#x27; was not found.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/contextual-lifecycle">@angular-eslint/contextual-lifecycle</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\common\navbar\navbar.component.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              5:10
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;of&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.effects.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              3:22
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;of&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.reducer.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              8:7
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;store&#x27; is assigned a value but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.selectors.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              97:66
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.reducer.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              15:7
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;store&#x27; is assigned a value but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.effects.spec.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              11:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected any. Specify a different type.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-explicit-any">@typescript-eslint/no-explicit-any</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.effects.ts</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              5:41
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;tap&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars">@typescript-eslint/no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="warning"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\block-navigation.js</a></td>
+              <td>0</td>
+              <td>1</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-warning"><td class="location-col">
+                              1:1
+                          </td>
+                          <td class="severity-col">Warning</td>
+                          <td class="message-col">Unused eslint-disable directive (no problems were reported).</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/null"></a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="warning"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\prettify.js</a></td>
+              <td>0</td>
+              <td>1</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-warning"><td class="location-col">
+                              1:1
+                          </td>
+                          <td class="severity-col">Warning</td>
+                          <td class="message-col">Unused eslint-disable directive (no problems were reported).</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/null"></a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="warning"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\sorter.js</a></td>
+              <td>0</td>
+              <td>1</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-warning"><td class="location-col">
+                              1:1
+                          </td>
+                          <td class="severity-col">Warning</td>
+                          <td class="message-col">Unused eslint-disable directive (no problems were reported).</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/null"></a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="warning"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\common\navbar\navbar.component.ts</a></td>
+              <td>0</td>
+              <td>1</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-warning"><td class="location-col">
+                              23:3
+                          </td>
+                          <td class="severity-col">Warning</td>
+                          <td class="message-col">Lifecycle interface &#x27;OnInit&#x27; should be implemented for method &#x27;ngOnInit&#x27;. (https://angular.dev/style-guide#style-09-01)</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/use-lifecycle-interface">@angular-eslint/use-lifecycle-interface</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="warning"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\bar-chart.component.ts</a></td>
+              <td>0</td>
+              <td>1</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-warning"><td class="location-col">
+                              17:3
+                          </td>
+                          <td class="severity-col">Warning</td>
+                          <td class="message-col">Lifecycle interface &#x27;AfterViewInit&#x27; should be implemented for method &#x27;ngAfterViewInit&#x27;. (https://angular.dev/style-guide#style-09-01)</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@angular-eslint/use-lifecycle-interface">@angular-eslint/use-lifecycle-interface</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_animations.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_common.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_common_http.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_core.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_forms.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_platform-browser.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_platform-browser_animations.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@angular_router.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\@ngrx_store.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-4S3KYZTJ.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-B4MA5VXV.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-D6ZLATY2.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-FRNU3IZH.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-PEBH6BBU.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-TVYTA5MQ.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-WDMUDEB6.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-WPM5VTLQ.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\chunk-Z7RWVO2Z.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\ngx-toastr.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\rxjs.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\.angular\cache\19.2.5\mortgage-app\vite\deps\rxjs_operators.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\animations.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\amortization\amortization.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\amortization\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\app.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\common\navbar\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\common\navbar\navbar.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\dashboard\dashboard.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\dashboard\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\environment\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-application\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-application\loan-application.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-details\bar-chart.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-details\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-details\line-chart.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-details\loan-details.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\loan-details\pie-chart.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\login\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\login\login.component.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\amortization\amortization.service.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\amortization\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\auth\auth.service.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\auth\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\auth\jwt.interceptor.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\interestRate\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\interestRate\interest-rate.service.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\loan\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\services\loan\loan.service.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\amortization\amortization.actions.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\amortization\amortization.effects.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\amortization\amortization.reducer.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\amortization\amortization.selectors.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\amortization\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\auth\auth.actions.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\auth\auth.effects.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\auth\auth.reducer.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\auth\auth.selectors.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\auth\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\interest-rates\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\interest-rates\interest-rate.actions.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\interest-rates\interest-rate.effects.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\interest-rates\interest-rate.reducer.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\interest-rates\interest-rate.selectors.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\loan\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\loan\loan.actions.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\loan\loan.reducer.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\loan\loan.selectors.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\app\store\loan\loan.state.ts.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\coverage\mortgage-app\src\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\dist\mortgage-app\browser\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\dist\mortgage-app\browser\polyfills.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\eslint.config.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\animations.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\amortization\amortization.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\amortization\route.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\app.component.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\app.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\app.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\app.config.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\app.routes.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\dashboard\dashboard.component.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\dashboard\dashboard.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\dashboard\dashboard.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\dashboard\route.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\environment\environment.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-application\loan-application.component.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-application\loan-application.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-application\loan-application.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-application\route.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\line-chart.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\loan-details.component.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\loan-details.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\pie-chart.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\loan-details\route.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\login\login.component.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\login\login.component.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\models\IAmortizationSchedule.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\models\IAuth.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\models\IInterestRate.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\models\ILoan.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\amortization\amortization.service.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\auth\auth.service.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\auth\auth.service.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\interestRate\interest-rate.service.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\services\loan\loan.service.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.actions.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.effects.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.reducer.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.selectors.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\amortization\amortization.state.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.actions.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.actions.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.effects.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.reducer.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.reducer.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.selectors.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.selectors.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\auth\auth.state.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.actions.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.actions.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.effects.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.reducer.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.selectors.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\interest-rates\interest-rate.state.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.actions.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.reducer.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.selectors.spec.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.selectors.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\app\store\loan\loan.state.ts</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\index.html</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\Lenovo\OneDrive\Documents\Mortgage-loan-application-app\mortgage-app\src\main.ts</td>
+              <td>0</td>
+              <td>0</td></tr></tbody>
+      </table>
+
+  </div>
+</body>
+</html>
