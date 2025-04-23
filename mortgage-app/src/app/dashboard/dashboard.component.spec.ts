@@ -3,7 +3,6 @@ import { DashboardComponent } from './dashboard.component';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { Router } from '@angular/router';
 import { CurrencyPipe, CommonModule } from '@angular/common';
-import { of } from 'rxjs';
 import * as LoanActions from '../store/loan/loan.actions';
 import { ILoan } from '../models/ILoan';
 import { selectLoans } from '../store/loan/loan.selectors';
