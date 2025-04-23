@@ -5,7 +5,7 @@ export interface LoanState {
   lastAddedLoan: ILoan | null;
   selectedLoan: ILoan | null;
   loading: boolean;
-  error: string | null;
+  error: string | undefined;
 }
 
 export const initialState: LoanState = {
@@ -13,5 +13,5 @@ export const initialState: LoanState = {
   lastAddedLoan: null,
   selectedLoan: null,
   loading: false,
-  error: null,
+  error: undefined,
 };

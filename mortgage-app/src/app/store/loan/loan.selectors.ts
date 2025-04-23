@@ -20,7 +20,7 @@ export const selectLoanLoading = createSelector(
 
 export const selectLoanError = createSelector(
   selectLoanState,
-  (state) => state?.error || null
+  (state) => state?.error || undefined
 );
 
 export const selectLoanById = createSelector(
@@ -29,6 +29,11 @@ export const selectLoanById = createSelector(
 );
 
 export const selectLoanAddSuccess = createSelector(
+  selectLoanState,
+  (state: LoanState) => state.lastAddedLoan
+);
+
+export const selectLastAddedLoan = createSelector(
   selectLoanState,
   (state: LoanState) => state.lastAddedLoan
 );

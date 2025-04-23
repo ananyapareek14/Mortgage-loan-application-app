@@ -1,155 +1,244 @@
 hi.I have generated some unit tests, but it is not according to the model. modify the spec code according to the model and add some edge cases to the test cases. The model is as follows:
 
-IAmortizationSchedule.ts:
-interface IAmortizationSchedule {
-  PaymentNumber: number;
-  PaymentDate: Date;
-  MonthlyPayment: number;
-  PrincipalPayment: number;
-  InterestPayment: number;
-  RemainingBalance: number;
+IAuth.ts:
+interface ILogin{
+    token: string;
+    username: string;
+    message: string;
 }
 
-interface IAmortizationRequest {
-  LoanAmount: number;
-  InterestRate: number;
-  LoanTermYears: number;
+interface ILoginCredentials{
+    username: string;
+    password: string;
 }
 
-export type { IAmortizationSchedule, IAmortizationRequest };
+export type {ILogin as default, ILoginCredentials}
 
-loan-detail.component.spec.ts:
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { LoanDetailsComponent } from './loan-details.component';
-import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { ILoan } from '../models/ILoan';
-import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
-import { loadLoanById } from '../store/loan/loan.actions';
-import { loadAmortizationSchedule } from '../store/amortization/amortization.actions';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+auth.state.ts:
+export interface AuthState {
+  username: string | null;
+  token: string | null;
+  error: string | null;
+  isLoading: boolean;
+}
 
-describe('LoanDetailsComponent', () => {
-  let component: LoanDetailsComponent;
-  let fixture: ComponentFixture<LoanDetailsComponent>;
-  let storeMock: jasmine.SpyObj<Store>;
-  let routeMock: Partial<ActivatedRoute>;
+export const initialAuthState: AuthState = {
+  username: null,
+  token: null,
+  error: null,
+  isLoading: false
+};
+
+auth.selectors.spec.ts:
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { selectAuthState, selectAuthToken, selectAuthError, selectIsLoading } from './auth.selectors';
+import { AuthState } from './auth.state';
+
+describe('Auth Selectors', () => {
+  let store: Store<{ auth: AuthState }>;
 
   beforeEach(() => {
-    storeMock = jasmine.createSpyObj('Store', ['dispatch', 'select']);
-    routeMock = {
-      snapshot: {
-        paramMap: {
-          get: jasmine.createSpy('get')
-        }
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('auth', {} as any)
+      ]
+    });
+
+    store = TestBed.inject(Store);
+  });
+
+  describe('selectAuthState', () => {
+    it('should select the auth state', () => {
+      const initialState: AuthState = {
+        token: null,
+        error: null,
+        isLoading: false
+      };
+
+      let result: AuthState | undefined;
+      store.select(selectAuthState).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: initialState });
+
+      expect(result).toEqual(initialState);
+    });
+  });
+
+  describe('selectAuthToken', () => {
+    it('should return the auth token when present', () => {
+      const state: AuthState = {
+        token: 'test-token',
+        error: null,
+        isLoading: false
+      };
+
+      let result: string | null | undefined;
+      store.select(selectAuthToken).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBe('test-token');
+    });
+
+    it('should return null when auth token is not present', () => {
+      const state: AuthState = {
+        token: null,
+        error: null,
+        isLoading: false
+      };
+
+      let result: string | null | undefined;
+      store.select(selectAuthToken).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('selectAuthError', () => {
+    it('should return the error message when present', () => {
+      const state: AuthState = {
+        token: null,
+        error: 'Authentication failed',
+        isLoading: false
+      };
+
+      let result: string | null | undefined;
+      store.select(selectAuthError).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBe('Authentication failed');
+    });
+
+    it('should return null when no error is present', () => {
+      const state: AuthState = {
+        token: null,
+        error: null,
+        isLoading: false
+      };
+
+      let result: string | null | undefined;
+      store.select(selectAuthError).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('selectIsLoading', () => {
+    it('should return true when isLoading is true', () => {
+      const state: AuthState = {
+        token: null,
+        error: null,
+        isLoading: true
+      };
+
+      let result: boolean | undefined;
+      store.select(selectIsLoading).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false when isLoading is false', () => {
+      const state: AuthState = {
+        token: null,
+        error: null,
+        isLoading: false
+      };
+
+      let result: boolean | undefined;
+      store.select(selectIsLoading).subscribe(value => {
+        result = value;
+      });
+
+      store.setState({ auth: state });
+
+      expect(result).toBe(false);
+    });
+  });
+
+  // Edge case: Empty state
+  it('should handle empty state', () => {
+    const emptyState = {};
+
+    store.setState(emptyState);
+
+    store.select(selectAuthState).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
+
+    store.select(selectAuthToken).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
+
+    store.select(selectAuthError).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
+
+    store.select(selectIsLoading).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
+  });
+
+  // Boundary condition: Large token
+  it('should handle large token', () => {
+    const largeToken = 'a'.repeat(10000);
+    const state: AuthState = {
+      token: largeToken,
+      error: null,
+      isLoading: false
+    };
+
+    let result: string | null | undefined;
+    store.select(selectAuthToken).subscribe(value => {
+      result = value;
+    });
+
+    store.setState({ auth: state });
+
+    expect(result).toBe(largeToken);
+    expect(result?.length).toBe(10000);
+  });
+
+  // Error handling: Incorrect state shape
+  it('should handle incorrect state shape', () => {
+    const incorrectState = {
+      auth: {
+        unexpectedField: 'value'
       }
     };
 
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
-      declarations: [LoanDetailsComponent],
-      providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: ActivatedRoute, useValue: routeMock }
-      ]
-    }).compileComponents();
+    store.setState(incorrectState);
 
-    fixture = TestBed.createComponent(LoanDetailsComponent);
-    component = fixture.componentInstance;
-  });
+    store.select(selectAuthToken).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    store.select(selectAuthError).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
 
-  it('should initialize observables in constructor', () => {
-    storeMock.select.and.returnValue(of(null));
-    fixture.detectChanges();
-    expect(component.loan$).toBeDefined();
-    expect(component.amortizationSchedule$).toBeDefined();
-  });
-
-  it('should dispatch actions and calculate summary on ngOnInit with valid loan number', () => {
-    const userLoanNumber = 123;
-    routeMock.snapshot.paramMap.get.and.returnValue(userLoanNumber.toString());
-    const mockSchedule: IAmortizationSchedule[] = [
-      { InterestPayment: 100, MonthlyPayment: 500 },
-      { InterestPayment: 90, MonthlyPayment: 500 }
-    ];
-    storeMock.select.and.returnValue(of(mockSchedule));
-
-    component.ngOnInit();
-
-    expect(storeMock.dispatch).toHaveBeenCalledWith(loadLoanById({ userLoanNumber }));
-    expect(storeMock.dispatch).toHaveBeenCalledWith(loadAmortizationSchedule({ userLoanNumber }));
-    expect(component.totalInterest).toBe(190);
-    expect(component.totalPayment).toBe(1000);
-    expect(component.monthlyPayment).toBe(500);
-  });
-
-  it('should not dispatch actions on ngOnInit with invalid loan number', () => {
-    routeMock.snapshot.paramMap.get.and.returnValue(null);
-
-    component.ngOnInit();
-
-    expect(storeMock.dispatch).not.toHaveBeenCalled();
-  });
-
-  it('should handle empty amortization schedule', () => {
-    routeMock.snapshot.paramMap.get.and.returnValue('123');
-    storeMock.select.and.returnValue(of([]));
-
-    component.ngOnInit();
-
-    expect(component.totalInterest).toBe(0);
-    expect(component.totalPayment).toBe(0);
-    expect(component.monthlyPayment).toBe(0);
-  });
-
-  it('should set active tab', () => {
-    component.setActiveTab('pie-chart');
-    expect(component.activeTab).toBe('pie-chart');
-  });
-
-  it('should handle null amortization schedule', () => {
-    routeMock.snapshot.paramMap.get.and.returnValue('123');
-    storeMock.select.and.returnValue(of(null));
-
-    component.ngOnInit();
-
-    expect(component.totalInterest).toBe(0);
-    expect(component.totalPayment).toBe(0);
-    expect(component.monthlyPayment).toBe(0);
-  });
-
-  it('should handle extremely large numbers in amortization schedule', () => {
-    routeMock.snapshot.paramMap.get.and.returnValue('123');
-    const largeSchedule: IAmortizationSchedule[] = [
-      { InterestPayment: Number.MAX_SAFE_INTEGER, MonthlyPayment: Number.MAX_SAFE_INTEGER },
-      { InterestPayment: Number.MAX_SAFE_INTEGER, MonthlyPayment: Number.MAX_SAFE_INTEGER }
-    ];
-    storeMock.select.and.returnValue(of(largeSchedule));
-
-    component.ngOnInit();
-
-    expect(component.totalInterest).toBe(Number.MAX_SAFE_INTEGER * 2);
-    expect(component.totalPayment).toBe(Number.MAX_SAFE_INTEGER * 2);
-    expect(component.monthlyPayment).toBe(Number.MAX_SAFE_INTEGER);
-  });
-
-  it('should handle negative numbers in amortization schedule', () => {
-    routeMock.snapshot.paramMap.get.and.returnValue('123');
-    const negativeSchedule: IAmortizationSchedule[] = [
-      { InterestPayment: -100, MonthlyPayment: -500 },
-      { InterestPayment: -90, MonthlyPayment: -500 }
-    ];
-    storeMock.select.and.returnValue(of(negativeSchedule));
-
-    component.ngOnInit();
-
-    expect(component.totalInterest).toBe(-190);
-    expect(component.totalPayment).toBe(-1000);
-    expect(component.monthlyPayment).toBe(-500);
+    store.select(selectIsLoading).subscribe(value => {
+      expect(value).toBeUndefined();
+    });
   });
 });

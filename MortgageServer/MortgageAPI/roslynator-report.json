@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Roslynator>
+  <CodeAnalysis>
+    <Summary>
+      <Diagnostic Id="CS0169" Title="Field is never used" Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS0169)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8600" Title="Converting null literal or possible null value to non-nullable type." Count="6">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8600)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8602" Title="Dereference of a possibly null reference." Count="14">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8602)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8603" Title="Possible null reference return." Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8603)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8604" Title="Possible null reference argument." Count="2">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8604)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8613" Title="Nullability of reference types in return type doesn't match implicitly implemented member." Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8613)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8618" Title="Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable." Count="22">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8618)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8620" Title="Argument cannot be used for parameter due to differences in the nullability of reference types." Count="2">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8620)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8625" Title="Cannot convert null literal to non-nullable reference type." Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8625)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="NUnit2005" Title="Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)" Count="14">
+        <Description>Consider using the constraint model, Assert.That(actual, Is.EqualTo(expected)), instead of the classic model, Assert.AreEqual(expected, actual).</Description>
+        <HelpLink>https://github.com/nunit/nunit.analyzers/tree/master/documentation/NUnit2005.md</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="NUnit2019" Title="Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)" Count="11">
+        <Description>Consider using the constraint model, Assert.That(expr, Is.Not.Null), instead of the classic model, Assert.IsNotNull(expr).</Description>
+        <HelpLink>https://github.com/nunit/nunit.analyzers/tree/master/documentation/NUnit2019.md</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="NUnit2035" Title="Consider using Assert.That(collection, Is.Empty) instead of Assert.IsEmpty(collection)" Count="2">
+        <Description>Consider using the constraint model, Assert.That(collection, Is.Empty), instead of the classic model, Assert.IsEmpty(collection).</Description>
+        <HelpLink>https://github.com/nunit/nunit.analyzers/tree/master/documentation/NUnit2035.md</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="NUnit2038" Title="Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)" Count="12">
+        <Description>Consider using the constraint model, Assert.That(actual, Is.InstanceOf(expected)), instead of the classic model, Assert.IsInstanceOf(expected, actual).</Description>
+        <HelpLink>https://github.com/nunit/nunit.analyzers/tree/master/documentation/NUnit2038.md</HelpLink>
+      </Diagnostic>
+    </Summary>
+    <Projects>
+      <Project Name="MortgageAPI" FilePath="C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\MortgageAPI.csproj">
+        <Diagnostics>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\AmortizationSchedule.cs</FilePath>
+            <Location Line="37" Character="21" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\Loan.cs</FilePath>
+            <Location Line="43" Character="21" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoanDTO.cs</FilePath>
+            <Location Line="18" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs</FilePath>
+            <Location Line="5" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs</FilePath>
+            <Location Line="6" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8604">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference argument.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Program.cs</FilePath>
+            <Location Line="28" Character="34" />
+          </Diagnostic>
+          <Diagnostic Id="CS0169">
+            <Severity>Warning</Severity>
+            <Message>Field is never used</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs</FilePath>
+            <Location Line="11" Character="48" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs</FilePath>
+            <Location Line="13" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8603">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference return.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\LoanRepository.cs</FilePath>
+            <Location Line="46" Character="20" />
+          </Diagnostic>
+          <Diagnostic Id="CS8604">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference argument.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\TokenService.cs</FilePath>
+            <Location Line="20" Character="46" />
+          </Diagnostic>
+          <Diagnostic Id="CS8613">
+            <Severity>Warning</Severity>
+            <Message>Nullability of reference types in return type doesn't match implicitly implemented member.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\UserRepository.cs</FilePath>
+            <Location Line="29" Character="34" />
+          </Diagnostic>
+        </Diagnostics>
+      </Project>
+      <Project Name="MortgageAPITest" FilePath="C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\MortgageAPITest.csproj">
+        <Diagnostics>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="51" Character="42" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="88" Character="42" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="117" Character="26" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="135" Character="17" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="140" Character="25" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="141" Character="25" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="18" Character="55" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="19" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="20" Character="55" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="21" Character="40" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="51" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="88" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="121" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="49" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="64" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="86" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AmortizationScheduleControllerTests.cs</FilePath>
+            <Location Line="106" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="56" Character="29" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="68" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="128" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="182" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="197" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8600">
+            <Severity>Warning</Severity>
+            <Message>Converting null literal or possible null value to non-nullable type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="213" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="56" Character="29" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="57" Character="55" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="77" Character="61" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="97" Character="25" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="101" Character="25" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="119" Character="56" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="137" Character="83" />
+          </Diagnostic>
+          <Diagnostic Id="CS8602">
+            <Severity>Warning</Severity>
+            <Message>Dereference of a possibly null reference.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="244" Character="25" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="25" Character="36" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="26" Character="39" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="27" Character="31" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="28" Character="47" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="29" Character="32" />
+          </Diagnostic>
+          <Diagnostic Id="CS8620">
+            <Severity>Warning</Severity>
+            <Message>Argument cannot be used for parameter due to differences in the nullability of reference types.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="127" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="CS8620">
+            <Severity>Warning</Severity>
+            <Message>Argument cannot be used for parameter due to differences in the nullability of reference types.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="212" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="CS8625">
+            <Severity>Warning</Severity>
+            <Message>Cannot convert null literal to non-nullable reference type.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="195" Character="80" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="77" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="119" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="137" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="55" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="76" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="96" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="118" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="136" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="53" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="74" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="116" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="134" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="171" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="188" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="203" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2038">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(actual, Is.InstanceOf(expected)) instead of Assert.IsInstanceOf(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Controllers\AuthControllerTests.cs</FilePath>
+            <Location Line="221" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="20" Character="36" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="21" Character="47" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="22" Character="48" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="66" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="67" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="68" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="114" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="115" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="116" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="185" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2005">
+            <Severity>Warning</Severity>
+            <Message>Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="212" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="65" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="113" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="136" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="157" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="184" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2019">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(expr, Is.Not.Null) instead of Assert.IsNotNull(expr)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="211" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2035">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(collection, Is.Empty) instead of Assert.IsEmpty(collection)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="137" Character="13" />
+          </Diagnostic>
+          <Diagnostic Id="NUnit2035">
+            <Severity>Info</Severity>
+            <Message>Consider using Assert.That(collection, Is.Empty) instead of Assert.IsEmpty(collection)</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPITest\Repos\AmortizationScheduleRepositoryTests.cs</FilePath>
+            <Location Line="158" Character="13" />
+          </Diagnostic>
+        </Diagnostics>
+      </Project>
+    </Projects>
+  </CodeAnalysis>
+</Roslynator>

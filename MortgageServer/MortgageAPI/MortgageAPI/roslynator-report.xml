@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Roslynator>
+  <CodeAnalysis>
+    <Summary>
+      <Diagnostic Id="CS0169" Title="Field is never used" Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS0169)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8603" Title="Possible null reference return." Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8603)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8604" Title="Possible null reference argument." Count="2">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8604)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8613" Title="Nullability of reference types in return type doesn't match implicitly implemented member." Count="1">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8613)</HelpLink>
+      </Diagnostic>
+      <Diagnostic Id="CS8618" Title="Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable." Count="10">
+        <HelpLink>https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&amp;k=k(CS8618)</HelpLink>
+      </Diagnostic>
+    </Summary>
+    <Projects>
+      <Project Name="MortgageAPI" FilePath="C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\MortgageAPI.csproj">
+        <Diagnostics>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs</FilePath>
+            <Location Line="8" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\AmortizationSchedule.cs</FilePath>
+            <Location Line="37" Character="21" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\Loan.cs</FilePath>
+            <Location Line="43" Character="21" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoanDTO.cs</FilePath>
+            <Location Line="18" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs</FilePath>
+            <Location Line="5" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs</FilePath>
+            <Location Line="6" Character="23" />
+          </Diagnostic>
+          <Diagnostic Id="CS8604">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference argument.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Program.cs</FilePath>
+            <Location Line="28" Character="34" />
+          </Diagnostic>
+          <Diagnostic Id="CS0169">
+            <Severity>Warning</Severity>
+            <Message>Field is never used</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs</FilePath>
+            <Location Line="11" Character="48" />
+          </Diagnostic>
+          <Diagnostic Id="CS8618">
+            <Severity>Warning</Severity>
+            <Message>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs</FilePath>
+            <Location Line="13" Character="16" />
+          </Diagnostic>
+          <Diagnostic Id="CS8603">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference return.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\LoanRepository.cs</FilePath>
+            <Location Line="46" Character="20" />
+          </Diagnostic>
+          <Diagnostic Id="CS8604">
+            <Severity>Warning</Severity>
+            <Message>Possible null reference argument.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\TokenService.cs</FilePath>
+            <Location Line="20" Character="46" />
+          </Diagnostic>
+          <Diagnostic Id="CS8613">
+            <Severity>Warning</Severity>
+            <Message>Nullability of reference types in return type doesn't match implicitly implemented member.</Message>
+            <FilePath>C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\UserRepository.cs</FilePath>
+            <Location Line="29" Character="34" />
+          </Diagnostic>
+        </Diagnostics>
+      </Project>
+    </Projects>
+  </CodeAnalysis>
+</Roslynator>

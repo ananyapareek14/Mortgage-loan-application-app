@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Roslynator Code Smell Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+        }
+        h1, h2 {
+            color: #34495e;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f2f5;
+            font-weight: 600;
+            color: #34495e;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .diagnostic {
+            background-color: #fff;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        .severity {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .severity::before {
+            content: "\26A0";
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        .severity.Error::before { content: "\274C"; color: #e74c3c; }
+        .severity.Info::before { content: "\2139"; color: #3498db; }
+        .severity.Warning::before { content: "\26A0"; color: #f39c12; }
+        .filepath {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 4px;
+        }
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Roslynator Code Smell Report</h1>
+    <h2>Summary</h2>
+    <table>
+        <tr><th>ID</th><th>Title</th><th>Count</th><th>Help Link</th></tr><tr><td>CS0169</td><td>Field is never used</td><td>1</td><td><a href='https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0169)' target='_blank'>Link</a></td></tr>
+<tr><td>CS8603</td><td>Possible null reference return.</td><td>1</td><td><a href='https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8603)' target='_blank'>Link</a></td></tr>
+<tr><td>CS8604</td><td>Possible null reference argument.</td><td>2</td><td><a href='https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8604)' target='_blank'>Link</a></td></tr>
+<tr><td>CS8613</td><td>Nullability of reference types in return type doesn't match implicitly implemented member.</td><td>1</td><td><a href='https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8613)' target='_blank'>Link</a></td></tr>
+<tr><td>CS8618</td><td>Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</td><td>10</td><td><a href='https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)' target='_blank'>Link</a></td></tr>
+</table>
+<h2>Project: MortgageAPI</h2>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs - Line: 8, Char: 16</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs - Line: 8, Char: 16</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs - Line: 8, Char: 16</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Data\AppDbContext.cs - Line: 8, Char: 16</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\AmortizationSchedule.cs - Line: 37, Char: 21</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\Domain\Loan.cs - Line: 43, Char: 21</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoanDTO.cs - Line: 18, Char: 23</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs - Line: 5, Char: 23</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Models\DTO\LoginRequest.cs - Line: 6, Char: 23</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8604] Possible null reference argument.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Program.cs - Line: 28, Char: 34</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS0169] Field is never used</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs - Line: 11, Char: 48</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8618] Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\AuthService.cs - Line: 13, Char: 16</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8603] Possible null reference return.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\LoanRepository.cs - Line: 46, Char: 20</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8604] Possible null reference argument.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\TokenService.cs - Line: 20, Char: 46</div></div>
+<div class='diagnostic'><div class='severity Warning'>[CS8613] Nullability of reference types in return type doesn't match implicitly implemented member.</div><div class='filepath'>File: C:\Users\ananya.pareek\OneDrive - ascendion\Documents\Mortgage-Loan-Processing-App\MortgageServer\MortgageAPI\MortgageAPI\Repos\UserRepository.cs - Line: 29, Char: 34</div></div>
+</body>
+</html>

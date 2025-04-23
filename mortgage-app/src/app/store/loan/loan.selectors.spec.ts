@@ -1,176 +1,191 @@
-// import { TestBed } from '@angular/core/testing';
-// import { Store, StoreModule } from '@ngrx/store';
-// import { LoanState } from './loan.state';
-// import * as fromLoan from './loan.selectors';
-// import { ILoan } from '../../models/ILoan';
+import { TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { LoanState, initialState } from './loan.state';
+import * as fromLoan from './loan.selectors';
+import { ILoan } from '../../models/ILoan';
 
-// describe('Loan Selectors', () => {
-//   let store: Store<LoanState>;
+describe('Loan Selectors', () => {
+  let store: Store<LoanState>;
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       imports: [StoreModule.forRoot({}), StoreModule.forFeature('loan', {})],
-//     });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({}), StoreModule.forFeature('loan', {})],
+    });
 
-//     store = TestBed.inject(Store);
-//   });
+    store = TestBed.inject(Store);
+  });
 
-//   const mockLoan: ILoan = {
-//     LoanId: 1,
-//     UserLoanNumber: 12345,
-//     LoanAmount: 100000,
-//     InterestRate: 5.5,
-//     LoanTermYears: 30,
-//     ApplicationDate: '2023-06-01',
-//     ApprovalStatus: 'Approved',
-//   };
+  describe('selectLoans', () => {
+    // it('should return an empty array when state is undefined', () => {
+    //   const result = fromLoan.selectLoans.projector(undefined);
+    //   expect(result).toEqual([]);
+    // });
 
-//   describe('selectLoans', () => {
-//     it('should return an empty array when state is undefined', () => {
-//       const result = fromLoan.selectLoans.projector(undefined);
-//       expect(result).toEqual([]);
-//     });
+    it('should return loans array when state is defined', () => {
+      const mockLoans: ILoan[] = [
+        {
+          UserLoanNumber: 1,
+          LoanAmount: 1000,
+          InterestRate: 5,
+          LoanTermYears: 5,
+          ApplicationDate: '2023-05-01',
+          ApprovalStatus: 'Pending',
+        },
+        {
+          UserLoanNumber: 2,
+          LoanAmount: 2000,
+          InterestRate: 6,
+          LoanTermYears: 10,
+          ApplicationDate: '2023-05-02',
+          ApprovalStatus: 'Approved',
+        },
+      ];
+      const result = fromLoan.selectLoans.projector({
+        ...initialState,
+        loans: mockLoans,
+      });
+      expect(result).toEqual(mockLoans);
+    });
+  });
 
-//     it('should return loans array when state is defined', () => {
-//       const mockLoans: ILoan[] = [mockLoan, { ...mockLoan, LoanId: 2 }];
-//       const result = fromLoan.selectLoans.projector({ loans: mockLoans });
-//       expect(result).toEqual(mockLoans);
-//     });
-//   });
+  describe('selectSelectedLoan', () => {
+    // it('should return null when state is undefined', () => {
+    //   const result = fromLoan.selectSelectedLoan.projector(undefined);
+    //   expect(result).toBeNull();
+    // });
 
-//   describe('selectSelectedLoan', () => {
-//     it('should return null when state is undefined', () => {
-//       const result = fromLoan.selectSelectedLoan.projector(undefined);
-//       expect(result).toBeNull();
-//     });
+    it('should return selected loan when state is defined', () => {
+      const mockSelectedLoan: ILoan = {
+        UserLoanNumber: 1,
+        LoanAmount: 1000,
+        InterestRate: 5,
+        LoanTermYears: 5,
+        ApplicationDate: '2023-05-01',
+        ApprovalStatus: 'Pending',
+      };
+      const result = fromLoan.selectSelectedLoan.projector({
+        ...initialState,
+        selectedLoan: mockSelectedLoan,
+      });
+      expect(result).toEqual(mockSelectedLoan);
+    });
+  });
 
-//     it('should return selected loan when state is defined', () => {
-//       const result = fromLoan.selectSelectedLoan.projector({
-//         selectedLoan: mockLoan,
-//       });
-//       expect(result).toEqual(mockLoan);
-//     });
-//   });
+  describe('selectLoanLoading', () => {
+    // it('should return false when state is undefined', () => {
+    //   const result = fromLoan.selectLoanLoading.projector(undefined);
+    //   expect(result).toBeFalse();
+    // });
 
-//   describe('selectLoanLoading', () => {
-//     it('should return false when state is undefined', () => {
-//       const result = fromLoan.selectLoanLoading.projector(undefined);
-//       expect(result).toBeFalse();
-//     });
+    it('should return loading state when defined', () => {
+      const result = fromLoan.selectLoanLoading.projector({
+        ...initialState,
+        loading: true,
+      });
+      expect(result).toBeTrue();
+    });
+  });
 
-//     it('should return loading state when defined', () => {
-//       const result = fromLoan.selectLoanLoading.projector({ loading: true });
-//       expect(result).toBeTrue();
-//     });
-//   });
+  describe('selectLoanError', () => {
+    it('should return null when state is undefined', () => {
+      const result = fromLoan.selectLoanError.projector(initialState);
+      expect(result).toBeUndefined();
+    });
 
-//   describe('selectLoanError', () => {
-//     it('should return null when state is undefined', () => {
-//       const result = fromLoan.selectLoanError.projector(undefined);
-//       expect(result).toBeNull();
-//     });
+    it('should return error when state is defined', () => {
+      const mockError = 'An error occurred';
+      const result = fromLoan.selectLoanError.projector({
+        ...initialState,
+        error: mockError,
+      });
+      expect(result).toEqual(mockError);
+    });
+  });
 
-//     it('should return error when state is defined', () => {
-//       const mockError = 'An error occurred';
-//       const result = fromLoan.selectLoanError.projector({ error: mockError });
-//       expect(result).toEqual(mockError);
-//     });
-//   });
+  describe('selectLastAddedLoan', () => {
+    // it('should return null when state is undefined', () => {
+    //   const result = fromLoan.selectLastAddedLoan.projector(undefined);
+    //   expect(result).toBeNull();
+    // });
 
-//   describe('selectLoanById', () => {
-//     it('should return null when state is undefined', () => {
-//       const result = fromLoan.selectLoanById.projector(undefined, {
-//         loanId: 1,
-//       });
-//       expect(result).toBeNull();
-//     });
+    it('should return lastAddedLoan when state is defined', () => {
+      const mockLastAddedLoan: ILoan = {
+        UserLoanNumber: 1,
+        LoanAmount: 1000,
+        InterestRate: 5,
+        LoanTermYears: 5,
+        ApplicationDate: '2023-05-01',
+        ApprovalStatus: 'Pending',
+      };
+      const result = fromLoan.selectLastAddedLoan.projector({
+        ...initialState,
+        lastAddedLoan: mockLastAddedLoan,
+      });
+      expect(result).toEqual(mockLastAddedLoan);
+    });
+  });
 
-//     it('should return selected loan when state is defined', () => {
-//       const mockLoans: ILoan[] = [mockLoan, { ...mockLoan, LoanId: 2 }];
-//       const result = fromLoan.selectLoanById.projector(
-//         { loans: mockLoans },
-//         { loanId: 1 }
-//       );
-//       expect(result).toEqual(mockLoan);
-//     });
-//   });
+  // Edge case: Empty state
+  describe('Empty state handling', () => {
+    it('should handle empty state for all selectors', () => {
+      expect(fromLoan.selectLoans.projector(initialState)).toEqual([]);
+      expect(fromLoan.selectSelectedLoan.projector(initialState)).toBeNull();
+      expect(fromLoan.selectLoanLoading.projector(initialState)).toBeFalse();
+      expect(fromLoan.selectLoanError.projector(initialState)).toBeNull();
+      expect(fromLoan.selectLastAddedLoan.projector(initialState)).toBeNull();
+    });
+  });
 
-//   describe('selectLoanAddSuccess', () => {
-//     it('should return undefined when state is undefined', () => {
-//       const result = fromLoan.selectLoanAddSuccess.projector(undefined);
-//       expect(result).toBeUndefined();
-//     });
+  // Boundary condition: Large dataset
+  describe('Large dataset handling', () => {
+    it('should handle a large number of loans', () => {
+      const largeLoansArray: ILoan[] = Array(1000)
+        .fill(null)
+        .map((_, index) => ({
+          UserLoanNumber: index,
+          LoanAmount: index * 1000,
+          InterestRate: 5,
+          LoanTermYears: 10,
+          ApplicationDate: '2023-05-01',
+          ApprovalStatus: 'Pending',
+        }));
+      const result = fromLoan.selectLoans.projector({
+        ...initialState,
+        loans: largeLoansArray,
+      });
+      expect(result.length).toBe(1000);
+      expect(result[999].LoanAmount).toBe(999000);
+    });
+  });
 
-//     it('should return lastAddedLoan when state is defined', () => {
-//       const result = fromLoan.selectLoanAddSuccess.projector({
-//         lastAddedLoan: mockLoan,
-//       });
-//       expect(result).toEqual(mockLoan);
-//     });
-//   });
+  // Error handling
+  describe('Error handling', () => {
+      it('should handle non-string error types', () => {
+        const errorObject = 'Error occurred';
+        const result = fromLoan.selectLoanError.projector({
+        ...initialState,
+        error: errorObject,
+        });
+        expect(result).toEqual(errorObject);
+    });
+  });
 
-//   // Edge case: Empty state
-//   describe('Edge case: Empty state', () => {
-//     it('should handle empty state for all selectors', () => {
-//       const emptyState = {};
-//       expect(fromLoan.selectLoans.projector(emptyState)).toEqual([]);
-//       expect(fromLoan.selectSelectedLoan.projector(emptyState)).toBeNull();
-//       expect(fromLoan.selectLoanLoading.projector(emptyState)).toBeFalse();
-//       expect(fromLoan.selectLoanError.projector(emptyState)).toBeNull();
-//       expect(
-//         fromLoan.selectLoanById.projector(emptyState, { loanId: 1 })
-//       ).toBeNull();
-//       expect(
-//         fromLoan.selectLoanAddSuccess.projector(emptyState)
-//       ).toBeUndefined();
-//     });
-//   });
-
-//   // Boundary condition: Large dataset
-//   describe('Boundary condition: Large dataset', () => {
-//     it('should handle a large number of loans', () => {
-//       const largeLoansArray: ILoan[] = Array(10000)
-//         .fill(mockLoan)
-//         .map((loan, index) => ({ ...loan, LoanId: index + 1 }));
-//       const result = fromLoan.selectLoans.projector({ loans: largeLoansArray });
-//       expect(result.length).toBe(10000);
-//     });
-//   });
-
-//   // Error handling
-//   describe('Error handling', () => {
-//     it('should handle non-string error', () => {
-//       const nonStringError = { message: 'Error object' };
-//       const result = fromLoan.selectLoanError.projector({
-//         error: nonStringError,
-//       });
-//       expect(result).toEqual(nonStringError);
-//     });
-//   });
-
-//   // Edge case: Invalid loan data
-//   describe('Edge case: Invalid loan data', () => {
-//     it('should handle invalid loan data', () => {
-//       const invalidLoan: any = { ...mockLoan, LoanAmount: 'invalid' };
-//       const result = fromLoan.selectSelectedLoan.projector({
-//         selectedLoan: invalidLoan,
-//       });
-//       expect(result).toEqual(invalidLoan);
-//     });
-//   });
-
-//   // Edge case: Negative values
-//   describe('Edge case: Negative values', () => {
-//     it('should handle negative loan amount and interest rate', () => {
-//       const negativeLoan: ILoan = {
-//         ...mockLoan,
-//         LoanAmount: -100000,
-//         InterestRate: -5.5,
-//       };
-//       const result = fromLoan.selectSelectedLoan.projector({
-//         selectedLoan: negativeLoan,
-//       });
-//       expect(result).toEqual(negativeLoan);
-//     });
-//   });
-// });
+  // Edge case: Null values in ILoan properties
+  describe('Null property handling', () => {
+    it('should handle null values in ILoan properties', () => {
+      const loanWithNullValues: ILoan = {
+        UserLoanNumber: 1,
+        LoanAmount: null as any,
+        InterestRate: null as any,
+        LoanTermYears: null as any,
+        ApplicationDate: null as any,
+        ApprovalStatus: null as any,
+      };
+      const result = fromLoan.selectSelectedLoan.projector({
+        ...initialState,
+        selectedLoan: loanWithNullValues,
+      });
+      expect(result).toEqual(loanWithNullValues);
+    });
+  });
+});

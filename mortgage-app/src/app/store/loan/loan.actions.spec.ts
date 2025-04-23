@@ -1,4 +1,3 @@
-import { createAction, props } from '@ngrx/store';
 import { ILoan } from '../../models/ILoan';
 import * as LoanActions from './loan.actions';
 
