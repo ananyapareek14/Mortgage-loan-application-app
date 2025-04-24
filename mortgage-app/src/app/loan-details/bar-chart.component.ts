@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
 
@@ -6,7 +6,7 @@ import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
   selector: 'app-bar-chart',
   template: '<canvas #barChart></canvas>',
 })
-export class BarChartComponent implements OnChanges {
+export class BarChartComponent implements OnChanges,AfterViewInit {
   @Input() schedule: IAmortizationSchedule[] | null = [];
   @ViewChild('barChart') chartRef!: ElementRef<HTMLCanvasElement>;
 

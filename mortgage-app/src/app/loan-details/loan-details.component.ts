@@ -26,11 +26,16 @@ import { chartSlideAnimation, slideIn, slideOut, staggerList } from '../../anima
 export class LoanDetailsComponent implements OnInit {
   loan$: Observable<ILoan | null>;
   amortizationSchedule$: Observable<IAmortizationSchedule[] | null>;
-  totalInterest: number = 0;
-  totalPayment: number = 0;
-  monthlyPayment: number = 0;
-  activeTab: string = 'line-chart'; // Default tab
-
+  // totalInterest: number = 0;
+  // totalPayment: number = 0;
+  // monthlyPayment: number = 0;
+  // activeTab: string = 'line-chart';
+  
+  totalInterest = 0;
+  totalPayment = 0;
+  monthlyPayment = 0;
+  activeTab = 'line-chart';
+  
   constructor(private store: Store, private route: ActivatedRoute) {
     this.loan$ = this.store.select(selectSelectedLoan);
     this.amortizationSchedule$ = this.store.select(selectAmortizationSchedule);

@@ -20,9 +20,9 @@ import { slideIn, slideOut, staggerList } from '../../animations';
 export class AmortizationComponent implements OnInit, OnDestroy {
   amortizationForm!: FormGroup;
   amortizationSchedule$!: Observable<IAmortizationSchedule[]>;
-  totalInterest: number = 0;
-  totalPayment: number = 0;
-  monthlyPayment: number = 0;
+  totalInterest = 0;
+  totalPayment = 0;
+  monthlyPayment = 0;
   chart!: Chart;
   scheduleSubscription!: Subscription;
 

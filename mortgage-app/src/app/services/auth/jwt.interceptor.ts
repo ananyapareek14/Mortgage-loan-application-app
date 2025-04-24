@@ -12,9 +12,9 @@ import { Observable } from 'rxjs';
 })
 export class jwtInterceptor implements HttpInterceptor {
   intercept(
-    request: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     let token: string | null = null;
 
     try {

@@ -50,7 +50,7 @@
 
           <li class="nav-item" *ngIf="isLoggedIn$ | async">
             <div class="fancy-button-wrapper">
-              <a class="fancy-button" (click)="logout()">
+              <a class="fancy-button" (click)="logout()" (keydown.enter)="logout()" tabindex="0">
                 <span class="text-wrapper">
                   <span class="text-default">Logout</span>
                   <span class="text-hover">Logout</span>

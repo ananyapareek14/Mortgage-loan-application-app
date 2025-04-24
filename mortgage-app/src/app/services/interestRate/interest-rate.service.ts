@@ -14,14 +14,14 @@ export class InterestRateService {
   constructor(private http: HttpClient) {}
 
   getInterestRate(): Observable<IInterestRate[]> {
-    return this.http.get<any>(`${this.apiUrl}/interestrates`).pipe(
-      map((data: any) => {
+    return this.http.get<IInterestRate[]>(`${this.apiUrl}/interestrates`).pipe(
+      map((data: IInterestRate[]) => {
         if (!Array.isArray(data)) {
           throw new Error('Invalid data structure');
         }
 
         const isValid = data.every(
-          (rate: any) =>
+          (rate: IInterestRate) =>
             typeof rate.Id === 'string' &&
             typeof rate.Rate === 'number' &&
             typeof rate.ValidFrom === 'string'

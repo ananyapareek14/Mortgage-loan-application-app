@@ -1,244 +1,179 @@
 hi.I have generated some unit tests, but it is not according to the model. modify the spec code according to the model and add some edge cases to the test cases. The model is as follows:
 
-IAuth.ts:
-interface ILogin{
-    token: string;
-    username: string;
-    message: string;
+ILoan.ts:
+interface ILoan{
+    LoanId?: number;
+    UserLoanNumber: number;
+    LoanAmount: number;
+    InterestRate: number;
+    LoanTermYears: number;
+    ApplicationDate: string;
+    ApprovalStatus: string;
 }
 
-interface ILoginCredentials{
-    username: string;
-    password: string;
-}
+export type {ILoan}
 
-export type {ILogin as default, ILoginCredentials}
 
-auth.state.ts:
-export interface AuthState {
-  username: string | null;
-  token: string | null;
-  error: string | null;
-  isLoading: boolean;
-}
-
-export const initialAuthState: AuthState = {
-  username: null,
-  token: null,
-  error: null,
-  isLoading: false
-};
-
-auth.selectors.spec.ts:
+loan.effects.spec.ts:
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { selectAuthState, selectAuthToken, selectAuthError, selectIsLoading } from './auth.selectors';
-import { AuthState } from './auth.state';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Observable, of, throwError } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
+import { LoanEffects } from './loan.effects';
+import { LoanService } from '../../services/loan/loan.service';
+import * as LoanActions from './loan.actions';
 
-describe('Auth Selectors', () => {
-  let store: Store<{ auth: AuthState }>;
+describe('LoanEffects', () => {
+  let actions$: Observable<any>;
+  let effects: LoanEffects;
+  let loanService: jasmine.SpyObj<LoanService>;
+  let testScheduler: TestScheduler;
 
   beforeEach(() => {
+    const loanServiceSpy = jasmine.createSpyObj('LoanService', ['getLoans', 'createLoan', 'getLoanById']);
+
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', {} as any)
+      providers: [
+        LoanEffects,
+        provideMockActions(() => actions$),
+        { provide: LoanService, useValue: loanServiceSpy }
       ]
     });
 
-    store = TestBed.inject(Store);
-  });
-
-  describe('selectAuthState', () => {
-    it('should select the auth state', () => {
-      const initialState: AuthState = {
-        token: null,
-        error: null,
-        isLoading: false
-      };
-
-      let result: AuthState | undefined;
-      store.select(selectAuthState).subscribe(value => {
-        result = value;
-      });
-
-      store.setState({ auth: initialState });
-
-      expect(result).toEqual(initialState);
+    effects = TestBed.inject(LoanEffects);
+    loanService = TestBed.inject(LoanService) as jasmine.SpyObj<LoanService>;
+    testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).toEqual(expected);
     });
   });
 
-  describe('selectAuthToken', () => {
-    it('should return the auth token when present', () => {
-      const state: AuthState = {
-        token: 'test-token',
-        error: null,
-        isLoading: false
-      };
+  it('should be created', () => {
+    expect(effects).toBeTruthy();
+  });
 
-      let result: string | null | undefined;
-      store.select(selectAuthToken).subscribe(value => {
-        result = value;
+  describe('loadLoans$', () => {
+    it('should return a loadLoansSuccess action with loans on success', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const loans = [{ id: 1, amount: 1000 }, { id: 2, amount: 2000 }];
+        actions$ = hot('-a', { a: LoanActions.loadLoans() });
+        const response = cold('-b|', { b: loans });
+        loanService.getLoans.and.returnValue(response);
+
+        const expected = hot('--c', {
+          c: LoanActions.loadLoansSuccess({ loans })
+        });
+
+        expectObservable(effects.loadLoans$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBe('test-token');
     });
 
-    it('should return null when auth token is not present', () => {
-      const state: AuthState = {
-        token: null,
-        error: null,
-        isLoading: false
-      };
+    it('should return a loadLoansFailure action on error', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const error = new Error('Test error');
+        actions$ = hot('-a', { a: LoanActions.loadLoans() });
+        const response = cold('-#|', {}, error);
+        loanService.getLoans.and.returnValue(response);
 
-      let result: string | null | undefined;
-      store.select(selectAuthToken).subscribe(value => {
-        result = value;
+        const expected = hot('--c', {
+          c: { type: '[Loan] Load Loans Failure', error }
+        });
+
+        expectObservable(effects.loadLoans$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBeNull();
     });
   });
 
-  describe('selectAuthError', () => {
-    it('should return the error message when present', () => {
-      const state: AuthState = {
-        token: null,
-        error: 'Authentication failed',
-        isLoading: false
-      };
+  describe('addLoan$', () => {
+    it('should return an addLoanSuccess action with the new loan on success', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const newLoan = { id: 3, amount: 3000 };
+        actions$ = hot('-a', { a: LoanActions.addLoan({ loan: newLoan }) });
+        const response = cold('-b|', { b: newLoan });
+        loanService.createLoan.and.returnValue(response);
 
-      let result: string | null | undefined;
-      store.select(selectAuthError).subscribe(value => {
-        result = value;
+        const expected = hot('--c', {
+          c: LoanActions.addLoanSuccess({ loan: newLoan })
+        });
+
+        expectObservable(effects.addLoan$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBe('Authentication failed');
     });
 
-    it('should return null when no error is present', () => {
-      const state: AuthState = {
-        token: null,
-        error: null,
-        isLoading: false
-      };
+    it('should return an addLoanFailure action on error', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const error = new Error('Test error');
+        const newLoan = { id: 3, amount: 3000 };
+        actions$ = hot('-a', { a: LoanActions.addLoan({ loan: newLoan }) });
+        const response = cold('-#|', {}, error);
+        loanService.createLoan.and.returnValue(response);
 
-      let result: string | null | undefined;
-      store.select(selectAuthError).subscribe(value => {
-        result = value;
+        const expected = hot('--c', {
+          c: { type: '[Loan] Add Loan Failure', error }
+        });
+
+        expectObservable(effects.addLoan$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBeNull();
     });
   });
 
-  describe('selectIsLoading', () => {
-    it('should return true when isLoading is true', () => {
-      const state: AuthState = {
-        token: null,
-        error: null,
-        isLoading: true
-      };
+  describe('refreshLoansAfterAdd$', () => {
+    it('should dispatch a loadLoans action after addLoanSuccess', () => {
+      testScheduler.run(({ hot, expectObservable }) => {
+        const newLoan = { id: 3, amount: 3000 };
+        actions$ = hot('-a', { a: LoanActions.addLoanSuccess({ loan: newLoan }) });
 
-      let result: boolean | undefined;
-      store.select(selectIsLoading).subscribe(value => {
-        result = value;
+        const expected = hot('-b', {
+          b: LoanActions.loadLoans()
+        });
+
+        expectObservable(effects.refreshLoansAfterAdd$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBe(true);
     });
+  });
 
-    it('should return false when isLoading is false', () => {
-      const state: AuthState = {
-        token: null,
-        error: null,
-        isLoading: false
-      };
+  describe('loadLoanById$', () => {
+    it('should return a loadLoanByIdSuccess action with the loan on success', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const loan = { id: 1, amount: 1000 };
+        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '1' }) });
+        const response = cold('-b|', { b: loan });
+        loanService.getLoanById.and.returnValue(response);
 
-      let result: boolean | undefined;
-      store.select(selectIsLoading).subscribe(value => {
-        result = value;
+        const expected = hot('--c', {
+          c: LoanActions.loadLoanByIdSuccess({ loan })
+        });
+
+        expectObservable(effects.loadLoanById$).toEqual(expected);
       });
-
-      store.setState({ auth: state });
-
-      expect(result).toBe(false);
-    });
-  });
-
-  // Edge case: Empty state
-  it('should handle empty state', () => {
-    const emptyState = {};
-
-    store.setState(emptyState);
-
-    store.select(selectAuthState).subscribe(value => {
-      expect(value).toBeUndefined();
     });
 
-    store.select(selectAuthToken).subscribe(value => {
-      expect(value).toBeUndefined();
+    it('should return a loadLoanByIdFailure action on error', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        const error = new Error('Test error');
+        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '1' }) });
+        const response = cold('-#|', {}, error);
+        loanService.getLoanById.and.returnValue(response);
+
+        const expected = hot('--c', {
+          c: LoanActions.loadLoanByIdFailure({ error })
+        });
+
+        expectObservable(effects.loadLoanById$).toEqual(expected);
+      });
     });
 
-    store.select(selectAuthError).subscribe(value => {
-      expect(value).toBeUndefined();
-    });
+    it('should handle empty loan ID', () => {
+      testScheduler.run(({ hot, cold, expectObservable }) => {
+        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '' }) });
+        const response = cold('-b|', { b: null });
+        loanService.getLoanById.and.returnValue(response);
 
-    store.select(selectIsLoading).subscribe(value => {
-      expect(value).toBeUndefined();
-    });
-  });
+        const expected = hot('--c', {
+          c: LoanActions.loadLoanByIdSuccess({ loan: null })
+        });
 
-  // Boundary condition: Large token
-  it('should handle large token', () => {
-    const largeToken = 'a'.repeat(10000);
-    const state: AuthState = {
-      token: largeToken,
-      error: null,
-      isLoading: false
-    };
-
-    let result: string | null | undefined;
-    store.select(selectAuthToken).subscribe(value => {
-      result = value;
-    });
-
-    store.setState({ auth: state });
-
-    expect(result).toBe(largeToken);
-    expect(result?.length).toBe(10000);
-  });
-
-  // Error handling: Incorrect state shape
-  it('should handle incorrect state shape', () => {
-    const incorrectState = {
-      auth: {
-        unexpectedField: 'value'
-      }
-    };
-
-    store.setState(incorrectState);
-
-    store.select(selectAuthToken).subscribe(value => {
-      expect(value).toBeUndefined();
-    });
-
-    store.select(selectAuthError).subscribe(value => {
-      expect(value).toBeUndefined();
-    });
-
-    store.select(selectIsLoading).subscribe(value => {
-      expect(value).toBeUndefined();
+        expectObservable(effects.loadLoanById$).toEqual(expected);
+      });
     });
   });
 });

@@ -35,7 +35,7 @@ export const loadLoanById = createAction(
 
 export const loadLoanByIdSuccess = createAction(
   '[Loan] Load Loan By ID Success',
-  props<{ loan: ILoan }>()
+  props<{ loan: ILoan | null }>()
 );
 
 export const loadLoanByIdFailure = createAction(

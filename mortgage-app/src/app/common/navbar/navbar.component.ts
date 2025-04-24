@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
@@ -18,7 +18,7 @@ export class NavbarComponent {
   username: string | null = null;
   username$!: Observable<string | null>;
 
-  constructor(private router: Router, private store: Store<AuthState>) {}
+  constructor(private store: Store<AuthState>) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.store.select(selectAuthToken).pipe(map(token => !!token));
@@ -27,8 +27,6 @@ export class NavbarComponent {
 
   // Handle logout and clear local storage
   logout() {
-    localStorage.removeItem('auth');
-    this.store.dispatch(logout());
-    this.router.navigate(['/login']); 
+    this.store.dispatch(logout()); 
   }
 }
