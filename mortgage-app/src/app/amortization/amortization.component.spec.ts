@@ -20,6 +20,7 @@ describe('Amortization Component', () => {
 
   beforeEach(async () => {
     mockStore = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+    mockStore.select.and.returnValue(of([]));
 
     await TestBed.configureTestingModule({
       imports: [AmortizationComponent,ReactiveFormsModule],

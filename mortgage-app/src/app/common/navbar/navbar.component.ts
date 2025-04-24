@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthState } from '../../store/auth/auth.reducer';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { logout } from '../../store/auth/auth.actions';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isLoggedIn$!: Observable<boolean>;
   username: string | null = null;
   username$!: Observable<string | null>;
