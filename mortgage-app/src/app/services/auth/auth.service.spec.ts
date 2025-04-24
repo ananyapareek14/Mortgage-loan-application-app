@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { environment } from '../../environment/environment';
 import { login } from '../../store/auth/auth.actions';
 
-describe('AuthService', () => {
+describe('Auth Service', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
   let storeMock: jasmine.SpyObj<Store>;

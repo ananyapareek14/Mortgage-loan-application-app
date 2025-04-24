@@ -10,7 +10,7 @@ import {
   IAmortizationSchedule,
 } from '../../models/IAmortizationSchedule';
 
-describe('AmortizationService', () => {
+describe('Amortization Service', () => {
   let service: AmortizationService;
   let httpMock: HttpTestingController;
 

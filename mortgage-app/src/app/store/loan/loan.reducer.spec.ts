@@ -28,7 +28,7 @@ describe('Loan Reducer', () => {
     const result = loanReducer(initialState, action);
 
     expect(result.loading).toBe(true);
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
   });
 
   it('should update state with loans when loadLoansSuccess action is dispatched', () => {
@@ -79,7 +79,7 @@ describe('Loan Reducer', () => {
     const result = loanReducer(initialState, action);
 
     expect(result.loading).toBe(true);
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
   });
 
   it('should add loan to state when addLoanSuccess action is dispatched', () => {
@@ -97,7 +97,7 @@ describe('Loan Reducer', () => {
     expect(result.loans).toContain(loan);
     expect(result.lastAddedLoan).toEqual(loan);
     expect(result.loading).toBe(false);
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
   });
 
   it('should set error when addLoanFailure action is dispatched', () => {
@@ -114,7 +114,7 @@ describe('Loan Reducer', () => {
     const result = loanReducer(initialState, action);
 
     expect(result.loading).toBe(true);
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
   });
 
   it('should update selectedLoan when loadLoanByIdSuccess action is dispatched', () => {

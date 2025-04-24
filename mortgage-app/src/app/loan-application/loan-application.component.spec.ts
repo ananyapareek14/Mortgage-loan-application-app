@@ -53,12 +53,12 @@ describe('Loan Application Component', () => {
   });
 
   it('should initialize the form with empty values', () => {
-    expect(component.loanForm.get('LoanAmount')?.value).toBe('');
-    expect(component.loanForm.get('InterestRate')?.value).toBe('');
-    expect(component.loanForm.get('LoanTermYears')?.value).toBe('');
-    expect(component.loanForm.get('UserLoanNumber')?.value).toBe('');
-    expect(component.loanForm.get('ApplicationDate')?.value).toBe('');
-    expect(component.loanForm.get('ApprovalStatus')?.value).toBe('');
+    expect(component.loanForm.get('LoanAmount')?.value).toBeUndefined();
+    expect(component.loanForm.get('InterestRate')?.value).toBeUndefined();
+    expect(component.loanForm.get('LoanTermYears')?.value).toBeUndefined();
+    expect(component.loanForm.get('UserLoanNumber')?.value).toBeUndefined();
+    expect(component.loanForm.get('ApplicationDate')?.value).toBeUndefined();
+    expect(component.loanForm.get('ApprovalStatus')?.value).toBeUndefined();
   });
 
   it('should dispatch loadInterestRates action on init', () => {

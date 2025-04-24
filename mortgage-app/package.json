@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:html-report": "eslint . --ext .ts,.html -f node_modules/eslint-html-reporter/reporter.js -o codesmell/eslint-report.html",
+    "lint:html-report": "eslint . --ext .ts,.html -f node_modules/eslint-html-reporter/reporter.js -o coverage/mortgage-app/codesmell/eslint-report.html",
     "lint:json-report": "eslint . --ext .ts,.html -f json -o codesmell/eslint-report.json"
   },
   "private": true,

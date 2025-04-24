@@ -7,7 +7,7 @@ import { InterestRateService } from './interest-rate.service';
 import { environment } from '../../environment/environment';
 import { IInterestRate } from '../../models/IInterestRate';
 
-describe('InterestRateService', () => {
+describe('Interest-Rate Service', () => {
   let service: InterestRateService;
   let httpMock: HttpTestingController;
 

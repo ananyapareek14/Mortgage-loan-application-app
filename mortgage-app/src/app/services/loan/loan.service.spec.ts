@@ -7,7 +7,7 @@ import { LoanService } from './loan.service';
 import { ILoan } from '../../models/ILoan';
 import { environment } from '../../environment/environment';
 
-describe('LoanService', () => {
+describe('Loan Service', () => {
   let service: LoanService;
   let httpMock: HttpTestingController;
 

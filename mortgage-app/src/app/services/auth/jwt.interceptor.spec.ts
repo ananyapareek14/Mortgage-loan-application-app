@@ -9,7 +9,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { jwtInterceptor } from './jwt.interceptor';
 
-describe('JwtInterceptor', () => {
+describe('Jwt Interceptor', () => {
   let interceptor: jwtInterceptor;
   let httpHandlerSpy: jasmine.SpyObj<HttpHandler>;
 
