@@ -3,9 +3,8 @@ import { SimpleChange } from '@angular/core';
 import { BarChartComponent } from './bar-chart.component';
 import { Chart } from 'chart.js';
 import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
-import * as jest from 'jest-mock';
 
-describe('BarChartComponent', () => {
+describe('Bar Chart Component', () => {
   let component: BarChartComponent;
     let fixture: ComponentFixture<BarChartComponent>;
     let chart: Chart | undefined;
@@ -79,18 +78,9 @@ describe('BarChartComponent', () => {
         RemainingBalance: 900,
       },
     ];
-    component.schedule = initialSchedule;
-    component.ngAfterViewInit();
 
     const updatedSchedule: IAmortizationSchedule[] = [
-      {
-        PaymentNumber: 1,
-        PaymentDate: new Date(),
-        MonthlyPayment: 150,
-        PrincipalPayment: 100,
-        InterestPayment: 50,
-        RemainingBalance: 900,
-      },
+      ...initialSchedule,
       {
         PaymentNumber: 2,
         PaymentDate: new Date(),
@@ -100,12 +90,24 @@ describe('BarChartComponent', () => {
         RemainingBalance: 790,
       },
     ];
+
+    // Initialize with initial schedule
+    component.schedule = initialSchedule;
+    fixture.detectChanges();
+    component.ngAfterViewInit();
+
+    // Simulate input change
+    component.schedule = updatedSchedule;
     component.ngOnChanges({
       schedule: new SimpleChange(initialSchedule, updatedSchedule, false),
     });
 
+    // Let Chart.js update
+    fixture.detectChanges();
+
     expect(component.chart?.data.labels?.length).toBe(2);
   });
+
 
   it('should handle large datasets', () => {
     const largeSchedule: IAmortizationSchedule[] = Array.from(
@@ -183,10 +185,14 @@ describe('BarChartComponent', () => {
         RemainingBalance: 900,
       },
     ];
+
+    // Initialize with initial schedule
     component.schedule = initialSchedule;
+    fixture.detectChanges();
     component.ngAfterViewInit();
 
-    const destroySpy = spyOn(component.chart as Chart, 'destroy');
+    // Spy before triggering change
+    const destroySpy = spyOn(component.chart!, 'destroy').and.callThrough();
 
     const updatedSchedule: IAmortizationSchedule[] = [
       {
@@ -198,12 +204,16 @@ describe('BarChartComponent', () => {
         RemainingBalance: 800,
       },
     ];
+
+    // Update input
+    component.schedule = updatedSchedule;
     component.ngOnChanges({
       schedule: new SimpleChange(initialSchedule, updatedSchedule, false),
     });
 
     expect(destroySpy).toHaveBeenCalled();
   });
+
 
   it('should not create chart when chartRef is undefined', () => {
     component.chartRef = undefined as any;

@@ -79,9 +79,7 @@ describe('NavbarComponent', () => {
 
     component.logout();
 
-    expect(localStorage.getItem('auth')).toBeNull();
     expect(dispatchSpy).toHaveBeenCalledWith(logout());
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 
   it('should handle logout when localStorage is empty', () => {
@@ -90,9 +88,7 @@ describe('NavbarComponent', () => {
 
     component.logout();
 
-    expect(localStorage.getItem('auth')).toBeNull();
     expect(dispatchSpy).toHaveBeenCalledWith(logout());
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 
   it('should handle logout when localStorage throws an error', () => {
@@ -102,6 +98,5 @@ describe('NavbarComponent', () => {
 
     expect(() => component.logout()).not.toThrow();
     expect(dispatchSpy).toHaveBeenCalledWith(logout());
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   });
 });

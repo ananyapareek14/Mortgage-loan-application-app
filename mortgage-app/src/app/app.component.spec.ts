@@ -76,13 +76,21 @@ describe('App Component', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(loginSuccess(authData));
   }));
 
+  // it('should not dispatch loginSuccess action if auth data does not exist in localStorage', fakeAsync(() => {
+  //   const dispatchSpy = spyOn(store, 'dispatch');
+  //   component.ngOnInit();
+  //   tick();
+
+  //   expect(dispatchSpy).not.toHaveBeenCalled();
+  // }));
   it('should not dispatch loginSuccess action if auth data does not exist in localStorage', fakeAsync(() => {
+    localStorage.removeItem('auth');
     const dispatchSpy = spyOn(store, 'dispatch');
     component.ngOnInit();
     tick();
-
     expect(dispatchSpy).not.toHaveBeenCalled();
   }));
+
 
   it('should set isAuthReady to true after a short delay', fakeAsync(() => {
     component.ngOnInit();

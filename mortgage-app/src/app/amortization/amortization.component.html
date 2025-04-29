@@ -17,6 +17,8 @@
                 [(ngModel)]="amortizationForm.value.LoanAmount"
                 class="form-control text-end uniform-input"
                 name="loan-amount"
+                min="100000"
+                max="100000000"
               />
             </div>
         
@@ -47,6 +49,8 @@
               [(ngModel)]="amortizationForm.value.LoanTermYears"
               class="form-control slim-input uniform-input"
               name="tenure-years"
+              min="1"
+              max="40"
               />
           </div>
           <input
@@ -75,6 +79,8 @@
               [(ngModel)]="amortizationForm.value.InterestRate"
               class="form-control slim-input uniform-input"
               name="interest-rate"
+              min="0.5"
+              max="25"
             />
           </div>
           <input

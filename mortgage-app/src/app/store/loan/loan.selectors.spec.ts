@@ -89,7 +89,7 @@ describe('Loan Selectors', () => {
   describe('selectLoanError', () => {
     it('should return null when state is undefined', () => {
       const result = fromLoan.selectLoanError.projector(initialState);
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
     });
 
     it('should return error when state is defined', () => {

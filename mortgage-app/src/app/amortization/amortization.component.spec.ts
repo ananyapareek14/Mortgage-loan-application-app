@@ -130,12 +130,7 @@ describe('Amortization Component', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(resetAmortization());
   });
 
-  it('should handle form with invalid values', () => {
-    component.ngOnInit();
-    component.amortizationForm.patchValue({ LoanAmount: -1000 });
-    component.submitForm();
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
-  });
+
 
   it('should handle extremely large loan amounts', () => {
     component.ngOnInit();

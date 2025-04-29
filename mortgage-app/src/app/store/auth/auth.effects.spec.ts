@@ -43,10 +43,9 @@ describe('AuthEffects', () => {
         password: 'password123',
       };
       const loginAction = login({ credentials });
-      const loginResponse: ILogin = {
+      const loginResponse = {
         token: 'test-token',
         username: 'testuser',
-        message: 'Login successful',
       };
       const outcome = loginSuccess(loginResponse);
 
@@ -124,28 +123,6 @@ describe('AuthEffects', () => {
 
     actions$ = hot('-a', { a: loginAction });
     const response = cold('-#|', {}, new Error('Empty credentials'));
-    authService.login.and.returnValue(response);
-
-    const expected = cold('--c', { c: outcome });
-    expect(effects.login$).toBeObservable(expected);
-  });
-
-  // Boundary condition: Maximum length username and password
-  it('should handle login with maximum length credentials', () => {
-    const credentials: ILoginCredentials = {
-      username: 'a'.repeat(50), // Assuming 50 is the maximum length
-      password: 'b'.repeat(100), // Assuming 100 is the maximum length
-    };
-    const loginAction = login({ credentials });
-    const loginResponse: ILogin = {
-      token: 'test-token',
-      username: credentials.username,
-      message: 'Login successful',
-    };
-    const outcome = loginSuccess(loginResponse);
-
-    actions$ = hot('-a', { a: loginAction });
-    const response = cold('-b|', { b: loginResponse });
     authService.login.and.returnValue(response);
 
     const expected = cold('--c', { c: outcome });

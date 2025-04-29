@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { filter, Observable, Subscription } from 'rxjs';
 import { IAmortizationRequest, IAmortizationSchedule } from '../models/IAmortizationSchedule';
 import { Store } from '@ngrx/store';
@@ -33,9 +33,16 @@ export class AmortizationComponent implements OnInit, OnDestroy {
 
     // Initialize form with default values
     this.amortizationForm = this.fb.group({
-      LoanAmount: [500000, []],
-      InterestRate: [7.5, []],
-      LoanTermYears: [5, []],
+      LoanAmount: [
+        500000,
+        [
+          Validators.required,
+          Validators.min(100000),
+          Validators.max(100000000),
+        ],
+      ],
+      InterestRate: [7.5, [Validators.required, Validators.min(0.5), Validators.max(25)]],
+      LoanTermYears: [5, [Validators.required, Validators.min(1), Validators.max(40)]],
     });
 
     // Fetch amortization schedule from store

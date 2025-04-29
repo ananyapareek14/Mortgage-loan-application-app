@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   hideNavbar = false;
   isAuthReady = false;
 
-  constructor(private store: Store,private router: Router) {
+  constructor(private store: Store, private router: Router) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.hideNavbar = event.urlAfterRedirects === '/login';
@@ -26,15 +26,30 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // ngOnInit() {
+  //   const auth = localStorage.getItem('auth');
+  //   if (auth) {
+  //     const { token, username } = JSON.parse(auth);
+  //     this.store.dispatch(loginSuccess({ token, username }));
+  //   }
+  //   setTimeout(() => {
+  //     this.isAuthReady = true;
+  //   }); // allow state update to propagate
+  // }
+
   ngOnInit() {
     const auth = localStorage.getItem('auth');
     if (auth) {
-      const { token, username } = JSON.parse(auth);
-      this.store.dispatch(loginSuccess({ token, username }));
+      try {
+        const { token, username } = JSON.parse(auth);
+        this.store.dispatch(loginSuccess({ token, username }));
+      } catch (error) {
+        console.error('Failed to parse auth from localStorage:', error);
+      }
     }
     setTimeout(() => {
       this.isAuthReady = true;
-    }); // allow state update to propagate
+    });
   }
 
   getRouteAnimationData(outlet: RouterOutlet) {
