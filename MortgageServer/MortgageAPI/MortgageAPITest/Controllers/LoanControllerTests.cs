@@ -13,7 +13,7 @@ using MortgageAPI.Models.DTO;
 using MortgageAPI.Repos.Interfaces;
 using NUnit.Framework;
 
-namespace MortgageAPI.Tests.Controllers
+namespace MortgageAPITest.Controllers
 {
     [TestFixture]
     public class LoanControllerTests
@@ -49,8 +49,8 @@ namespace MortgageAPI.Tests.Controllers
         public async Task SubmitLoan_ValidRequest_ReturnsOkResult()
         {
             // Arrange
-            var loanRequest = new LoanRequest { Amount = 100000, Term = 30 };
-            var loan = new Loan { Id = Guid.NewGuid(), Amount = 100000, Term = 30 };
+            var loanRequest = new LoanRequest { LoanAmount = 100000, LoanTermYears = 30 };
+            var loan = new Loan { LoanId = Guid.NewGuid(), LoanAmount = 100000, LoanTermYears = 30 };
             _mockMapper.Setup(m => m.Map<Loan>(It.IsAny<LoanRequest>())).Returns(loan);
             _mockLoanRepository.Setup(r => r.AddLoanAsync(It.IsAny<Loan>())).Returns(Task.CompletedTask);
 
@@ -68,7 +68,7 @@ namespace MortgageAPI.Tests.Controllers
         public async Task SubmitLoan_InvalidUserId_ReturnsUnauthorized()
         {
             // Arrange
-            var loanRequest = new LoanRequest { Amount = 100000, Term = 30 };
+            var loanRequest = new LoanRequest { LoanAmount = 100000, LoanTermYears = 30 };
             _controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
             // Act
@@ -84,8 +84,8 @@ namespace MortgageAPI.Tests.Controllers
             // Arrange
             var userLoanNumber = 1;
             var userId = Guid.NewGuid();
-            var loan = new Loan { Id = Guid.NewGuid(), UserLoanNumber = userLoanNumber, UserId = userId };
-            var loanDto = new LoanDto { Id = loan.Id, UserLoanNumber = loan.UserLoanNumber };
+            var loan = new Loan { LoanId = Guid.NewGuid(), UserLoanNumber = userLoanNumber, UserId = userId };
+            var loanDto = new LoanDto { LoanId = loan.LoanId, UserLoanNumber = loan.UserLoanNumber };
 
             _mockLoanRepository.Setup(r => r.GetLoanByUserLoanNumberAsync(userLoanNumber, userId)).ReturnsAsync(loan);
             _mockMapper.Setup(m => m.Map<LoanDto>(loan)).Returns(loanDto);
@@ -121,8 +121,8 @@ namespace MortgageAPI.Tests.Controllers
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var loans = new List<Loan> { new Loan { Id = Guid.NewGuid(), UserId = userId } };
-            var loansDto = new List<LoanDto> { new LoanDto { Id = loans[0].Id } };
+            var loans = new List<Loan> { new Loan { LoanId = Guid.NewGuid(), UserId = userId } };
+            var loansDto = new List<LoanDto> { new LoanDto { LoanId = loans[0].LoanId } };
 
             _mockLoanRepository.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync(loans);
             _mockMapper.Setup(m => m.Map<IEnumerable<LoanDto>>(loans)).Returns(loansDto);

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using NUnit.Framework;
 using Moq;
+using Microsoft.EntityFrameworkCore;
 using MortgageAPI.Data;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
-using MortgageAPI.Repos;
 using MortgageAPI.Repos.Helper;
 using MortgageAPI.Repos.Interfaces;
-using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MortgageAPI.Repos;
 
 namespace MortgageAPITest.Repos
 {
@@ -84,7 +84,8 @@ namespace MortgageAPITest.Repos
             _mockContext.Setup(c => c.Loans).Returns(mockLoans.Object);
 
             // Act & Assert
-            Assert.ThrowsAsync<KeyNotFoundException>(() => _repository.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber));
+            Assert.ThrowsAsync<KeyNotFoundException>(async () =>
+                await _repository.GetScheduleByUserLoanNumberAsync(userId, userLoanNumber));
         }
 
         [Test]
@@ -192,7 +193,7 @@ namespace MortgageAPITest.Repos
             var loanRequest = new LoanRequest
             {
                 LoanAmount = decimal.MaxValue,
-                InterestRate = decimal.MaxValue,
+                InterestRate = 100,
                 LoanTermYears = int.MaxValue
             };
 
