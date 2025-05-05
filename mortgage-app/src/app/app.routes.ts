@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './common/not-found/not-found.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -33,4 +35,9 @@ export const routes: Routes = [
       import('./loan-application/route').then((m) => m.default),
     data: { animation: 'LoanApplicationPage' },
   },
+  {
+    path: '404',
+    component: NotFoundComponent,
+    canActivate: [AuthGuard]
+  }
 ];
