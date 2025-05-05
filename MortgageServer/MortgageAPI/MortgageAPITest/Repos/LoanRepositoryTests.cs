@@ -23,10 +23,25 @@ namespace MortgageAPI.Tests.Repos
         [SetUp]
         public void Setup()
         {
-            _mockContext = new Mock<AppDbContext>();
+            //_mockContext = new Mock<AppDbContext>();
+            //_mockAmortizationCalculator = new Mock<IAmortizationCalculator>();
+            //_loanRepository = new LoanRepository(_mockContext.Object, _mockAmortizationCalculator.Object);
+
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // unique DB per test
+        .Options;
+
+            _mockContext = new AppDbContext(options);
             _mockAmortizationCalculator = new Mock<IAmortizationCalculator>();
-            _loanRepository = new LoanRepository(_mockContext.Object, _mockAmortizationCalculator.Object);
+            _loanRepository = new LoanRepository(_mockContext, _mockAmortizationCalculator.Object);
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _mockContext.Dispose();
+        }
+
 
         [Test]
         public async Task AddLoanAsync_NewLoan_SetsCorrectUserLoanNumber()
