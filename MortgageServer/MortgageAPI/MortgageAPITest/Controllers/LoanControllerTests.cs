@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -78,14 +79,47 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
         }
 
+        //[Test]
+        //public async Task GetLoanDetails_ExistingLoan_ReturnsOkResult()
+        //{
+        //    // Arrange
+        //    var userLoanNumber = 1;
+        //    var userId = Guid.NewGuid();
+        //    var loan = new Loan { LoanId = Guid.NewGuid(), UserLoanNumber = userLoanNumber, UserId = userId };
+        //    var loanDto = new LoanDto { LoanId = loan.LoanId, UserLoanNumber = loan.UserLoanNumber };
+
+        //    _mockLoanRepository.Setup(r => r.GetLoanByUserLoanNumberAsync(userLoanNumber, userId)).ReturnsAsync(loan);
+        //    _mockMapper.Setup(m => m.Map<LoanDto>(loan)).Returns(loanDto);
+
+        //    // Act
+        //    var result = await _controller.GetLoanDetails(userLoanNumber);
+
+        //    // Assert
+        //    Assert.IsInstanceOf<OkObjectResult>(result);
+        //    var okResult = result as OkObjectResult;
+        //    Assert.IsNotNull(okResult);
+        //    Assert.AreEqual(loanDto, okResult.Value);
+        //}
+
         [Test]
         public async Task GetLoanDetails_ExistingLoan_ReturnsOkResult()
         {
             // Arrange
             var userLoanNumber = 1;
-            var userId = Guid.NewGuid();
+            var userId = Guid.NewGuid(); // Same userId must go into claims
+
             var loan = new Loan { LoanId = Guid.NewGuid(), UserLoanNumber = userLoanNumber, UserId = userId };
             var loanDto = new LoanDto { LoanId = loan.LoanId, UserLoanNumber = loan.UserLoanNumber };
+
+            // Setup ClaimsPrincipal with matching userId
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, userId.ToString()) };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+            };
 
             _mockLoanRepository.Setup(r => r.GetLoanByUserLoanNumberAsync(userLoanNumber, userId)).ReturnsAsync(loan);
             _mockMapper.Setup(m => m.Map<LoanDto>(loan)).Returns(loanDto);
@@ -99,6 +133,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsNotNull(okResult);
             Assert.AreEqual(loanDto, okResult.Value);
         }
+
 
         [Test]
         public async Task GetLoanDetails_NonExistingLoan_ReturnsNotFound()
@@ -116,6 +151,27 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<NotFoundObjectResult>(result);
         }
 
+        //[Test]
+        //public async Task GetAllLoans_ExistingLoans_ReturnsOkResult()
+        //{
+        //    // Arrange
+        //    var userId = Guid.NewGuid();
+        //    var loans = new List<Loan> { new Loan { LoanId = Guid.NewGuid(), UserId = userId } };
+        //    var loansDto = new List<LoanDto> { new LoanDto { LoanId = loans[0].LoanId } };
+
+        //    _mockLoanRepository.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync(loans);
+        //    _mockMapper.Setup(m => m.Map<IEnumerable<LoanDto>>(loans)).Returns(loansDto);
+
+        //    // Act
+        //    var result = await _controller.GetAllLoans();
+
+        //    // Assert
+        //    Assert.IsInstanceOf<OkObjectResult>(result);
+        //    var okResult = result as OkObjectResult;
+        //    Assert.IsNotNull(okResult);
+        //    Assert.AreEqual(loansDto, okResult.Value);
+        //}
+
         [Test]
         public async Task GetAllLoans_ExistingLoans_ReturnsOkResult()
         {
@@ -123,6 +179,16 @@ namespace MortgageAPITest.Controllers
             var userId = Guid.NewGuid();
             var loans = new List<Loan> { new Loan { LoanId = Guid.NewGuid(), UserId = userId } };
             var loansDto = new List<LoanDto> { new LoanDto { LoanId = loans[0].LoanId } };
+
+            // Setup mock claims with matching userId
+            var claims = new List<Claim> { new Claim(ClaimTypes.NameIdentifier, userId.ToString()) };
+            var identity = new ClaimsIdentity(claims, "TestAuthType");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claimsPrincipal }
+            };
 
             _mockLoanRepository.Setup(r => r.GetAllLoansAsync(userId)).ReturnsAsync(loans);
             _mockMapper.Setup(m => m.Map<IEnumerable<LoanDto>>(loans)).Returns(loansDto);
@@ -136,6 +202,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsNotNull(okResult);
             Assert.AreEqual(loansDto, okResult.Value);
         }
+
 
         [Test]
         public async Task GetAllLoans_NoLoans_ReturnsNotFound()
@@ -182,10 +249,12 @@ namespace MortgageAPITest.Controllers
             _controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
             // Act & Assert
-            Assert.Throws<UnauthorizedAccessException>(() =>
-            {
-                _controller.GetType().GetMethod("GetUserIdFromToken", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(_controller, null);
-            });
+            var method = _controller.GetType().GetMethod("GetUserIdFromToken", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var ex = Assert.Throws<TargetInvocationException>(() => method.Invoke(_controller, null));
+            Assert.IsInstanceOf<UnauthorizedAccessException>(ex.InnerException);
+            Assert.AreEqual("Invalid or missing User ID in token.", ex.InnerException.Message);
         }
+
     }
 }

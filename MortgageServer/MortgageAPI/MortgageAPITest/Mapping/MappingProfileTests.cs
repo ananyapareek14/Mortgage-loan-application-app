@@ -1,8 +1,6 @@
-﻿using NUnit.Framework;
-using AutoMapper;
+﻿using AutoMapper;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
-using System;
 using MortgageAPI.Models.Mapping;
 
 namespace MortgageAPITest.Models.Mapping
@@ -37,9 +35,11 @@ namespace MortgageAPITest.Models.Mapping
             Assert.That(user.userId, Is.Not.EqualTo(Guid.Empty));
             Assert.That(user.Username, Is.EqualTo(registerRequest.username));
             Assert.That(user.Role, Is.EqualTo(registerRequest.role));
-            Assert.That(user.PasswordHash, Is.Null);
-            Assert.That(user.Loans, Is.Null);
+            Assert.That(string.IsNullOrEmpty(user.PasswordHash));
+            Assert.That(user.Loans, Is.Null.Or.Empty);
+
         }
+
 
         [Test]
         public void LoanRequest_To_Loan_MapsCorrectly()
@@ -59,13 +59,11 @@ namespace MortgageAPITest.Models.Mapping
             Assert.That(loan.LoanAmount, Is.EqualTo(loanRequest.LoanAmount));
             Assert.That(loan.InterestRate, Is.EqualTo(loanRequest.InterestRate));
             Assert.That(loan.LoanTermYears, Is.EqualTo(loanRequest.LoanTermYears));
-            Assert.That(loan.LoanId, Is.EqualTo(Guid.Empty));
+            Assert.That(loan.LoanId, Is.Not.EqualTo(Guid.Empty));
             Assert.That(loan.UserId, Is.EqualTo(Guid.Empty));
-            //Assert.That(loan.UserLoanNumber, Is.Null);
-            Assert.That(loan.ApplicationDate, Is.EqualTo(default(DateTime)));
-            //Assert.That(loan.ApprovalStatus, Is.Null);
+            Assert.That(loan.ApplicationDate, Is.GreaterThan(DateTime.UtcNow.AddMinutes(-1)));
             Assert.That(loan.User, Is.Null);
-            Assert.That(loan.AmortizationSchedules, Is.Null);
+            Assert.That(loan.AmortizationSchedules, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -133,8 +131,6 @@ namespace MortgageAPITest.Models.Mapping
             var amortizationScheduleDto = _mapper.Map<AmortizationScheduleDto>(amortizationSchedule);
 
             // Assert
-            //Assert.That(amortizationScheduleDto.Id, Is.EqualTo(amortizationSchedule.Id));
-            //Assert.That(amortizationScheduleDto.LoanId, Is.EqualTo(amortizationSchedule.LoanId));
             Assert.That(amortizationScheduleDto.PaymentNumber, Is.EqualTo(amortizationSchedule.PaymentNumber));
             Assert.That(amortizationScheduleDto.PaymentDate, Is.EqualTo(amortizationSchedule.PaymentDate));
             Assert.That(amortizationScheduleDto.MonthlyPayment, Is.EqualTo(1234.57));

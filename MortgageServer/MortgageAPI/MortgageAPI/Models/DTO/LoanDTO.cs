@@ -17,4 +17,9 @@
         public DateTime ApplicationDate { get; set; }
         public string ApprovalStatus { get; set; }
     }
+
+    public class LoanResponse
+    {
+        public string message { get; set; }
+    }
 }

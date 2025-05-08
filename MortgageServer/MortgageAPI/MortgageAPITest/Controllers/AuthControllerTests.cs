@@ -6,15 +6,6 @@ using MortgageAPI.Controllers;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Repos.Interfaces;
-using NUnit.Framework.Internal.Commands;
-using System.Linq.Expressions;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using NUnit.Framework;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System;
-using System.Diagnostics;
-using Azure.Core;
 
 namespace MortgageAPITest.Controllers
 {
@@ -42,7 +33,7 @@ namespace MortgageAPITest.Controllers
         public async Task Login_ValidCredentials_ReturnsOkResult()
         {
             // Arrange
-            var request = new LoginRequest { username = "testuser", password = "password123" };
+            var request = new LoginDTO { username = "testuser", password = "password123" };
             _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync("valid_token");
 
@@ -53,17 +44,19 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            dynamic value = okResult.Value;
+            var value = okResult.Value as LoginResponse;
+            Assert.IsNotNull(value);
             Assert.AreEqual("Signed in successfully", value.message);
             Assert.AreEqual("valid_token", value.token);
             Assert.AreEqual("testuser", value.username);
+
         }
 
         [Test]
         public async Task Login_InvalidCredentials_ReturnsUnauthorized()
         {
             // Arrange
-            var request = new LoginRequest { username = "invaliduser", password = "wrongpassword" };
+            var request = new LoginDTO { username = "invaliduser", password = "wrongpassword" };
             _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((string)null);
 
@@ -83,11 +76,21 @@ namespace MortgageAPITest.Controllers
             // Arrange
             var user = new RegisterRequest
             {
-                // Set up user properties as needed for a valid request
                 username = "newuser",
                 password = "newpassword",
                 role = "User"
             };
+
+            var mappedUser = new User
+            {
+                Username = user.username,
+                PasswordHash = "hashedpassword",
+                Role = user.role
+            };
+
+            _mockUserRepository.Setup(x => x.GetUserByUsernameAsync(user.username)).ReturnsAsync((User)null);
+            _mockMapper.Setup(x => x.Map<User>(user)).Returns(mappedUser);
+            _mockUserRepository.Setup(x => x.AddUserAsync(It.IsAny<User>())).Returns(Task.CompletedTask);
 
             // Act
             var result = await _controller.AddUser(user) as OkObjectResult;
@@ -96,10 +99,12 @@ namespace MortgageAPITest.Controllers
             Assert.IsNotNull(result);
             Assert.That(result.StatusCode, Is.EqualTo(200));
 
-            var responseValue = result.Value as dynamic;
+            var responseValue = result.Value as RegisterResponse;
             Assert.IsNotNull(responseValue);
             Assert.That(responseValue.message, Is.EqualTo("User added successfully."));
+
         }
+
 
         [Test]
         public async Task AddUser_ExistingUsername_ReturnsBadRequest()
@@ -138,46 +143,55 @@ namespace MortgageAPITest.Controllers
         }
 
         [Test]
-        public void AddUser_NullRole_SetsDefaultRoleToUser()
+        public async Task AddUser_NullRole_SetsDefaultRoleToUser()
         {
             // Arrange
-            var mockMapper = new Mock<IMapper>();
-            var mockUserRepository = new Mock<IUserRepository>();
-
             var request = new RegisterRequest
             {
                 username = "testuser",
                 password = "password123",
-                role = null // Explicitly set role to null for this test
+                role = string.Empty
             };
 
-            var expectedUser = new User
+            var mappedUser = new User
             {
                 Username = request.username,
-                Role = "User" // Expected default role
+                PasswordHash = "hashedpassword",
+                Role = "User"
             };
 
-            mockMapper.Setup(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == null)))
-                      .Returns(expectedUser)
-                      .Verifiable();
+            _mockUserRepository.Setup(x => x.GetUserByUsernameAsync(request.username))
+                .ReturnsAsync((User)null);
 
-            mockUserRepository.Setup(x => x.AddUserAsync(It.IsAny<User>()))
-                              .Returns(Task.CompletedTask);
+            _mockMapper.Setup(x => x.Map<User>(request))
+                .Returns(mappedUser);
+
+            _mockUserRepository.Setup(x => x.AddUserAsync(It.Is<User>(u => u.Role == "User")))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
 
             // Act
-            var result = _controller.AddUser(request).Result;
+            var result = await _controller.AddUser(request);
 
             // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
-            mockMapper.Verify(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == null)), Times.Once);
-            mockUserRepository.Verify(x => x.AddUserAsync(It.Is<User>(u => u.Role == "User")), Times.Once);
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+
+            var responseValue = okResult.Value as RegisterResponse;
+            Assert.IsNotNull(responseValue);
+            Assert.AreEqual("User added successfully.", responseValue.message);
+
+            _mockUserRepository.Verify(x => x.AddUserAsync(It.Is<User>(u => u.Role == "User")), Times.Once);
+            _mockMapper.Verify(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == string.Empty)), Times.Once);
         }
+
 
         [Test]
         public async Task Login_EmptyUsername_ReturnsUnauthorized()
         {
             // Arrange
-            var request = new LoginRequest { username = "", password = "password123" };
+            var request = new LoginDTO { username = "", password = "password123" };
             _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((string)null);
 
@@ -192,7 +206,7 @@ namespace MortgageAPITest.Controllers
         public async Task Login_NullPassword_ReturnsUnauthorized()
         {
             // Arrange
-            var request = new LoginRequest { username = "testuser", password = null };
+            var request = new LoginDTO { username = "testuser", password = null };
             _mockAuthService.Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((string)null);
 
@@ -245,43 +259,3 @@ namespace MortgageAPITest.Controllers
         }
     }
 }
-
-
-
-// Some of the tests failed. The error message is:  
-//Message:
-//System.NullReferenceException : Object reference not set to an instance of an object.
-
-//  Stack Trace: 
-//AuthController.AddUser(RegisterRequest request) line 69
-//AuthControllerTests.AddUser_EmptyPassword_ReturnsBadRequest() line 235
-//GenericAdapter`1.GetResult()
-//AsyncToSyncAdapter.Await(Func`1 invoke)
-//TestMethodCommand.RunTestMethod(TestExecutionContext context)
-//TestMethodCommand.Execute(TestExecutionContext context)
-//<>c__DisplayClass1_0.<Execute>b__0()
-//DelegatingTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)
-
-// The test code is: 
-//[Test]
-//public async Task AddUser_EmptyPassword_ReturnsBadRequest()
-//{
-//    // Arrange
-//    var registerRequest = new RegisterRequest
-//    {
-//        username = "testuser",
-//        password = string.Empty,
-//        role = "User"
-//    };
-
-//    // Act
-//    var result = await _controller.AddUser(registerRequest);
-
-//    // Assert
-//    Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
-//    var badRequestResult = result as BadRequestObjectResult;
-//    Assert.That(badRequestResult, Is.Not.Null);
-//    Assert.That(badRequestResult.Value, Is.EqualTo("Invalid username or password"));
-//}
-
-// Also the user should be either User or Admin

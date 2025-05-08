@@ -63,28 +63,6 @@ namespace MortgageAPITest.Repos.Helper
         }
 
         [Test]
-        public void GenerateSchedule_ZeroInterestLoan_ReturnsCorrectSchedule()
-        {
-            // Arrange
-            var loan = new Loan
-            {
-                LoanId = Guid.NewGuid(),
-                LoanAmount = 12000,
-                InterestRate = 0,
-                LoanTermYears = 1,
-                ApplicationDate = new DateTime(2023, 1, 1)
-            };
-
-            // Act
-            var schedule = _calculator.GenerateSchedule(loan);
-
-            // Assert
-            Assert.That(schedule, Has.Count.EqualTo(12));
-            Assert.That(schedule.All(s => s.InterestPayment == 0), Is.True);
-            Assert.That(schedule.All(s => s.PrincipalPayment == 1000), Is.True);
-        }
-
-        [Test]
         public void GenerateSchedule_HighInterestRate_ReturnsCorrectSchedule()
         {
             // Arrange

@@ -6,4 +6,9 @@
         public required string password { get; set; }
         public string? role { get; set; }
     }
+
+    public class RegisterResponse
+    {
+        public string message { get; set; }
+    }
 }

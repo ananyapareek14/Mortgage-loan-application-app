@@ -31,8 +31,20 @@ namespace MortgageAPI.Repos
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
         }
 
+        //public async Task AddUserAsync(User user)
+        //{
+        //    user.PasswordHash = _passwordHasher.HashPassword(user, user.PasswordHash);
+        //    await _context.Users.AddAsync(user);
+        //    await _context.SaveChangesAsync();
+        //}
         public async Task AddUserAsync(User user)
         {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
+                throw new DbUpdateException("Username already exists");
+
             user.PasswordHash = _passwordHasher.HashPassword(user, user.PasswordHash);
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();

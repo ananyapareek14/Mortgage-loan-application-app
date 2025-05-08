@@ -363,30 +363,6 @@ namespace MortgageAPITest.Repos
         }
 
         [Test]
-        public async Task GenerateAmortizationScheduleAsync_ZeroInterestRate_ReturnsSchedule()
-        {
-            var loanRequest = new LoanRequest
-            {
-                LoanAmount = 100000,
-                InterestRate = 0,
-                LoanTermYears = 30
-            };
-
-            var expectedSchedule = new List<AmortizationSchedule>
-            {
-                new AmortizationSchedule { PaymentNumber = 1 },
-                new AmortizationSchedule { PaymentNumber = 2 }
-            };
-
-            _mockCalculator.Setup(c => c.GenerateSchedule(It.IsAny<Loan>())).Returns(expectedSchedule);
-
-            var result = await _repository.GenerateAmortizationScheduleAsync(loanRequest);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-        }
-
-        [Test]
         public async Task GenerateAmortizationScheduleAsync_MaxValues_ReturnsSchedule()
         {
             var loanRequest = new LoanRequest

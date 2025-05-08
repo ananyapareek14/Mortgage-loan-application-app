@@ -55,7 +55,7 @@ namespace MortgageAPI.Controllers
                 await _loanRepository.AddLoanAsync(loan);
                 _logger.LogInformation("Loan submitted successfully for user {UserId}", userId);
 
-                return Ok(new
+                return Ok(new LoanResponse
                 {
                     message = "Loan Application submitted successfully"
                 });
