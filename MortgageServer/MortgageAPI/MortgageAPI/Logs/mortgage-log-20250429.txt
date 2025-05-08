@@ -1,0 +1,130 @@
+[2025-04-29 22:52:29 INF] Starting MortgageLoanApp...
+[2025-04-29 22:52:31 INF] HTTP GET /swagger responded 301 in 2.4809 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/index.html responded 200 in 42.5450 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/swagger-ui.css responded 200 in 45.5478 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 45.4478 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 73.0653 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 8.1769 ms
+[2025-04-29 22:52:31 INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 0.2266 ms
+[2025-04-29 22:53:56 INF] HTTP OPTIONS /api/loans responded 204 in 2.0160 ms
+[2025-04-29 22:53:56 INF] HTTP GET /api/loans responded 401 in 149.8064 ms
+[2025-04-29 23:01:30 INF] Starting MortgageLoanApp...
+[2025-04-29 23:01:30 INF] HTTP GET /swagger/index.html responded 200 in 46.3410 ms
+[2025-04-29 23:01:31 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 6.2471 ms
+[2025-04-29 23:01:57 INF] HTTP OPTIONS /api/auth/login responded 204 in 1.7520 ms
+[2025-04-29 23:01:58 INF] Login attempt for user: abc@example.com
+[2025-04-29 23:01:59 INF] User abc@example.com logged in successfully.
+[2025-04-29 23:01:59 INF] HTTP POST /api/auth/login responded 200 in 1180.6296 ms
+[2025-04-29 23:01:59 INF] HTTP OPTIONS /api/loans responded 204 in 0.1353 ms
+[2025-04-29 23:01:59 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:01:59 INF] HTTP GET /api/loans responded 200 in 98.8440 ms
+[2025-04-29 23:02:07 INF] HTTP OPTIONS /api/loans responded 204 in 0.2876 ms
+[2025-04-29 23:02:07 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:02:07 INF] HTTP GET /api/loans responded 200 in 42.0493 ms
+[2025-04-29 23:03:54 INF] HTTP OPTIONS /api/loans responded 204 in 0.0775 ms
+[2025-04-29 23:03:54 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:03:54 INF] HTTP GET /api/loans responded 200 in 18.1047 ms
+[2025-04-29 23:04:01 INF] HTTP OPTIONS /api/loans responded 204 in 0.1100 ms
+[2025-04-29 23:04:01 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:04:01 INF] HTTP GET /api/loans responded 200 in 11.1579 ms
+[2025-04-29 23:04:02 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2007 ms
+[2025-04-29 23:04:02 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:04:03 INF] HTTP POST /api/amortization/calculate responded 200 in 26.8681 ms
+[2025-04-29 23:04:03 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.0880 ms
+[2025-04-29 23:04:03 INF] Fetching interest rates
+[2025-04-29 23:04:03 INF] HTTP GET /api/interestrates responded 200 in 25.4813 ms
+[2025-04-29 23:04:09 INF] HTTP OPTIONS /api/loans responded 204 in 0.0518 ms
+[2025-04-29 23:04:09 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:04:09 INF] HTTP GET /api/loans responded 200 in 3.5297 ms
+[2025-04-29 23:04:38 INF] HTTP OPTIONS /api/loans responded 204 in 0.5697 ms
+[2025-04-29 23:04:38 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:04:38 INF] HTTP GET /api/loans responded 200 in 3.4997 ms
+[2025-04-29 23:04:48 INF] HTTP OPTIONS /api/loans responded 204 in 0.1542 ms
+[2025-04-29 23:04:48 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:04:48 INF] HTTP GET /api/loans responded 200 in 4.3433 ms
+[2025-04-29 23:04:51 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:04:51 INF] HTTP GET /api/loans responded 200 in 4.5502 ms
+[2025-04-29 23:05:40 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.3006 ms
+[2025-04-29 23:05:40 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:05:40 INF] HTTP POST /api/amortization/calculate responded 200 in 15.8083 ms
+[2025-04-29 23:05:41 INF] HTTP OPTIONS /api/loans responded 204 in 0.2188 ms
+[2025-04-29 23:05:42 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:05:42 INF] HTTP GET /api/loans responded 200 in 13.8000 ms
+[2025-04-29 23:05:43 INF] HTTP OPTIONS /api/amortization/1 responded 204 in 0.2363 ms
+[2025-04-29 23:05:43 INF] HTTP OPTIONS /api/loans/1 responded 204 in 0.2360 ms
+[2025-04-29 23:05:43 INF] Fetching loan details for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan number 1
+[2025-04-29 23:05:43 INF] Fetching amortization schedule for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan 1
+[2025-04-29 23:05:43 INF] HTTP GET /api/loans/1 responded 200 in 29.5175 ms
+[2025-04-29 23:05:43 INF] HTTP GET /api/amortization/1 responded 200 in 46.7214 ms
+[2025-04-29 23:07:32 INF] HTTP OPTIONS /api/loans responded 204 in 0.3228 ms
+[2025-04-29 23:07:32 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:07:32 INF] HTTP GET /api/loans responded 200 in 12.0603 ms
+[2025-04-29 23:07:33 INF] HTTP OPTIONS /api/amortization/2 responded 204 in 0.0461 ms
+[2025-04-29 23:07:33 INF] HTTP OPTIONS /api/loans/2 responded 204 in 0.0461 ms
+[2025-04-29 23:07:33 INF] Fetching amortization schedule for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan 2
+[2025-04-29 23:07:33 INF] Fetching loan details for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan number 2
+[2025-04-29 23:07:33 INF] HTTP GET /api/loans/2 responded 200 in 6.3774 ms
+[2025-04-29 23:07:33 INF] HTTP GET /api/amortization/2 responded 200 in 18.5783 ms
+[2025-04-29 23:19:08 INF] HTTP OPTIONS /api/loans responded 204 in 0.0736 ms
+[2025-04-29 23:19:08 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:19:09 INF] HTTP GET /api/loans responded 200 in 93.1707 ms
+[2025-04-29 23:19:15 INF] HTTP OPTIONS /api/loans responded 204 in 0.0577 ms
+[2025-04-29 23:19:15 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:19:15 INF] HTTP GET /api/loans responded 200 in 4.5404 ms
+[2025-04-29 23:20:35 INF] HTTP OPTIONS /api/loans responded 204 in 0.1569 ms
+[2025-04-29 23:20:35 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:20:35 INF] HTTP GET /api/loans responded 200 in 13.5835 ms
+[2025-04-29 23:27:13 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.7057 ms
+[2025-04-29 23:27:13 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:27:13 INF] HTTP POST /api/amortization/calculate responded 200 in 6.2283 ms
+[2025-04-29 23:27:13 INF] HTTP OPTIONS /api/loans responded 204 in 0.0346 ms
+[2025-04-29 23:27:13 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:27:14 INF] HTTP GET /api/loans responded 200 in 85.7600 ms
+[2025-04-29 23:27:14 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.0609 ms
+[2025-04-29 23:27:14 INF] Fetching interest rates
+[2025-04-29 23:27:14 INF] HTTP GET /api/interestrates responded 200 in 5.7178 ms
+[2025-04-29 23:28:36 INF] HTTP OPTIONS /api/loans responded 204 in 0.0667 ms
+[2025-04-29 23:28:36 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:28:36 INF] HTTP GET /api/loans responded 200 in 16.0128 ms
+[2025-04-29 23:28:38 INF] HTTP OPTIONS /api/loans/1 responded 204 in 0.0420 ms
+[2025-04-29 23:28:38 INF] HTTP OPTIONS /api/amortization/1 responded 204 in 0.0183 ms
+[2025-04-29 23:28:38 INF] Fetching loan details for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan number 1
+[2025-04-29 23:28:38 INF] Fetching amortization schedule for user "3b099eaf-1b27-4896-b4ac-54da5865b408" and loan 1
+[2025-04-29 23:28:38 INF] HTTP GET /api/loans/1 responded 200 in 9.7062 ms
+[2025-04-29 23:28:38 INF] HTTP GET /api/amortization/1 responded 200 in 25.5328 ms
+[2025-04-29 23:28:46 INF] HTTP OPTIONS /api/loans responded 204 in 0.0430 ms
+[2025-04-29 23:28:46 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:28:46 INF] HTTP GET /api/loans responded 200 in 5.8168 ms
+[2025-04-29 23:28:59 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.0599 ms
+[2025-04-29 23:28:59 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:28:59 INF] HTTP POST /api/amortization/calculate responded 200 in 2.3990 ms
+[2025-04-29 23:29:03 INF] HTTP OPTIONS /api/loans responded 204 in 0.0586 ms
+[2025-04-29 23:29:03 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:29:03 INF] HTTP GET /api/loans responded 200 in 9.0635 ms
+[2025-04-29 23:29:08 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1463 ms
+[2025-04-29 23:29:08 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:29:08 INF] HTTP POST /api/amortization/calculate responded 200 in 2.2010 ms
+[2025-04-29 23:29:17 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1329 ms
+[2025-04-29 23:29:17 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:29:17 INF] HTTP POST /api/amortization/calculate responded 200 in 3.0303 ms
+[2025-04-29 23:30:40 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.0380 ms
+[2025-04-29 23:30:40 INF] Calculating amortization: Amount=8000000, Term=10, Rate=8
+[2025-04-29 23:30:40 INF] HTTP POST /api/amortization/calculate responded 200 in 6.7335 ms
+[2025-04-29 23:30:49 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.0397 ms
+[2025-04-29 23:30:49 INF] Fetching interest rates
+[2025-04-29 23:30:49 INF] HTTP GET /api/interestrates responded 200 in 10.5793 ms
+[2025-04-29 23:30:55 INF] HTTP OPTIONS /api/loans responded 204 in 0.0235 ms
+[2025-04-29 23:30:55 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:30:55 INF] HTTP GET /api/loans responded 200 in 16.5706 ms
+[2025-04-29 23:31:03 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2110 ms
+[2025-04-29 23:31:03 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-04-29 23:31:03 INF] HTTP POST /api/amortization/calculate responded 200 in 2.0671 ms
+[2025-04-29 23:31:04 INF] HTTP OPTIONS /api/interestrates responded 204 in 0.0859 ms
+[2025-04-29 23:31:04 INF] Fetching interest rates
+[2025-04-29 23:31:04 INF] HTTP GET /api/interestrates responded 200 in 3.8946 ms
+[2025-04-29 23:31:04 INF] HTTP OPTIONS /api/loans responded 204 in 0.0307 ms
+[2025-04-29 23:31:04 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:31:04 INF] HTTP GET /api/loans responded 200 in 3.3045 ms
+[2025-04-29 23:34:04 INF] HTTP OPTIONS /api/loans responded 204 in 0.1185 ms
+[2025-04-29 23:34:04 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-04-29 23:34:04 INF] HTTP GET /api/loans responded 200 in 11.3662 ms
