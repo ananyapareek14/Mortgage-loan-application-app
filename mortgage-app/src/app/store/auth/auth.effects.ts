@@ -29,15 +29,4 @@ export class AuthEffects {
       )
     )
   );
-
-  loginSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(loginSuccess),
-        tap(() => {
-          this.router.navigate(['/dashboard']);
-        })
-      ),
-    { dispatch: false }
-  );
 }

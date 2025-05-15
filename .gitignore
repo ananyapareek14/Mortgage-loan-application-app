@@ -4,6 +4,7 @@
 *.obj
 *.log
 *.tmp
+*.pdf
 bin/
 obj/
 node_modules/
