@@ -33,20 +33,6 @@ namespace MortgageAPI.Repos
                 .OrderBy(a => a.PaymentNumber)
                 .ToListAsync();
         }
-
-
-        public async Task<List<AmortizationSchedule>> GenerateAmortizationScheduleAsync(LoanRequest loanRequest)
-        {
-            var loan = new Loan
-            {
-                LoanAmount = loanRequest.LoanAmount,
-                InterestRate = loanRequest.InterestRate,
-                LoanTermYears = loanRequest.LoanTermYears,
-                ApplicationDate = DateTime.UtcNow // Temporary date for calculation
-            };
-
-            // Using the amortization calculator to generate the schedule
-            return await Task.FromResult(_amortizationCalculator.GenerateSchedule(loan));
-        }
+        
     }
 }

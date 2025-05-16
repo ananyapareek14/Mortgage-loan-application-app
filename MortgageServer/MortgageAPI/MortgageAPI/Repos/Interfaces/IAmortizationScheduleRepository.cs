@@ -6,6 +6,6 @@ namespace MortgageAPI.Repos.Interfaces
     public interface IAmortizationScheduleRepository
     {
         Task<IEnumerable<AmortizationSchedule>> GetScheduleByUserLoanNumberAsync(Guid userId, int userLoanNumber);
-        Task<List<AmortizationSchedule>> GenerateAmortizationScheduleAsync(LoanRequest loanRequest);
+
     }
 }

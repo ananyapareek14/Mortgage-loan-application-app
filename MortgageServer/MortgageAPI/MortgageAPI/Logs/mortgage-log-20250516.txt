@@ -1,0 +1,129 @@
+[2025-05-16 13:56:07 INF] Starting MortgageLoanApp...
+[2025-05-16 13:56:12 INF] HTTP GET /swagger/index.html responded 200 in 132.4138 ms
+[2025-05-16 13:56:13 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 38.1391 ms
+[2025-05-16 13:57:25 INF] HTTP POST /api/Affordability/calculate responded 200 in 799.1092 ms
+[2025-05-16 13:57:57 INF] HTTP POST /api/Affordability/calculate responded 200 in 59.1764 ms
+[2025-05-16 13:58:34 INF] HTTP POST /api/Affordability/calculate responded 200 in 42.0412 ms
+[2025-05-16 13:58:51 INF] HTTP POST /api/Affordability/calculate responded 200 in 11.3109 ms
+[2025-05-16 14:13:56 INF] Starting MortgageLoanApp...
+[2025-05-16 14:14:01 INF] HTTP GET /swagger/index.html responded 200 in 117.5608 ms
+[2025-05-16 14:14:01 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 29.8600 ms
+[2025-05-16 14:14:45 INF] HTTP POST /api/Affordability/calculate responded 200 in 906.9900 ms
+[2025-05-16 14:22:20 INF] Starting MortgageLoanApp...
+[2025-05-16 14:22:24 INF] HTTP GET /swagger/index.html responded 200 in 91.0647 ms
+[2025-05-16 14:22:24 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 36.9926 ms
+[2025-05-16 14:22:49 INF] HTTP POST /api/Affordability/calculate responded 200 in 827.4936 ms
+[2025-05-16 14:23:05 INF] HTTP POST /api/Affordability/calculate responded 200 in 31.6276 ms
+[2025-05-16 14:23:15 INF] HTTP POST /api/Affordability/calculate responded 200 in 10.8318 ms
+[2025-05-16 14:24:48 INF] HTTP POST /api/Affordability/calculate responded 200 in 17.6541 ms
+[2025-05-16 14:36:50 INF] Starting MortgageLoanApp...
+[2025-05-16 14:36:52 INF] HTTP GET /swagger/index.html responded 200 in 103.2370 ms
+[2025-05-16 14:36:53 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 24.7608 ms
+[2025-05-16 14:37:46 INF] HTTP POST /api/Affordability/calculate responded 200 in 464.5479 ms
+[2025-05-16 14:53:58 INF] Starting MortgageLoanApp...
+[2025-05-16 14:54:01 INF] HTTP GET /swagger/index.html responded 200 in 108.9043 ms
+[2025-05-16 14:54:01 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 28.3521 ms
+[2025-05-16 14:55:22 ERR] HTTP POST /api/Refinance/calculate responded 500 in 417.1927 ms
+System.InvalidOperationException: Unable to resolve service for type 'MortgageAPI.Repos.Interfaces.IRefinanceCalculator' while attempting to activate 'MortgageAPI.Controllers.RefinanceController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method4(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+[2025-05-16 14:55:22 ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'MortgageAPI.Repos.Interfaces.IRefinanceCalculator' while attempting to activate 'MortgageAPI.Controllers.RefinanceController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method4(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-16 14:56:16 INF] Starting MortgageLoanApp...
+[2025-05-16 14:56:20 INF] HTTP GET /swagger/index.html responded 200 in 126.1748 ms
+[2025-05-16 14:56:21 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 44.3204 ms
+[2025-05-16 14:57:14 INF] HTTP POST /api/Refinance/calculate responded 200 in 554.9490 ms
+[2025-05-16 14:59:51 INF] HTTP POST /api/Refinance/calculate responded 200 in 42.4131 ms
+[2025-05-16 15:03:39 INF] Starting MortgageLoanApp...
+[2025-05-16 15:03:42 INF] HTTP GET /swagger/index.html responded 200 in 109.5980 ms
+[2025-05-16 15:03:43 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 36.8767 ms
+[2025-05-16 15:04:58 INF] HTTP POST /api/Refinance/calculate responded 200 in 413.1988 ms
+[2025-05-16 15:07:27 INF] Starting MortgageLoanApp...
+[2025-05-16 15:07:30 INF] HTTP GET /swagger/index.html responded 200 in 195.7545 ms
+[2025-05-16 15:07:30 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 40.8633 ms
+[2025-05-16 15:08:40 INF] HTTP POST /api/Refinance/calculate responded 200 in 544.7767 ms
+[2025-05-16 15:09:40 INF] HTTP GET /swagger/index.html responded 200 in 13.3704 ms
+[2025-05-16 15:09:41 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 18.1336 ms
+[2025-05-16 15:10:34 INF] HTTP POST /api/Refinance/calculate responded 200 in 73.7825 ms
+[2025-05-16 15:11:03 INF] HTTP GET /swagger/index.html responded 200 in 7.1020 ms
+[2025-05-16 15:11:03 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 11.3244 ms
+[2025-05-16 15:33:46 INF] Starting MortgageLoanApp...
+[2025-05-16 15:33:50 INF] HTTP GET /swagger/index.html responded 200 in 144.6187 ms
+[2025-05-16 15:33:50 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 31.1885 ms
+[2025-05-16 15:35:22 INF] Starting MortgageLoanApp...
+[2025-05-16 15:35:25 INF] HTTP GET /swagger/index.html responded 200 in 103.4288 ms
+[2025-05-16 15:35:26 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 34.9109 ms
+[2025-05-16 15:36:16 INF] HTTP POST /api/VaMortgage/calculate-schedule responded 200 in 469.5302 ms
+[2025-05-16 16:28:31 INF] Starting MortgageLoanApp...
+[2025-05-16 16:28:35 INF] HTTP GET /swagger/index.html responded 200 in 138.5993 ms
+[2025-05-16 16:28:37 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 40.0490 ms
+[2025-05-16 16:29:53 ERR] HTTP POST /api/affordability/calculate responded 500 in 459.4281 ms
+System.InvalidOperationException: Unable to resolve service for type 'MortgageAPI.Repos.Interfaces.ICalculatorRepository' while attempting to activate 'MortgageAPI.Controllers.CalculatorController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method4(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+[2025-05-16 16:29:53 ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'MortgageAPI.Repos.Interfaces.ICalculatorRepository' while attempting to activate 'MortgageAPI.Controllers.CalculatorController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method4(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-05-16 16:30:45 INF] Starting MortgageLoanApp...
+[2025-05-16 16:30:48 INF] HTTP GET /swagger/index.html responded 200 in 139.3183 ms
+[2025-05-16 16:30:48 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 31.6407 ms
+[2025-05-16 16:31:22 INF] HTTP POST /api/affordability/calculate responded 200 in 1126.1821 ms
+[2025-05-16 16:37:59 INF] Starting MortgageLoanApp...
+[2025-05-16 16:38:03 INF] HTTP GET /swagger/index.html responded 200 in 159.2866 ms
+[2025-05-16 16:38:04 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 56.1875 ms
+[2025-05-16 16:38:27 INF] Calculating amortization: Amount=400000, Term=10, Rate=7
+[2025-05-16 16:38:27 INF] HTTP POST /api/amortization/calculate responded 200 in 1242.6671 ms
+[2025-05-16 16:40:06 INF] HTTP POST /api/debt-to-income/calculate responded 200 in 71.6235 ms

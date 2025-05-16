@@ -31,30 +31,30 @@ namespace MortgageAPITest.Controllers
             _controller = new AmortizationController(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
         }
 
-        [Test]
-        public async Task CalculateAmortization_ValidLoanRequest_ReturnsOk()
-        {
-            var request = new LoanRequest { LoanAmount = 100000, InterestRate = 5, LoanTermYears = 30 };
-            var schedule = new List<AmortizationSchedule> { new() };
-            var scheduleDto = new List<AmortizationScheduleDto>();
+        //[Test]
+        //public async Task CalculateAmortization_ValidLoanRequest_ReturnsOk()
+        //{
+        //    var request = new LoanRequest { LoanAmount = 100000, InterestRate = 5, LoanTermYears = 30 };
+        //    var schedule = new List<AmortizationSchedule> { new() };
+        //    var scheduleDto = new List<AmortizationScheduleDto>();
 
-            _mockRepo.Setup(r => r.GenerateAmortizationScheduleAsync(request)).ReturnsAsync(schedule);
-            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(schedule)).Returns(scheduleDto);
+        //    _mockRepo.Setup(r => r.GenerateAmortizationScheduleAsync(request)).ReturnsAsync(schedule);
+        //    _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(schedule)).Returns(scheduleDto);
 
-            var result = await _controller.CalculateAmortization(request);
+        //    var result = await _controller.CalculateAmortization(request);
 
-            Assert.IsInstanceOf<OkObjectResult>(result);
-        }
+        //    Assert.IsInstanceOf<OkObjectResult>(result);
+        //}
 
-        [Test]
-        public async Task CalculateAmortization_InvalidLoanRequest_ReturnsBadRequest()
-        {
-            var request = new LoanRequest { LoanAmount = -1, InterestRate = 0, LoanTermYears = 0 };
+        //[Test]
+        //public async Task CalculateAmortization_InvalidLoanRequest_ReturnsBadRequest()
+        //{
+        //    var request = new LoanRequest { LoanAmount = -1, InterestRate = 0, LoanTermYears = 0 };
 
-            var result = await _controller.CalculateAmortization(request);
+        //    var result = await _controller.CalculateAmortization(request);
 
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        }
+        //    Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        //}
 
         [Test]
         public async Task GetSchedule_NameIdentifierClaimExists_ReturnsOk()

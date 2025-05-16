@@ -32,33 +32,33 @@ namespace MortgageAPITest.Repos
             _context.Dispose();
         }
 
-        [Test]
-        public async Task GenerateAmortizationScheduleAsync_ShouldReturnSchedule()
-        {
-            // Arrange
-            var loanRequest = new LoanRequest
-            {
-                LoanAmount = 100000,
-                InterestRate = 5.5m,
-                LoanTermYears = 10
-            };
+        //[Test]
+        //public async Task GenerateAmortizationScheduleAsync_ShouldReturnSchedule()
+        //{
+        //    // Arrange
+        //    var loanRequest = new LoanRequest
+        //    {
+        //        LoanAmount = 100000,
+        //        InterestRate = 5.5m,
+        //        LoanTermYears = 10
+        //    };
 
-            var expectedSchedule = new List<AmortizationSchedule>
-            {
-                new AmortizationSchedule { PaymentNumber = 1, MonthlyPayment = 1000 }
-            };
+        //    var expectedSchedule = new List<AmortizationSchedule>
+        //    {
+        //        new AmortizationSchedule { PaymentNumber = 1, MonthlyPayment = 1000 }
+        //    };
 
-            _calculatorMock.Setup(x => x.GenerateSchedule(It.IsAny<Loan>()))
-                .Returns(expectedSchedule);
+        //    _calculatorMock.Setup(x => x.GenerateSchedule(It.IsAny<Loan>()))
+        //        .Returns(expectedSchedule);
 
-            // Act
-            var result = await _repository.GenerateAmortizationScheduleAsync(loanRequest);
+        //    // Act
+        //    var result = await _repository.GenerateAmortizationScheduleAsync(loanRequest);
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.AreEqual(1000, result[0].MonthlyPayment);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(1, result.Count);
+        //    Assert.AreEqual(1000, result[0].MonthlyPayment);
+        //}
 
         [Test]
         public async Task GetScheduleByUserLoanNumberAsync_ShouldReturnSchedule()
