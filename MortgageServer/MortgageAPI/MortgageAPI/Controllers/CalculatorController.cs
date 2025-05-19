@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MortgageAPI.Models.DTO;
 //using MortgageAPI.Repos;
@@ -8,6 +9,7 @@ namespace MortgageAPI.Controllers
 {
     [Route("api")]
     [ApiController]
+    [Authorize]
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculatorRepository _calculator;

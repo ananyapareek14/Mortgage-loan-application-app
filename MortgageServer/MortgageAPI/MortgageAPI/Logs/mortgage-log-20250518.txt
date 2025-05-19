@@ -1,0 +1,10 @@
+[2025-05-18 17:59:19 INF] Starting MortgageLoanApp...
+[2025-05-18 17:59:21 INF] HTTP GET /swagger responded 301 in 2.8704 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/index.html responded 200 in 53.5388 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 48.3060 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/swagger-ui.css responded 200 in 48.3926 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 74.2660 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 9.0660 ms
+[2025-05-18 17:59:21 INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 0.2122 ms
+[2025-05-18 17:59:51 INF] Calculating amortization: Amount=200000, Term=2, Rate=6.5
+[2025-05-18 17:59:51 INF] HTTP POST /api/amortization/calculate responded 200 in 424.2869 ms
