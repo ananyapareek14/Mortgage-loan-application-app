@@ -29,40 +29,40 @@ namespace MortgageAPITest.Controllers
             _controller = new AmortizationController(_mockRepository.Object, _mockMapper.Object, _mockLogger.Object);
         }
 
-        [Test]
-        public async Task CalculateAmortization_ValidInput_ReturnsOkResult()
-        {
-            // Arrange
-            var loanRequest = new LoanRequest { LoanAmount = 100000, LoanTermYears = 30, InterestRate = 3.5m };
-            var schedule = new List<AmortizationSchedule> { new AmortizationSchedule() };
-            var scheduleDto = new List<AmortizationScheduleDto> { new AmortizationScheduleDto() };
+        //[Test]
+        //public async Task CalculateAmortization_ValidInput_ReturnsOkResult()
+        //{
+        //    // Arrange
+        //    var loanRequest = new LoanRequest { LoanAmount = 100000, LoanTermYears = 30, InterestRate = 3.5m };
+        //    var schedule = new List<AmortizationSchedule> { new AmortizationSchedule() };
+        //    var scheduleDto = new List<AmortizationScheduleDto> { new AmortizationScheduleDto() };
 
-            _mockRepository.Setup(r => r.GenerateAmortizationScheduleAsync(It.IsAny<LoanRequest>()))
-                .ReturnsAsync(schedule);
-            _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(It.IsAny<IEnumerable<AmortizationSchedule>>()))
-                .Returns(scheduleDto);
+        //    _mockRepository.Setup(r => r.GenerateAmortizationScheduleAsync(It.IsAny<LoanRequest>()))
+        //        .ReturnsAsync(schedule);
+        //    _mockMapper.Setup(m => m.Map<IEnumerable<AmortizationScheduleDto>>(It.IsAny<IEnumerable<AmortizationSchedule>>()))
+        //        .Returns(scheduleDto);
 
-            // Act
-            var result = await _controller.CalculateAmortization(loanRequest);
+        //    // Act
+        //    var result = await _controller.CalculateAmortization(loanRequest);
 
-            // Assert
-            Assert.IsInstanceOf<OkObjectResult>(result);
-            var okResult = result as OkObjectResult;
-            Assert.AreEqual(scheduleDto, okResult.Value);
-        }
+        //    // Assert
+        //    Assert.IsInstanceOf<OkObjectResult>(result);
+        //    var okResult = result as OkObjectResult;
+        //    Assert.AreEqual(scheduleDto, okResult.Value);
+        //}
 
-        [Test]
-        public async Task CalculateAmortization_InvalidInput_ReturnsBadRequest()
-        {
-            // Arrange
-            var loanRequest = new LoanRequest { LoanAmount = 0, LoanTermYears = 30, InterestRate = 3.5m };
+        //[Test]
+        //public async Task CalculateAmortization_InvalidInput_ReturnsBadRequest()
+        //{
+        //    // Arrange
+        //    var loanRequest = new LoanRequest { LoanAmount = 0, LoanTermYears = 30, InterestRate = 3.5m };
 
-            // Act
-            var result = await _controller.CalculateAmortization(loanRequest);
+        //    // Act
+        //    var result = await _controller.CalculateAmortization(loanRequest);
 
-            // Assert
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        }
+        //    // Assert
+        //    Assert.IsInstanceOf<BadRequestObjectResult>(result);
+        //}
 
         [Test]
         public async Task GetSchedule_ExistingSchedule_ReturnsOkResult()

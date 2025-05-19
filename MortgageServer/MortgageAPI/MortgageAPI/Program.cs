@@ -74,6 +74,7 @@ builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 builder.Services.AddScoped<IInterestRateRepository, InterestRateRepository>();
 builder.Services.AddScoped<IAmortizationScheduleRepository, AmortizationScheduleRepository>();
 builder.Services.AddScoped<IAmortizationCalculator, AmortizationCalculator>();
+builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

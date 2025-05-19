@@ -14,12 +14,14 @@ namespace MortgageAPI.Controllers
     public class AmortizationController : ControllerBase
     {
         private readonly IAmortizationScheduleRepository _amortizationRepository;
+        //private readonly ICalculatorRepository _calculator;
         private readonly IMapper _mapper;
         private readonly ILogger<AmortizationController> _logger;
 
         public AmortizationController(IAmortizationScheduleRepository amortizationRepository, IMapper mapper, ILogger<AmortizationController> logger)
         {
             _amortizationRepository = amortizationRepository;
+            //_calculator = calculator;
             _mapper = mapper;
             _logger = logger;
         }
@@ -37,23 +39,7 @@ namespace MortgageAPI.Controllers
             return userId;
         }
 
-        [HttpPost("calculate")]
-        public async Task<IActionResult> CalculateAmortization([FromBody] LoanRequest loanRequest)
-        {
-            _logger.LogInformation("Calculating amortization: Amount={Amount}, Term={Term}, Rate={Rate}",
-                loanRequest.LoanAmount, loanRequest.LoanTermYears, loanRequest.InterestRate);
 
-            if (loanRequest.LoanAmount <= 0 || loanRequest.LoanTermYears <= 0 || loanRequest.InterestRate <= 0)
-            {
-                _logger.LogWarning("Invalid loan data provided");
-                return BadRequest("Invalid loan details. Ensure all values are greater than zero.");
-            }
-
-            var schedule = await _amortizationRepository.GenerateAmortizationScheduleAsync(loanRequest);
-            var scheduleDto = _mapper.Map<IEnumerable<AmortizationScheduleDto>>(schedule);
-
-            return Ok(scheduleDto);
-        }
 
         [HttpGet("{userLoanNumber}")]
         public async Task<IActionResult> GetSchedule(int userLoanNumber)
