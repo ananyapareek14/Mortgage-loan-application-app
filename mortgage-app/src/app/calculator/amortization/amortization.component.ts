@@ -1,14 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { filter, Observable, Subscription } from 'rxjs';
-import { IAmortizationRequest, IAmortizationSchedule } from '../models/IAmortizationSchedule';
+import {
+  IAmortizationRequest,
+  IAmortizationSchedule,
+} from '../../models/IAmortizationSchedule';
 import { Store } from '@ngrx/store';
-import { selectAmortizationSchedule } from '../store/amortization/amortization.selectors';
-import { calculateAmortization, resetAmortization } from '../store/amortization/amortization.actions';
+import { selectAmortizationSchedule } from '../../store/amortization/amortization.selectors';
+import {
+  calculateAmortization,
+  resetAmortization,
+} from '../../store/amortization/amortization.actions';
 import { Router } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { slideIn, slideOut, staggerList } from '../../animations';
+import { slideIn, slideOut, staggerList } from '../../../animations';
 
 @Component({
   selector: 'app-amortization',
@@ -26,7 +37,11 @@ export class AmortizationComponent implements OnInit, OnDestroy {
   chart!: Chart;
   scheduleSubscription!: Subscription;
 
-  constructor(private fb: FormBuilder, private store: Store, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     Chart.register(...registerables);
@@ -39,17 +54,19 @@ export class AmortizationComponent implements OnInit, OnDestroy {
     });
 
     // Fetch amortization schedule from store
-    this.amortizationSchedule$ = this.store.select(selectAmortizationSchedule).pipe(
-      filter((schedule) => schedule !== null)
-    );
+    this.amortizationSchedule$ = this.store
+      .select(selectAmortizationSchedule)
+      .pipe(filter((schedule) => schedule !== null));
 
     // Subscribe to schedule and calculate summary when it updates
-    this.scheduleSubscription = this.amortizationSchedule$.subscribe((schedule) => {
-      if (schedule.length > 0) {
-        this.calculateSummary(schedule);
-        this.renderChart();
+    this.scheduleSubscription = this.amortizationSchedule$.subscribe(
+      (schedule) => {
+        if (schedule.length > 0) {
+          this.calculateSummary(schedule);
+          this.renderChart();
+        }
       }
-    });
+    );
 
     // Load amortization schedule on initialization
     this.loadDefaultAmortization();
@@ -63,7 +80,10 @@ export class AmortizationComponent implements OnInit, OnDestroy {
   }
 
   private calculateSummary(schedule: IAmortizationSchedule[]): void {
-    this.totalInterest = schedule.reduce((sum, p) => sum + p.InterestPayment, 0);
+    this.totalInterest = schedule.reduce(
+      (sum, p) => sum + p.InterestPayment,
+      0
+    );
     this.totalPayment = schedule.reduce((sum, p) => sum + p.MonthlyPayment, 0);
     this.monthlyPayment = schedule[0]?.MonthlyPayment || 0;
   }
@@ -108,6 +128,5 @@ export class AmortizationComponent implements OnInit, OnDestroy {
 
     // Reset state when navigating away
     this.store.dispatch(resetAmortization());
-
   }
 }

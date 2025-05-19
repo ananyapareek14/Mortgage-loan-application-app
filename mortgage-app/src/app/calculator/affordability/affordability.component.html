@@ -1,0 +1,43 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="calculator-form">
+    <div>
+      <label>Annual Income</label>
+      <input type="number" formControlName="annualIncome" />
+    </div>
+  
+    <div>
+      <label>Monthly Debts</label>
+      <input type="number" formControlName="monthlyDebts" />
+    </div>
+  
+    <div>
+      <label>Down Payment</label>
+      <input type="number" formControlName="downPayment" />
+    </div>
+  
+    <div>
+      <label>Interest Rate (%)</label>
+      <input type="text" formControlName="interestRate" />
+    </div>
+  
+    <div>
+      <label>Loan Term (Years)</label>
+      <input type="number" formControlName="loanTermYears" />
+    </div>
+  
+    <button type="submit" [disabled]="form.invalid">Calculate</button>
+    <button type="button" (click)="onReset()">Reset</button>
+  </form>
+  
+  <div *ngIf="loading$ | async">Calculating...</div>
+  
+  <div *ngIf="error$ | async as error" class="error">
+    Error: {{ error }}
+  </div>
+  
+  <div *ngIf="result$ | async as result" class="result">
+    <h3>Affordability Result</h3>
+    <p>Maximum Loan Amount: {{ result.EstimatedLoanAmount | currency }}</p>
+    <p>Estimated Monthly Payment: {{ result.EstimatedMonthlyPayment | currency }}</p>
+    <p>You can afford a house upto: {{ result.MaxAffordableHomePrice }}</p>
+  </div>
+  

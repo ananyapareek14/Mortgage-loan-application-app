@@ -1,0 +1,77 @@
+[2025-05-19 14:48:32 INF] Starting MortgageLoanApp...
+[2025-05-19 14:48:38 INF] HTTP GET /swagger responded 301 in 8.4442 ms
+[2025-05-19 14:48:38 INF] HTTP GET /swagger/index.html responded 200 in 165.0573 ms
+[2025-05-19 14:48:38 INF] HTTP GET /swagger/swagger-ui.css responded 200 in 150.5188 ms
+[2025-05-19 14:48:38 INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 195.7971 ms
+[2025-05-19 14:48:38 INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 285.7875 ms
+[2025-05-19 14:48:39 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 40.3906 ms
+[2025-05-19 14:48:49 INF] HTTP OPTIONS /api/loans responded 204 in 9.4143 ms
+[2025-05-19 14:48:50 INF] HTTP GET /api/loans responded 401 in 864.6476 ms
+[2025-05-19 14:49:01 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.2882 ms
+[2025-05-19 14:49:03 INF] Login attempt for user: abc@example.com
+[2025-05-19 14:49:11 INF] User abc@example.com logged in successfully.
+[2025-05-19 14:49:11 INF] HTTP POST /api/auth/login responded 200 in 9764.7257 ms
+[2025-05-19 14:49:11 INF] HTTP OPTIONS /api/loans responded 204 in 0.6142 ms
+[2025-05-19 14:49:11 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 14:49:12 INF] HTTP GET /api/loans responded 200 in 522.0936 ms
+[2025-05-19 14:49:18 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.8372 ms
+[2025-05-19 14:49:18 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-19 14:49:18 INF] HTTP POST /api/amortization/calculate responded 200 in 97.2565 ms
+[2025-05-19 14:49:21 INF] Calculating amortization: Amount=18900000, Term=5, Rate=7.5
+[2025-05-19 14:49:21 INF] HTTP POST /api/amortization/calculate responded 200 in 30.6660 ms
+[2025-05-19 14:49:25 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1845 ms
+[2025-05-19 14:49:25 INF] Calculating amortization: Amount=18900000, Term=21, Rate=7.5
+[2025-05-19 14:49:25 INF] HTTP POST /api/amortization/calculate responded 200 in 24.3079 ms
+[2025-05-19 15:23:58 INF] HTTP OPTIONS /api/auth/login responded 204 in 2.0362 ms
+[2025-05-19 15:23:58 INF] Login attempt for user: abc@example.com
+[2025-05-19 15:23:58 INF] User abc@example.com logged in successfully.
+[2025-05-19 15:23:58 INF] HTTP POST /api/auth/login responded 200 in 931.8650 ms
+[2025-05-19 15:23:59 INF] HTTP OPTIONS /api/loans responded 204 in 0.1649 ms
+[2025-05-19 15:23:59 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 15:23:59 INF] HTTP GET /api/loans responded 200 in 17.3733 ms
+[2025-05-19 15:24:03 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2298 ms
+[2025-05-19 15:24:03 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-19 15:24:03 INF] HTTP POST /api/amortization/calculate responded 200 in 27.3776 ms
+[2025-05-19 15:25:42 INF] HTTP OPTIONS /api/loans responded 204 in 0.3373 ms
+[2025-05-19 15:25:42 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 15:25:42 INF] HTTP GET /api/loans responded 200 in 86.0959 ms
+[2025-05-19 15:26:31 INF] HTTP OPTIONS /api/loans responded 204 in 3.1508 ms
+[2025-05-19 15:26:31 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 15:26:31 INF] HTTP GET /api/loans responded 200 in 12.7266 ms
+[2025-05-19 15:27:08 INF] HTTP OPTIONS /api/loans responded 204 in 0.6574 ms
+[2025-05-19 15:27:09 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 15:27:09 INF] HTTP GET /api/loans responded 200 in 34.8671 ms
+[2025-05-19 15:28:59 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.4515 ms
+[2025-05-19 15:28:59 INF] HTTP POST /api/affordability/calculate responded 200 in 95.7599 ms
+[2025-05-19 15:29:56 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1532 ms
+[2025-05-19 15:29:56 INF] HTTP POST /api/affordability/calculate responded 200 in 54.7861 ms
+[2025-05-19 15:32:23 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 1.3115 ms
+[2025-05-19 15:32:23 INF] HTTP POST /api/affordability/calculate responded 200 in 13.1407 ms
+[2025-05-19 15:34:32 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.1840 ms
+[2025-05-19 15:34:32 INF] Login attempt for user: abc@example.com
+[2025-05-19 15:34:32 INF] User abc@example.com logged in successfully.
+[2025-05-19 15:34:32 INF] HTTP POST /api/auth/login responded 200 in 488.8741 ms
+[2025-05-19 15:34:33 INF] HTTP OPTIONS /api/loans responded 204 in 0.2550 ms
+[2025-05-19 15:34:33 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 15:34:33 INF] HTTP GET /api/loans responded 200 in 22.3695 ms
+[2025-05-19 15:34:58 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 1.7373 ms
+[2025-05-19 15:34:58 INF] HTTP POST /api/affordability/calculate responded 200 in 11.0473 ms
+[2025-05-19 15:49:01 INF] Login attempt for user: abc@example.com
+[2025-05-19 15:49:01 INF] User abc@example.com logged in successfully.
+[2025-05-19 15:49:01 INF] HTTP POST /api/auth/login responded 200 in 525.7185 ms
+[2025-05-19 15:49:43 INF] HTTP POST /api/affordability/calculate responded 200 in 100.4812 ms
+[2025-05-19 15:50:44 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1430 ms
+[2025-05-19 15:50:44 INF] HTTP POST /api/affordability/calculate responded 200 in 12.8328 ms
+[2025-05-19 15:52:31 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1401 ms
+[2025-05-19 15:52:31 INF] HTTP POST /api/affordability/calculate responded 200 in 4.6508 ms
+[2025-05-19 16:13:47 INF] HTTP OPTIONS /api/loans responded 204 in 1.6182 ms
+[2025-05-19 16:13:47 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-19 16:13:48 INF] HTTP GET /api/loans responded 200 in 366.6643 ms
+[2025-05-19 16:14:32 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 1.6594 ms
+[2025-05-19 16:14:32 INF] HTTP POST /api/debt-to-income/calculate responded 200 in 76.3771 ms
+[2025-05-19 16:15:13 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.3574 ms
+[2025-05-19 16:15:13 INF] HTTP POST /api/debt-to-income/calculate responded 200 in 9.9230 ms
+[2025-05-19 16:15:19 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.1186 ms
+[2025-05-19 16:15:19 INF] HTTP POST /api/debt-to-income/calculate responded 200 in 2.2403 ms
+[2025-05-19 16:15:39 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.1261 ms
+[2025-05-19 16:15:39 INF] HTTP POST /api/debt-to-income/calculate responded 400 in 35.5179 ms

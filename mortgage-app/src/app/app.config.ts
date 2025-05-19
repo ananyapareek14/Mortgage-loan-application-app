@@ -15,6 +15,10 @@ import { amortizationReducer } from './store/amortization/amortization.reducer';
 import { AmortizationEffects } from './store/amortization/amortization.effects';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { affordabilityReducer } from './store/calculator/affordability/affordability.reducer';
+import { AffordabilityEffects } from './store/calculator/affordability/affordability.effects';
+import { dtiReducer } from './store/calculator/debt-to-income/dti.reducer';
+import { DtiEffects } from './store/calculator/debt-to-income/dti.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,12 +35,16 @@ export const appConfig: ApplicationConfig = {
       loan: loanReducer,
       interestRates: interestRateReducer,
       amortization: amortizationReducer,
+      affordability: affordabilityReducer,
+      dti: dtiReducer,
     }),
     provideEffects(
       AuthEffects,
       LoanEffects,
       InterestRateEffects,
-      AmortizationEffects
+      AmortizationEffects,
+      AffordabilityEffects,
+      DtiEffects
     ),
     provideToastr({
       positionClass: 'my-custom-toast',

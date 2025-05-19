@@ -4,10 +4,10 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import {
   calculateAmortization,
   resetAmortization,
-} from '../store/amortization/amortization.actions';
-import { IAmortizationSchedule } from '../models/IAmortizationSchedule';
+} from '../../store/amortization/amortization.actions';
+import { IAmortizationSchedule } from '../../models/IAmortizationSchedule';
 import { Router } from '@angular/router';
-import { selectAmortizationSchedule } from '../store/amortization/amortization.selectors';
+import { selectAmortizationSchedule } from '../../store/amortization/amortization.selectors';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('Amortization Component', () => {
@@ -28,12 +28,12 @@ describe('Amortization Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AmortizationComponent], 
+      imports: [AmortizationComponent],
       providers: [
         provideMockStore({
           selectors: [
             {
-              selector: selectAmortizationSchedule, 
+              selector: selectAmortizationSchedule,
               value: mockSchedule,
             },
           ],

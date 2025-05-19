@@ -24,7 +24,8 @@ export const routes: Routes = [
   },
   {
     path: 'amortization',
-    loadChildren: () => import('./amortization/route').then((m) => m.default),
+    loadChildren: () =>
+      import('./calculator/amortization/route').then((m) => m.default),
     data: { animation: 'AmortizationPage' },
   },
   {
@@ -33,4 +34,19 @@ export const routes: Routes = [
       import('./loan-application/route').then((m) => m.default),
     data: { animation: 'LoanApplicationPage' },
   },
+  {
+    path: 'affordability',
+    loadChildren: () =>
+      import('./calculator/affordability/route').then((m) => m.default),
+  },
+  {
+    path: 'debt-to-income',
+    loadChildren: () =>
+      import('./calculator/debt-to-income/route').then((m) => m.default),
+  },
+  {
+    path: 'refinance',
+    loadChildren: () =>
+      import('./calculator/refinance/route').then((m) => m.default),
+  }
 ];

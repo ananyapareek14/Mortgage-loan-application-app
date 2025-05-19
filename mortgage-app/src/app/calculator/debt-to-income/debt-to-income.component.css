@@ -1,0 +1,83 @@
+.dti-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+  }
+  
+  .form-field {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .fancy-button {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fancy-button:hover {
+    background-color: #333;
+  }
+  
+  .fancy-button.reset {
+    background-color: #aaa;
+  }
+  
+  .fancy-button.reset:hover {
+    background-color: #888;
+  }
+  
+  .result {
+    margin-top: 2rem;
+    padding: 1rem;
+    border-left: 4px solid green;
+    background-color: #f6fff6;
+    border-radius: 6px;
+  }
+  
+  .loading {
+    margin-top: 1rem;
+    text-align: center;
+    color: #333;
+  }
+  
