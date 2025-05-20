@@ -6,7 +6,7 @@ import { IRefinance, IRefinanceRequest } from '../../models/IRefinance';
 import { IVaMortgage, IVaMortgageRequest } from '../../models/IVaMortgage';
 import { environment } from '../../environment/environment';
 import { IAmortizationRequest, IAmortizationSchedule } from '../../models/IAmortizationSchedule';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -39,10 +39,13 @@ export class CalculatorService {
   }
 
   calculateRefinance(payload: IRefinanceRequest) {
+    console.log('🚀 API request payload:', payload);
     return this.http.post<IRefinance>(
       `${this.apiUrl}/refinance/calculate`,
       payload
-    );
+    ).pipe(
+      tap((response) => console.log('Backend Response:', response))
+    );;
   }
 
   calculateVaMortgage(payload: IVaMortgageRequest) {

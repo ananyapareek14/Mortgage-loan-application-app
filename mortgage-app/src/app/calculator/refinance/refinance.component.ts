@@ -24,14 +24,14 @@ export class RefinanceComponent {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
-    currentLoanAmount: [0, [Validators.required, Validators.min(0)]],
-    interestRate: [0, [Validators.required, Validators.min(0)]],
+    currentLoanAmount: [200000, [Validators.required, Validators.min(0)]],
+    interestRate: [6.5, [Validators.required, Validators.min(0)]],
     currentTermMonths: [360, [Validators.required, Validators.min(1)]],
-    originationYear: [2020, [Validators.required, Validators.min(1900)]],
-    newLoanAmount: [0, [Validators.required, Validators.min(0)]],
-    newInterestRate: [0, [Validators.required, Validators.min(0)]],
-    termMonths: [360, [Validators.required, Validators.min(1)]],
-    refinanceFees: [0, [Validators.required, Validators.min(0)]],
+    originationYear: [2019, [Validators.required, Validators.min(1900)]],
+    newLoanAmount: [195000, [Validators.required, Validators.min(0)]],
+    newInterestRate: [5, [Validators.required, Validators.min(0)]],
+    newTermMonths: [360, [Validators.required, Validators.min(1)]],
+    refinanceFees: [1000, [Validators.required, Validators.min(0)]],
   });
 
   result$ = this.store.pipe(select(selectRefinanceResult));
@@ -49,7 +49,7 @@ export class RefinanceComponent {
         OriginationYear: formValue.originationYear ?? 0,
         NewLoanAmount: formValue.newLoanAmount ?? 0,
         NewInterestRate: formValue.newInterestRate ?? 0,
-        TermMonths: formValue.termMonths ?? 0,
+        NewTermMonths: formValue.newTermMonths ?? 0,
         RefinanceFees: formValue.refinanceFees ?? 0,
       };
 
@@ -69,7 +69,7 @@ export class RefinanceComponent {
       originationYear: 2020,
       newLoanAmount: 0,
       newInterestRate: 0,
-      termMonths: 360,
+      newTermMonths: 360,
       refinanceFees: 0,
     });
   }

@@ -12,7 +12,7 @@ import {
 } from '../../store/calculator/affordability/affordability.actions';
 import { IAffordabilityRequest } from '../../models/IAffordability';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart } from 'chart.js';
 import { take, tap } from 'rxjs';
 import {
   PieController,

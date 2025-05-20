@@ -109,3 +109,107 @@
 [2025-05-20 10:58:38 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1778 ms
 [2025-05-20 11:20:32 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0549 ms
 [2025-05-20 11:20:33 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1636 ms
+[2025-05-20 13:18:51 INF] Starting MortgageLoanApp...
+[2025-05-20 13:19:22 INF] HTTP GET /swagger/index.html responded 200 in 400.6755 ms
+[2025-05-20 13:21:07 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 104.8974 ms
+[2025-05-20 13:25:47 INF] HTTP OPTIONS /api/loans responded 204 in 9.9511 ms
+[2025-05-20 13:25:47 INF] HTTP GET /api/loans responded 401 in 620.6718 ms
+[2025-05-20 13:25:57 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.4406 ms
+[2025-05-20 13:25:59 INF] Login attempt for user: abc@example.com
+[2025-05-20 13:26:08 INF] User abc@example.com logged in successfully.
+[2025-05-20 13:26:08 INF] HTTP POST /api/auth/login responded 200 in 11572.6575 ms
+[2025-05-20 13:26:08 INF] HTTP OPTIONS /api/loans responded 204 in 4.3335 ms
+[2025-05-20 13:26:08 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:26:09 INF] HTTP GET /api/loans responded 200 in 595.8404 ms
+[2025-05-20 13:26:18 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 1.4688 ms
+[2025-05-20 13:26:18 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 13:26:18 INF] HTTP POST /api/amortization/calculate responded 200 in 125.6716 ms
+[2025-05-20 13:26:34 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.2844 ms
+[2025-05-20 13:26:34 INF] HTTP POST /api/affordability/calculate responded 200 in 72.2220 ms
+[2025-05-20 13:31:09 INF] HTTP OPTIONS /api/loans responded 204 in 0.1489 ms
+[2025-05-20 13:31:09 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:31:10 INF] HTTP GET /api/loans responded 200 in 1071.8760 ms
+[2025-05-20 13:31:21 INF] HTTP OPTIONS /api/loans responded 204 in 0.2498 ms
+[2025-05-20 13:31:21 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:31:21 INF] HTTP GET /api/loans responded 200 in 37.4593 ms
+[2025-05-20 13:31:23 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:31:24 INF] HTTP GET /api/loans responded 200 in 82.7372 ms
+[2025-05-20 13:31:25 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:31:25 INF] HTTP GET /api/loans responded 200 in 45.3985 ms
+[2025-05-20 13:31:38 INF] HTTP OPTIONS /api/loans responded 204 in 0.6561 ms
+[2025-05-20 13:31:38 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 13:31:38 INF] HTTP GET /api/loans responded 200 in 23.6069 ms
+[2025-05-20 13:31:54 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 9.6144 ms
+[2025-05-20 13:31:54 INF] HTTP POST /api/refinance/calculate responded 200 in 65.6205 ms
+[2025-05-20 13:32:27 INF] Login attempt for user: abc@example.com
+[2025-05-20 13:32:27 INF] User abc@example.com logged in successfully.
+[2025-05-20 13:32:27 INF] HTTP POST /api/auth/login responded 200 in 251.8012 ms
+[2025-05-20 13:33:28 INF] HTTP POST /api/refinance/calculate responded 200 in 57.9701 ms
+[2025-05-20 13:46:11 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.5326 ms
+[2025-05-20 13:46:12 INF] HTTP POST /api/refinance/calculate responded 200 in 24.5131 ms
+[2025-05-20 13:52:14 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.3901 ms
+[2025-05-20 13:52:14 INF] HTTP POST /api/refinance/calculate responded 200 in 4.2170 ms
+[2025-05-20 13:56:52 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.1912 ms
+[2025-05-20 13:56:52 INF] HTTP POST /api/refinance/calculate responded 200 in 49.8352 ms
+[2025-05-20 13:57:15 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.2113 ms
+[2025-05-20 13:57:15 INF] HTTP POST /api/refinance/calculate responded 200 in 14.4842 ms
+[2025-05-20 13:57:24 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.5823 ms
+[2025-05-20 13:57:24 INF] HTTP POST /api/refinance/calculate responded 200 in 3.1054 ms
+[2025-05-20 14:20:14 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.4796 ms
+[2025-05-20 14:20:14 INF] Login attempt for user: abc@example.com
+[2025-05-20 14:20:15 INF] User abc@example.com logged in successfully.
+[2025-05-20 14:20:15 INF] HTTP POST /api/auth/login responded 200 in 736.9582 ms
+[2025-05-20 14:20:15 INF] HTTP OPTIONS /api/loans responded 204 in 1.1443 ms
+[2025-05-20 14:20:15 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 14:20:15 INF] HTTP GET /api/loans responded 200 in 29.1920 ms
+[2025-05-20 14:20:24 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 2.4013 ms
+[2025-05-20 14:20:24 INF] HTTP POST /api/refinance/calculate responded 200 in 6.2118 ms
+[2025-05-20 14:22:31 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 1.2101 ms
+[2025-05-20 14:22:31 INF] HTTP POST /api/refinance/calculate responded 200 in 15.2463 ms
+[2025-05-20 14:23:01 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.1993 ms
+[2025-05-20 14:23:01 INF] HTTP POST /api/refinance/calculate responded 200 in 11.2482 ms
+[2025-05-20 14:24:42 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.8994 ms
+[2025-05-20 14:24:42 INF] HTTP POST /api/refinance/calculate responded 200 in 91.0274 ms
+[2025-05-20 14:25:13 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.1934 ms
+[2025-05-20 14:25:13 INF] HTTP POST /api/refinance/calculate responded 200 in 14.3302 ms
+[2025-05-20 14:26:48 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.1958 ms
+[2025-05-20 14:26:49 INF] HTTP POST /api/debt-to-income/calculate responded 200 in 91.5333 ms
+[2025-05-20 14:28:04 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1280 ms
+[2025-05-20 14:28:04 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 14:28:04 INF] HTTP POST /api/amortization/calculate responded 200 in 89.9495 ms
+[2025-05-20 14:35:25 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1831 ms
+[2025-05-20 14:35:25 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 54.1907 ms
+[2025-05-20 14:37:13 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1179 ms
+[2025-05-20 14:37:13 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 14:37:13 INF] HTTP POST /api/amortization/calculate responded 200 in 18.6630 ms
+[2025-05-20 14:55:55 INF] HTTP OPTIONS /api/loans responded 204 in 0.1126 ms
+[2025-05-20 14:55:55 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 14:55:55 INF] HTTP GET /api/loans responded 200 in 288.9153 ms
+[2025-05-20 14:56:13 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.1159 ms
+[2025-05-20 14:56:13 INF] Login attempt for user: abc@example.com
+[2025-05-20 14:56:14 INF] User abc@example.com logged in successfully.
+[2025-05-20 14:56:14 INF] HTTP POST /api/auth/login responded 200 in 382.8305 ms
+[2025-05-20 14:56:14 INF] HTTP OPTIONS /api/loans responded 204 in 0.0723 ms
+[2025-05-20 14:56:14 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 14:56:14 INF] HTTP GET /api/loans responded 200 in 14.1823 ms
+[2025-05-20 14:56:26 INF] HTTP OPTIONS /api/loans responded 204 in 0.1837 ms
+[2025-05-20 14:56:26 INF] Fetching all loans for user "403ae3da-4c12-4e73-a43e-df1efcc76036"
+[2025-05-20 14:56:26 INF] HTTP GET /api/loans responded 200 in 19.9598 ms
+[2025-05-20 15:00:59 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.5400 ms
+[2025-05-20 15:00:59 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 85.1227 ms
+[2025-05-20 15:01:30 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1560 ms
+[2025-05-20 15:01:30 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 69.9759 ms
+[2025-05-20 15:05:21 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1691 ms
+[2025-05-20 15:05:21 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 67.5527 ms
+[2025-05-20 15:07:53 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.0840 ms
+[2025-05-20 15:07:53 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 55.7485 ms
+[2025-05-20 15:09:31 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1249 ms
+[2025-05-20 15:09:31 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 54.8131 ms
+[2025-05-20 15:10:55 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.0885 ms
+[2025-05-20 15:10:55 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 41.8753 ms
+[2025-05-20 15:11:23 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1448 ms
+[2025-05-20 15:11:23 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 38.3048 ms
+[2025-05-20 15:11:24 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 13.8630 ms
+[2025-05-20 15:11:25 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 39.2837 ms
+[2025-05-20 15:11:25 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 12.9900 ms
+[2025-05-20 15:11:26 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 10.2308 ms

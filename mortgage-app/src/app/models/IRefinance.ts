@@ -12,7 +12,7 @@ interface IRefinanceRequest {
   OriginationYear: number;
   NewLoanAmount: number;
   NewInterestRate: number;
-  TermMonths: number;
+  NewTermMonths: number;
   RefinanceFees: number;
 }
 

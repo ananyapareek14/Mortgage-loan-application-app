@@ -1,49 +1,241 @@
-<div class="va-mortgage-form">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <label>Home Price:
-      <input type="number" formControlName="HomePrice" />
-    </label>
+<!-- <div class="va-mortgage-container">
+  <div class="left-panel">
+    <div *ngIf="result$ | async as results">
+      <h3>Amortization Chart</h3>
+      <canvas #chartCanvas width="600" height="300"></canvas>
+    </div>
 
-    <label>Down Payment:
-      <input type="number" formControlName="DownPayment" />
-    </label>
+    <div class="table-container" *ngIf="result$ | async as results">
+      <h3>Amortization Schedule</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Monthly</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Remaining</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of paginatedResults">
+            <td>{{ row.MonthNumber }}</td>
+            <td>{{ row.MonthlyPayment | currency }}</td>
+            <td>{{ row.PrincipalPayment | currency }}</td>
+            <td>{{ row.InterestPayment | currency }}</td>
+            <td>{{ row.RemainingBalance | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <label>Interest Rate (%):
-      <input type="number" formControlName="InterestRate" />
-    </label>
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+  </div>
 
-    <label>Loan Term (Years):
-      <input type="number" formControlName="LoanTermYears" />
-    </label>
+  <div class="form-panel">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h3>VA Mortgage Calculator</h3>
 
-    <button type="submit" class="fancy-button">Calculate</button>
-    <button type="button" class="fancy-button" (click)="onReset()">Reset</button>
-  </form>
+      <div class="form-group">
+        <label for="homePrice">Home Price</label>
+        <input
+          id="homePrice"
+          type="number"
+          formControlName="HomePrice"
+          min="0"
+          class="form-control"
+        />
+      </div>
 
-  <div *ngIf="loading$ | async">Calculating...</div>
-  <div *ngIf="error$ | async as error" class="error">{{ error }}</div>
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <input
+          id="downPayment"
+          type="number"
+          formControlName="DownPayment"
+          min="0"
+          class="form-control"
+        />
+      </div>
 
-  <div *ngIf="result$ | async as results">
-    <h3>VA Mortgage Schedule</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Monthly</th>
-          <th>Principal</th>
-          <th>Interest</th>
-          <th>Remaining</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of results">
-          <td>{{ row.MonthNumber }}</td>
-          <td>{{ row.MonthlyPayment | currency }}</td>
-          <td>{{ row.PrincipalPayment | currency }}</td>
-          <td>{{ row.InterestPayment | currency }}</td>
-          <td>{{ row.RemainingBalance | currency }}</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input
+          id="interestRate"
+          type="number"
+          formControlName="InterestRate"
+          min="0"
+          step="0.01"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="loanTermYears">Loan Term (Years)</label>
+        <input
+          id="loanTermYears"
+          type="number"
+          formControlName="LoanTermYears"
+          min="1"
+          class="form-control"
+        />
+      </div>
+
+      <div class="button-group">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Calculate
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="onReset()"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div *ngIf="loading$ | async" class="loading">
+        <div
+          class="spinner-border text-secondary"
+          role="status"
+          aria-hidden="true"
+        ></div>
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
+      <div *ngIf="error$ | async as error" class="error">{{ error }}</div>
+    </form>
+  </div>
+</div> -->
+
+<div class="va-mortgage-container">
+  <div class="form-panel">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2>VA Mortgage Calculator</h2>
+
+      <div class="form-group">
+        <label for="homePrice">Home Price</label>
+        <input
+          id="homePrice"
+          type="number"
+          formControlName="HomePrice"
+          min="0"
+          class="form-control"
+          placeholder="Enter home price"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <input
+          id="downPayment"
+          type="number"
+          formControlName="DownPayment"
+          min="0"
+          class="form-control"
+          placeholder="Enter down payment"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input
+          id="interestRate"
+          type="number"
+          formControlName="InterestRate"
+          min="0"
+          step="0.01"
+          class="form-control"
+          placeholder="Enter interest rate"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="loanTermYears">Loan Term (Years)</label>
+        <input
+          id="loanTermYears"
+          type="number"
+          formControlName="LoanTermYears"
+          min="1"
+          class="form-control"
+          placeholder="Enter loan term"
+        />
+      </div>
+
+      <div class="button-group">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Calculate
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="onReset()"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div *ngIf="loading$ | async" class="loading">
+        <div
+          class="spinner-border text-secondary"
+          role="status"
+          aria-hidden="true"
+        ></div>
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
+      <div *ngIf="error$ | async as error" class="error">{{ error }}</div>
+    </form>
+  </div>
+
+  <div class="results-panel" *ngIf="result$ | async as results">
+    <h2>Amortization Chart</h2>
+    <canvas #chartCanvas width="700" height="350"></canvas>
+
+    <h2>Amortization Schedule</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Monthly</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Remaining</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of paginatedResults">
+            <td>{{ row.MonthNumber }}</td>
+            <td>{{ row.MonthlyPayment | currency }}</td>
+            <td>{{ row.PrincipalPayment | currency }}</td>
+            <td>{{ row.InterestPayment | currency }}</td>
+            <td>{{ row.RemainingBalance | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
   </div>
 </div>
