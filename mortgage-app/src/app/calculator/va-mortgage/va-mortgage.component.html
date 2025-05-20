@@ -1,1 +1,49 @@
-<p>va-mortgage works!</p>
+<div class="va-mortgage-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label>Home Price:
+      <input type="number" formControlName="HomePrice" />
+    </label>
+
+    <label>Down Payment:
+      <input type="number" formControlName="DownPayment" />
+    </label>
+
+    <label>Interest Rate (%):
+      <input type="number" formControlName="InterestRate" />
+    </label>
+
+    <label>Loan Term (Years):
+      <input type="number" formControlName="LoanTermYears" />
+    </label>
+
+    <button type="submit" class="fancy-button">Calculate</button>
+    <button type="button" class="fancy-button" (click)="onReset()">Reset</button>
+  </form>
+
+  <div *ngIf="loading$ | async">Calculating...</div>
+  <div *ngIf="error$ | async as error" class="error">{{ error }}</div>
+
+  <div *ngIf="result$ | async as results">
+    <h3>VA Mortgage Schedule</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Monthly</th>
+          <th>Principal</th>
+          <th>Interest</th>
+          <th>Remaining</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of results">
+          <td>{{ row.MonthNumber }}</td>
+          <td>{{ row.MonthlyPayment | currency }}</td>
+          <td>{{ row.PrincipalPayment | currency }}</td>
+          <td>{{ row.InterestPayment | currency }}</td>
+          <td>{{ row.RemainingBalance | currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

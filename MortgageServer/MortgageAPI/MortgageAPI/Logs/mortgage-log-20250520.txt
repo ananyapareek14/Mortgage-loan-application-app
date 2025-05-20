@@ -1,0 +1,111 @@
+[2025-05-20 08:30:07 INF] Starting MortgageLoanApp...
+[2025-05-20 08:30:08 INF] HTTP GET /swagger/index.html responded 200 in 60.1868 ms
+[2025-05-20 08:30:08 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 8.7986 ms
+[2025-05-20 08:31:48 INF] HTTP OPTIONS /api/loans responded 204 in 1.4950 ms
+[2025-05-20 08:31:48 INF] HTTP GET /api/loans responded 401 in 133.5584 ms
+[2025-05-20 08:31:58 INF] HTTP OPTIONS /api/auth/login responded 204 in 0.1162 ms
+[2025-05-20 08:31:58 INF] Login attempt for user: abc@example.com
+[2025-05-20 08:31:59 INF] User abc@example.com logged in successfully.
+[2025-05-20 08:31:59 INF] HTTP POST /api/auth/login responded 200 in 1190.9337 ms
+[2025-05-20 08:31:59 INF] HTTP OPTIONS /api/loans responded 204 in 0.0673 ms
+[2025-05-20 08:31:59 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-05-20 08:31:59 INF] HTTP GET /api/loans responded 200 in 69.6606 ms
+[2025-05-20 08:32:42 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 1.3512 ms
+[2025-05-20 08:32:42 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 08:32:42 INF] HTTP POST /api/amortization/calculate responded 200 in 21.7752 ms
+[2025-05-20 08:44:36 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1024 ms
+[2025-05-20 08:44:36 INF] HTTP POST /api/affordability/calculate responded 400 in 116.0165 ms
+[2025-05-20 08:46:00 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1061 ms
+[2025-05-20 08:46:00 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 08:46:00 INF] HTTP POST /api/amortization/calculate responded 200 in 13.6283 ms
+[2025-05-20 08:46:09 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1268 ms
+[2025-05-20 08:46:09 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 08:46:09 INF] HTTP POST /api/amortization/calculate responded 200 in 4.0316 ms
+[2025-05-20 09:07:45 INF] HTTP OPTIONS /api/loans responded 204 in 0.0985 ms
+[2025-05-20 09:07:45 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-05-20 09:07:45 INF] HTTP GET /api/loans responded 200 in 131.3597 ms
+[2025-05-20 09:08:27 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1021 ms
+[2025-05-20 09:08:27 INF] HTTP POST /api/affordability/calculate responded 400 in 34.7114 ms
+[2025-05-20 09:08:28 INF] HTTP POST /api/affordability/calculate responded 400 in 28.7492 ms
+[2025-05-20 09:08:28 INF] HTTP POST /api/affordability/calculate responded 400 in 27.6959 ms
+[2025-05-20 09:08:28 INF] HTTP POST /api/affordability/calculate responded 400 in 33.5902 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 32.5186 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 32.9040 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 34.2043 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 30.9992 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 41.0500 ms
+[2025-05-20 09:08:29 INF] HTTP POST /api/affordability/calculate responded 400 in 37.5487 ms
+[2025-05-20 09:08:30 INF] HTTP POST /api/affordability/calculate responded 400 in 32.1688 ms
+[2025-05-20 09:08:30 INF] HTTP POST /api/affordability/calculate responded 400 in 33.8294 ms
+[2025-05-20 09:08:30 INF] HTTP POST /api/affordability/calculate responded 400 in 34.0058 ms
+[2025-05-20 09:08:30 INF] HTTP POST /api/affordability/calculate responded 400 in 66.6389 ms
+[2025-05-20 09:08:31 INF] HTTP POST /api/affordability/calculate responded 400 in 35.7568 ms
+[2025-05-20 09:08:31 INF] HTTP POST /api/affordability/calculate responded 400 in 57.6450 ms
+[2025-05-20 09:08:32 INF] HTTP POST /api/affordability/calculate responded 400 in 33.1808 ms
+[2025-05-20 09:09:41 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.4843 ms
+[2025-05-20 09:09:41 INF] HTTP POST /api/affordability/calculate responded 200 in 5.3492 ms
+[2025-05-20 09:10:13 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.0868 ms
+[2025-05-20 09:10:13 INF] HTTP POST /api/refinance/calculate responded 200 in 5.5213 ms
+[2025-05-20 09:10:24 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.0625 ms
+[2025-05-20 09:10:24 INF] HTTP POST /api/debt-to-income/calculate responded 400 in 3.5363 ms
+[2025-05-20 09:10:25 INF] HTTP POST /api/debt-to-income/calculate responded 400 in 0.4691 ms
+[2025-05-20 09:10:53 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0588 ms
+[2025-05-20 09:10:53 INF] HTTP POST /api/affordability/calculate responded 400 in 44.5513 ms
+[2025-05-20 09:10:56 INF] HTTP POST /api/affordability/calculate responded 400 in 48.2852 ms
+[2025-05-20 09:11:19 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.4324 ms
+[2025-05-20 09:11:19 INF] HTTP POST /api/affordability/calculate responded 200 in 3.5245 ms
+[2025-05-20 09:15:42 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2352 ms
+[2025-05-20 09:15:42 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 09:15:42 INF] HTTP POST /api/amortization/calculate responded 200 in 2.7249 ms
+[2025-05-20 09:24:21 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.2821 ms
+[2025-05-20 09:24:21 INF] HTTP POST /api/affordability/calculate responded 200 in 3.3814 ms
+[2025-05-20 09:24:48 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0731 ms
+[2025-05-20 09:24:48 INF] HTTP POST /api/affordability/calculate responded 200 in 6.7630 ms
+[2025-05-20 09:43:26 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.1311 ms
+[2025-05-20 09:43:26 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-20 09:43:26 INF] HTTP POST /api/amortization/calculate responded 200 in 2.3474 ms
+[2025-05-20 09:44:45 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0385 ms
+[2025-05-20 09:44:45 INF] HTTP POST /api/affordability/calculate responded 400 in 66.7633 ms
+[2025-05-20 09:44:46 INF] HTTP POST /api/affordability/calculate responded 400 in 30.0541 ms
+[2025-05-20 09:45:08 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0721 ms
+[2025-05-20 09:45:08 INF] HTTP POST /api/affordability/calculate responded 200 in 35.0663 ms
+[2025-05-20 09:47:47 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0533 ms
+[2025-05-20 09:47:47 INF] HTTP POST /api/affordability/calculate responded 200 in 2.7231 ms
+[2025-05-20 09:49:02 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0612 ms
+[2025-05-20 09:49:02 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1130 ms
+[2025-05-20 10:02:06 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0714 ms
+[2025-05-20 10:02:06 INF] HTTP POST /api/affordability/calculate responded 200 in 1.1099 ms
+[2025-05-20 10:03:23 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0289 ms
+[2025-05-20 10:03:23 INF] HTTP POST /api/affordability/calculate responded 200 in 5.2015 ms
+[2025-05-20 10:12:41 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0797 ms
+[2025-05-20 10:12:41 INF] HTTP POST /api/affordability/calculate responded 200 in 29.7881 ms
+[2025-05-20 10:13:16 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0338 ms
+[2025-05-20 10:13:17 INF] HTTP POST /api/affordability/calculate responded 200 in 2.0249 ms
+[2025-05-20 10:14:05 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.2330 ms
+[2025-05-20 10:14:05 INF] HTTP POST /api/affordability/calculate responded 200 in 1.8218 ms
+[2025-05-20 10:14:19 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0362 ms
+[2025-05-20 10:14:19 INF] HTTP POST /api/affordability/calculate responded 200 in 0.3770 ms
+[2025-05-20 10:18:16 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0583 ms
+[2025-05-20 10:18:16 INF] HTTP POST /api/affordability/calculate responded 200 in 0.6790 ms
+[2025-05-20 10:18:43 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.1661 ms
+[2025-05-20 10:18:43 INF] HTTP POST /api/affordability/calculate responded 200 in 2.0357 ms
+[2025-05-20 10:25:17 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0819 ms
+[2025-05-20 10:25:17 INF] HTTP POST /api/affordability/calculate responded 200 in 2.2612 ms
+[2025-05-20 10:26:39 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0346 ms
+[2025-05-20 10:26:39 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1668 ms
+[2025-05-20 10:27:31 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0352 ms
+[2025-05-20 10:27:31 INF] HTTP POST /api/affordability/calculate responded 200 in 1.9953 ms
+[2025-05-20 10:28:06 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0377 ms
+[2025-05-20 10:28:06 INF] HTTP POST /api/affordability/calculate responded 200 in 3.4468 ms
+[2025-05-20 10:29:53 INF] HTTP OPTIONS /api/debt-to-income/calculate responded 204 in 0.1073 ms
+[2025-05-20 10:29:53 INF] HTTP POST /api/debt-to-income/calculate responded 400 in 3.4967 ms
+[2025-05-20 10:29:58 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.0331 ms
+[2025-05-20 10:29:58 INF] HTTP POST /api/refinance/calculate responded 200 in 0.5229 ms
+[2025-05-20 10:30:17 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.0438 ms
+[2025-05-20 10:30:17 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 13.0855 ms
+[2025-05-20 10:34:49 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0633 ms
+[2025-05-20 10:34:49 INF] HTTP POST /api/affordability/calculate responded 200 in 0.6885 ms
+[2025-05-20 10:58:38 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0540 ms
+[2025-05-20 10:58:38 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1778 ms
+[2025-05-20 11:20:32 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0549 ms
+[2025-05-20 11:20:33 INF] HTTP POST /api/affordability/calculate responded 200 in 2.1636 ms

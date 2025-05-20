@@ -1,11 +1,11 @@
-interface IVaMortgage {
+interface IVaMortgageRequest {
   HomePrice: number;
   DownPayment: number;
   InterestRate: number;
   LoanTermYears: number;
 }
 
-interface IVaMortgageRequest {
+interface IVaMortgage {
   MonthNumber: number;
   MonthlyPayment: number;
   PrincipalPayment: number;

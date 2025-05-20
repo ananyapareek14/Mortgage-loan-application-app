@@ -19,7 +19,9 @@ export class RefinanceEffects {
       ofType(calculateRefinance),
       mergeMap(({ request }) =>
         this.refinanceService.calculateRefinance(request).pipe(
-          map((result) => calculateRefinanceSuccess({ result })),
+          map(
+            (result) => calculateRefinanceSuccess({ result })
+          ),
           catchError((error) =>
             of(calculateRefinanceFailure({ error: error.message }))
           )
