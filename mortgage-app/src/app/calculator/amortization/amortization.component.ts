@@ -94,7 +94,7 @@ export class AmortizationComponent implements OnInit, OnDestroy {
     }
 
     this.chart = new Chart('pieChart', {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: ['Principal', 'Interest'],
         datasets: [

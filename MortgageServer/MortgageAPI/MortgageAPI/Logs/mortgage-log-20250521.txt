@@ -1,0 +1,10 @@
+[2025-05-21 00:01:28 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.0650 ms
+[2025-05-21 00:01:28 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-21 00:01:28 INF] HTTP POST /api/amortization/calculate responded 200 in 8.0187 ms
+[2025-05-21 00:02:01 INF] HTTP OPTIONS /api/amortization/calculate responded 204 in 0.2075 ms
+[2025-05-21 00:02:01 INF] Calculating amortization: Amount=500000, Term=5, Rate=7.5
+[2025-05-21 00:02:01 INF] HTTP POST /api/amortization/calculate responded 200 in 2.1979 ms
+[2025-05-21 00:02:17 INF] HTTP OPTIONS /api/va-mortgage-schedule/calculate responded 204 in 0.1914 ms
+[2025-05-21 00:02:17 INF] HTTP POST /api/va-mortgage-schedule/calculate responded 200 in 2.4973 ms
+[2025-05-21 00:02:32 INF] HTTP OPTIONS /api/affordability/calculate responded 204 in 0.0343 ms
+[2025-05-21 00:02:32 INF] HTTP POST /api/affordability/calculate responded 200 in 1.0755 ms
