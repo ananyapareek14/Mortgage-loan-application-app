@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import {
@@ -29,7 +29,7 @@ Chart.register(PieController, ArcElement, Tooltip, Legend);
   templateUrl: './affordability.component.html',
   styleUrl: './affordability.component.css',
 })
-export class AffordabilityComponent implements AfterViewInit, OnDestroy {
+export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('breakdownChartCanvas') breakdownChartCanvas!: ElementRef;
   private store = inject(Store);
   private fb = inject(FormBuilder);
@@ -56,6 +56,19 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy {
 
   loading$ = this.store.pipe(select(selectAffordabilityLoading));
   error$ = this.store.pipe(select(selectAffordabilityError));
+
+  ngOnInit(): void {
+    const raw = this.form.getRawValue();
+    const request: IAffordabilityRequest = {
+      AnnualIncome: raw.annualIncome ?? 0,
+      MonthlyDebts: raw.monthlyDebts ?? 0,
+      DownPayment: raw.downPayment ?? 0,
+      InterestRate: raw.interestRate ?? 0,
+      LoanTermMonths: raw.loanTermYears ?? 0,
+    };
+
+    this.store.dispatch(calculateAffordability({ request }));
+  }
 
   ngAfterViewInit(): void {
     // Chart will be rendered in tap() once result arrives
@@ -95,9 +108,9 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy {
   }
 
   private renderChart(monthlyPayment: number) {
-    const principalAndInterest = monthlyPayment * 0.7;
-    const taxes = monthlyPayment * 0.2;
-    const insurance = monthlyPayment * 0.1;
+    const taxes = (monthlyPayment * 0.012)/12;
+    const insurance = Math.ceil(945/12);
+    const principalAndInterest = monthlyPayment - (taxes + insurance);
 
     this.destroyChart(); 
 
