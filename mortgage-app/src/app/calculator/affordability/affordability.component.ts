@@ -49,7 +49,7 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
     select(selectAffordabilityResult),
     tap(result => {
       if (result && this.activeTab === 'breakdown') {
-        this.renderChart(result.EstimatedMonthlyPayment);
+        this.renderChart(result.EstimatedMonthlyPayment, result.MaxAffordableHomePrice);
       }
     })
   );
@@ -107,8 +107,8 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
     });
   }
 
-  private renderChart(monthlyPayment: number) {
-    const taxes = (monthlyPayment * 0.012)/12;
+  private renderChart(monthlyPayment: number, MaxAffordableHomePrice: number) {
+    const taxes = (MaxAffordableHomePrice * 0.012)/12;
     const insurance = Math.ceil(945/12);
     const principalAndInterest = monthlyPayment - (taxes + insurance);
 
@@ -189,7 +189,7 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
     setTimeout(() => {
       this.result$.pipe(take(1)).subscribe(result => {
         if (result) {
-          this.renderChart(result.EstimatedMonthlyPayment);
+          this.renderChart(result.EstimatedMonthlyPayment, result.MaxAffordableHomePrice);
         }
       });
     }, 0);

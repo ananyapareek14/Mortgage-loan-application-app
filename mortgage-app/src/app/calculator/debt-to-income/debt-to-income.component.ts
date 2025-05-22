@@ -1,13 +1,82 @@
+// import { Component, inject } from '@angular/core';
+// import { calculateDti, resetDti } from '../../store/calculator/debt-to-income/dti.actions';
+// import { select, Store } from '@ngrx/store';
+// import { selectDtiError, selectDtiLoading, selectDtiResult } from '../../store/calculator/debt-to-income/dti.selectors';
+// import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+// import { CommonModule } from '@angular/common';
+
+// @Component({
+//   selector: 'app-debt-to-income',
+//   imports: [ReactiveFormsModule, CommonModule],
+//   templateUrl: './debt-to-income.component.html',
+//   styleUrl: './debt-to-income.component.css',
+// })
+// export class DebtToIncomeComponent {
+//   private store = inject(Store);
+//   private fb = inject(FormBuilder);
+
+//   form = this.fb.group({
+//     annualIncome: [0, [Validators.required, Validators.min(0)]],
+//     minCreditCardPayments: [0, [Validators.required, Validators.min(0)]],
+//     carLoanPayments: [0, [Validators.required, Validators.min(0)]],
+//     studentLoanPayments: [0, [Validators.required, Validators.min(0)]],
+//     proposedMonthlyPayment: [0, [Validators.required, Validators.min(0)]],
+//   });
+
+//   result$ = this.store.pipe(select(selectDtiResult));
+//   loading$ = this.store.pipe(select(selectDtiLoading));
+//   error$ = this.store.pipe(select(selectDtiError));
+
+//   onSubmit() {
+//     if (this.form.valid) {
+//       const {
+//         annualIncome,
+//         minCreditCardPayments,
+//         carLoanPayments,
+//         studentLoanPayments,
+//         proposedMonthlyPayment,
+//       } = this.form.getRawValue();
+
+//       this.store.dispatch(
+//         calculateDti({
+//           request: {
+//             AnnualIncome: annualIncome!,
+//             MinCreditCardPayments: minCreditCardPayments!,
+//             CarLoanPayments: carLoanPayments!,
+//             StudentLoanPayments: studentLoanPayments!,
+//             ProposedMonthlyPayment: proposedMonthlyPayment!,
+//           },
+//         })
+//       );
+//     } else {
+//       this.form.markAllAsTouched();
+//     }
+//   }
+
+//   onReset() {
+//     this.store.dispatch(resetDti());
+//     this.form.reset({
+//       annualIncome: 0,
+//       minCreditCardPayments: 0,
+//       carLoanPayments: 0,
+//       studentLoanPayments: 0,
+//       proposedMonthlyPayment: 0,
+//     });
+//   }
+// }
+
 import { Component, inject } from '@angular/core';
-import { calculateDti, resetDti } from '../../store/calculator/debt-to-income/dti.actions';
-import { select, Store } from '@ngrx/store';
-import { selectDtiError, selectDtiLoading, selectDtiResult } from '../../store/calculator/debt-to-income/dti.selectors';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Store, select } from '@ngrx/store';
+import { calculateDti, resetDti } from '../../store/calculator/debt-to-income/dti.actions';
+import { selectDtiError, selectDtiLoading, selectDtiResult } from '../../store/calculator/debt-to-income/dti.selectors';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-debt-to-income',
-  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './debt-to-income.component.html',
   styleUrl: './debt-to-income.component.css',
 })
@@ -15,17 +84,34 @@ export class DebtToIncomeComponent {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
+  calculateDefaultPayment = true;
+  proposedPaymentValue = 0;
+  minSliderValue = 0;
+  maxSliderValue = 10000;
+
+  annualIncome = 0;
+
   form = this.fb.group({
-    annualIncome: [0, [Validators.required, Validators.min(0)]],
-    minCreditCardPayments: [0, [Validators.required, Validators.min(0)]],
-    carLoanPayments: [0, [Validators.required, Validators.min(0)]],
-    studentLoanPayments: [0, [Validators.required, Validators.min(0)]],
-    proposedMonthlyPayment: [0, [Validators.required, Validators.min(0)]],
+    annualIncome: [700000, [Validators.required, Validators.min(0)]],
+    minCreditCardPayments: [200, [Validators.required, Validators.min(0)]],
+    carLoanPayments: [500, [Validators.required, Validators.min(0)]],
+    studentLoanPayments: [3000, [Validators.required, Validators.min(0)]],
   });
 
   result$ = this.store.pipe(select(selectDtiResult));
   loading$ = this.store.pipe(select(selectDtiLoading));
   error$ = this.store.pipe(select(selectDtiError));
+
+  constructor() {
+    this.result$.pipe(filter(Boolean)).subscribe(result => {
+      this.proposedPaymentValue = result.ProposedMonthlyPayment;
+      this.minSliderValue = result.TotalDebts;
+
+      // If income was already entered, calculate max based on that
+      const income = this.form.get('annualIncome')?.value ?? 0;
+      this.maxSliderValue = Math.max(this.minSliderValue + 100, income / 12 - 100);
+    });
+  }
 
   onSubmit() {
     if (this.form.valid) {
@@ -34,7 +120,6 @@ export class DebtToIncomeComponent {
         minCreditCardPayments,
         carLoanPayments,
         studentLoanPayments,
-        proposedMonthlyPayment,
       } = this.form.getRawValue();
 
       this.store.dispatch(
@@ -44,7 +129,8 @@ export class DebtToIncomeComponent {
             MinCreditCardPayments: minCreditCardPayments!,
             CarLoanPayments: carLoanPayments!,
             StudentLoanPayments: studentLoanPayments!,
-            ProposedMonthlyPayment: proposedMonthlyPayment!,
+            ProposedMonthlyPayment: this.proposedPaymentValue,
+            CalculateDefaultPayment: this.calculateDefaultPayment,
           },
         })
       );
@@ -60,7 +146,15 @@ export class DebtToIncomeComponent {
       minCreditCardPayments: 0,
       carLoanPayments: 0,
       studentLoanPayments: 0,
-      proposedMonthlyPayment: 0,
     });
+    this.proposedPaymentValue = 0;
+    this.calculateDefaultPayment = true;
+  }
+
+  onSliderChange(value: number) {
+    this.calculateDefaultPayment = false;
+    this.proposedPaymentValue = value;
+    this.onSubmit();
   }
 }
+

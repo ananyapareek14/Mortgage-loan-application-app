@@ -11,6 +11,7 @@ interface IDebtToIncomeRequest {
   CarLoanPayments: number;
   StudentLoanPayments: number;
   ProposedMonthlyPayment: number;
+  CalculateDefaultPayment: boolean;
 }
 
 export type {IDebtToIncome, IDebtToIncomeRequest}

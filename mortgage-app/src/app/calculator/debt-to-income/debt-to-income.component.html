@@ -1,4 +1,4 @@
-<div class="dti-container">
+<!-- <div class="dti-container">
     <h2>Debt-to-Income (DTI) Calculator</h2>
   
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -42,4 +42,139 @@
       Calculating...
     </div>
   </div>
-  
+   -->
+
+
+   <!-- <div class="dti-wrapper">
+  <div class="form-section">
+    <h2>Debt-to-Income (DTI) Calculator</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-field" *ngFor="let field of fields">
+        <label [for]="field.name">{{ field.label }}</label>
+        <input
+          type="number"
+          [id]="field.name"
+          [formControlName]="field.name"
+          placeholder="Enter {{ field.label }}"
+        />
+        <div class="error" *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched">
+          This field is required and must be 0 or more.
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="fancy-button" type="submit" [disabled]="form.invalid">Calculate</button>
+        <button class="fancy-button reset" type="button" (click)="onReset()">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="result-section" *ngIf="result$ | async as result">
+    <div class="dti-ratio">
+      <h3>Debt-to-income ratio</h3>
+      <p class="percentage">{{ result.DtiPercentage }}%</p>
+      <p [class.limit]="result.DtiPercentage > 50">
+        <strong *ngIf="result.DtiPercentage > 50">Your DTI is over the limit.</strong>
+        <span *ngIf="result.DtiPercentage > 50">
+          In most cases, 50% is the highest debt-to-income that lenders will allow. Paying down debt or increasing your income can help improve your DTI ratio.
+        </span>
+      </p>
+    </div>
+
+    <div class="slider-group">
+      <label for="paymentSlider">Proposed Monthly Payment</label>
+      <input
+        type="range"
+        id="paymentSlider"
+        min="0"
+        max="5000"
+        step="50"
+        [(ngModel)]="proposedPayment"
+        (change)="onSliderChange()"
+      />
+      <div class="slider-value">${{ proposedPayment }}/mo</div>
+    </div>
+
+    <ul class="result-details">
+      <li><span class="dot debt"></span> Total monthly debts: ${{ result.TotalDebts }}</li>
+      <li><span class="dot mortgage"></span> Mortgage payment: ${{ result.ProposedMonthlyPayment }}</li>
+      <li><span class="dot income"></span> Remaining mo. income: ${{ result.RemainingMonthlyIncome | number: '1.0-0' }}</li>
+    </ul>
+  </div>
+
+  <div class="error" *ngIf="error$ | async as error">
+    <p class="error-text">Error: {{ error }}</p>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">Calculating...</div>
+</div> -->
+
+
+<div class="dti-wrapper">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+    <h2>Debt-to-Income (DTI) Calculator</h2>
+
+    <div class="form-field" *ngFor="let field of [
+      { label: 'Annual Income', name: 'annualIncome' },
+      { label: 'Min. Credit Card Payments', name: 'minCreditCardPayments' },
+      { label: 'Car Loan Payments', name: 'carLoanPayments' },
+      { label: 'Student Loan Payments', name: 'studentLoanPayments' },
+    ]">
+      <label [for]="field.name">{{ field.label }}</label>
+      <input
+        type="number"
+        [id]="field.name"
+        [formControlName]="field.name"
+        placeholder="Enter {{ field.label }}"
+      />
+      <div class="error" *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched">
+        This field is required and must be 0 or more.
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button class="fancy-button" type="submit" [disabled]="form.invalid">Calculate</button>
+      <button class="fancy-button reset" type="button" (click)="onReset()">Reset</button>
+    </div>
+  </form>
+
+  <div class="result" *ngIf="result$ | async as result">
+    <h3>Debt-to-Income Ratio</h3>
+    <p class="dti-value" [class.overlimit]="result.DtiPercentage > 50">
+      {{ result.DtiPercentage }}%
+    </p>
+    <p *ngIf="result.DtiPercentage > 50" class="warning">
+      Your DTI is over the limit. Lenders typically allow up to 50%.
+    </p>
+
+    <div class="slider-section">
+      <label for="proposedSlider">
+        Proposed Monthly Payment: ${{ proposedPaymentValue }}
+      </label>
+      <input
+        id="proposedSlider"
+        type="range"
+        min="0"
+        max="10000"
+        [value]="proposedPaymentValue"
+        (input)="onSliderChange($any($event.target).value)"
+      />
+    </div>
+
+    <ul class="details">
+      <li><strong>Total Monthly Debts:</strong> ${{ result.TotalDebts }}</li>
+      <li><strong>Mortgage Payment:</strong> ${{ result.ProposedMonthlyPayment }}</li>
+      <li><strong>Remaining Monthly Income:</strong> ${{ result.RemainingMonthlyIncome | number : '1.0-0' }}</li>
+    </ul>
+  </div>
+
+  <div class="error" *ngIf="error$ | async as error">
+    <p class="error-text">Error: {{ error }}</p>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">
+    Calculating...
+  </div>
+</div>
+

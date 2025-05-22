@@ -1,4 +1,4 @@
-<div class="calculator-container">
+<!-- <div class="calculator-container">
     <h2>Refinance Calculator</h2>
   
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -67,5 +67,54 @@
     <div *ngIf="loading$ | async" class="loading">
       Calculating...
     </div>
+  </div>-->
+
+<div class="refinance-wrapper">
+  <div class="form-section">
+    <h2>Refinance Calculator</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <ng-container *ngFor="let field of fieldList">
+          <label>
+            {{ field.label }}
+            <input type="number" [formControlName]="field.control" step="0.01" />
+          </label>
+        </ng-container>
+      </div>
+      <div class="button-group">
+        <button type="submit" class="fancy-button w-100" style="--bg-color: black; --text-color: white; border: none;" ><span class="text-wrapper">
+            <span class="text-default">Calculate</span>
+            <span class="text-hover">Calculate</span>
+          </span>
+        </button>
+      </div>
+    </form>
   </div>
-  
+
+  <div class="results-section" *ngIf="result$ | async as result">
+    <div class="card">
+      <h3>Results Overview</h3>
+      <p><strong>Monthly Savings:</strong> ${{ result.MonthlySavings }}</p>
+      <p><strong>New Monthly Payment:</strong> ${{ result.NewPayment }}</p>
+      <p><strong>Break-Even Months:</strong> {{ result.BreakEvenMonths }}</p>
+      <p><strong>Lifetime Savings:</strong> ${{ result.LifetimeSavings }}</p>
+    </div>
+
+    <div class="chart-card">
+      <canvas #barChartCanvas id="barChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <canvas #lineChartCanvas id="lineChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="error$ | async as error" class="error">
+  <p>Error: {{ error }}</p>
+</div>
+
+<div *ngIf="loading$ | async" class="loading">
+  Calculating...
+</div>
+

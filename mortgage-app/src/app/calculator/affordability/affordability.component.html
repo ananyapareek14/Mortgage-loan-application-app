@@ -31,8 +31,12 @@
         </div>
 
         <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-dark" [disabled]="form.invalid">Calculate</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="onReset()">Reset</button>
+          <button type="submit" class="fancy-button" style="--bg-color: black; --text-color: white; border: none;" [disabled]="form.invalid">
+            <span class="text-wrapper">
+            <span class="text-default">Calculate</span>
+            <span class="text-hover">Calculate</span>
+          </span>
+          </button>
         </div>
       </form>
     </div>
