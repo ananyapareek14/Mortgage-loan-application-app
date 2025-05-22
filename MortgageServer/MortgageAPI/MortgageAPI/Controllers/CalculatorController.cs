@@ -9,7 +9,7 @@ namespace MortgageAPI.Controllers
 {
     [Route("api")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculatorRepository _calculator;

@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { filter, Observable, Subscription } from 'rxjs';
-import { IAmortizationRequest, IAmortizationSchedule } from '../models/IAmortizationSchedule';
 import { Store } from '@ngrx/store';
-import { selectAmortizationSchedule } from '../store/amortization/amortization.selectors';
-import { calculateAmortization, resetAmortization } from '../store/amortization/amortization.actions';
 import { Router } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { slideIn, slideOut, staggerList } from '../../animations';
+import { slideIn, slideOut, staggerList } from '../../../animations';
+import { IAmortizationRequest, IAmortizationSchedule } from '../../models/IAmortizationSchedule';
+import { selectAmortizationSchedule } from '../../store/amortization/amortization.selectors';
+import { calculateAmortization, resetAmortization } from '../../store/amortization/amortization.actions';
 
 @Component({
   selector: 'app-amortization',

@@ -15,6 +15,14 @@ import { amortizationReducer } from './store/amortization/amortization.reducer';
 import { AmortizationEffects } from './store/amortization/amortization.effects';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { affordabilityReducer } from './store/calculator/affordability/affordability.reducer';
+import { dtiReducer } from './store/calculator/debt-to-income/dti.reducer';
+import { refinanceReducer } from './store/calculator/refinance/refinance.reducer';
+import { vaMortgageReducer } from './store/calculator/va-mortgage/va-mortgage.reducer';
+import { VaMortgageEffects } from './store/calculator/va-mortgage/va-mortgage.effects';
+import { RefinanceEffects } from './store/calculator/refinance/refinance.effects';
+import { DtiEffects } from './store/calculator/debt-to-income/dti.effects';
+import { AffordabilityEffects } from './store/calculator/affordability/affordability.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,12 +39,20 @@ export const appConfig: ApplicationConfig = {
       loan: loanReducer,
       interestRates: interestRateReducer,
       amortization: amortizationReducer,
+      affordability: affordabilityReducer,
+      dti: dtiReducer,
+      refinance: refinanceReducer,
+      vaMortgage: vaMortgageReducer
     }),
     provideEffects(
       AuthEffects,
       LoanEffects,
       InterestRateEffects,
-      AmortizationEffects
+      AmortizationEffects,
+      AffordabilityEffects,
+      DtiEffects,
+      RefinanceEffects,
+      VaMortgageEffects
     ),
     provideToastr({
       positionClass: 'my-custom-toast',

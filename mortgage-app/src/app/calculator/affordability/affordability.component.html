@@ -1,0 +1,128 @@
+<p>affordability works!</p>
+<div class="container my-5">
+  <h2 class="text-center mb-4">Affordability Calculator</h2>
+
+  <div class="row g-4">
+    <!-- Form Column -->
+    <div class="col-lg-6">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="calculator-form card shadow p-4">
+        <div class="form-group mb-3">
+          <label for="annualIncome" class="form-label">Annual Income ($)</label>
+          <input type="number" id="annualIncome" class="form-control" formControlName="annualIncome" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="monthlyDebts" class="form-label">Monthly Debts ($)</label>
+          <input type="number" id="monthlyDebts" class="form-control" formControlName="monthlyDebts" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="downPayment" class="form-label">Down Payment ($)</label>
+          <input type="number" id="downPayment" class="form-control" formControlName="downPayment" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="interestRate" class="form-label">Interest Rate (%)</label>
+          <input type="number" id="interestRate" class="form-control" formControlName="interestRate" step="0.01" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="loanTermYears" class="form-label">Loan Term (Years)</label>
+          <input type="number" id="loanTermYears" class="form-control" formControlName="loanTermYears" />
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="fancy-button" style="--bg-color: black; --text-color: white; border: none;" [disabled]="form.invalid">
+            <span class="text-wrapper">
+            <span class="text-default">Calculate</span>
+            <span class="text-hover">Calculate</span>
+          </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Result Column -->
+    <div class="col-lg-6">
+      <div *ngIf="loading$ | async" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div *ngIf="error$ | async as error" class="alert alert-danger mt-3">
+        Error: {{ error }}
+      </div>
+
+      <div *ngIf="result$ | async as result">
+        <ul class="nav nav-tabs" id="resultTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button 
+              class="nav-link" 
+              [class.active]="activeTab === 'summary'" 
+              id="summary-tab" 
+              type="button" 
+              role="tab"
+              (click)="setActiveTab('summary')"
+              data-bs-toggle="tab" 
+              data-bs-target="#summary"
+            >
+              Summary
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button 
+              class="nav-link" 
+              [class.active]="activeTab === 'breakdown'" 
+              id="breakdown-tab" 
+              type="button" 
+              role="tab"
+              (click)="setActiveTab('breakdown')"
+              data-bs-toggle="tab" 
+              data-bs-target="#breakdown"
+            >
+              Breakdown
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content mt-3">
+          <div 
+            class="tab-pane fade" 
+            [class.show]="activeTab === 'summary'" 
+            [class.active]="activeTab === 'summary'" 
+            id="summary" role="tabpanel"
+          >
+            <div class="result-card">
+              <h3 class="text-center mb-3">You can afford a house up to</h3>
+              <h1 class="text-success text-center">${{ result.MaxAffordableHomePrice }}</h1>
+              <p class="text-muted text-center">
+                Based on your income, this amount fits <span class="comfort">comfortably</span> within your budget.
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center my-4">
+                <div><i class="bi bi-piggy-bank-fill fs-1 text-primary"></i></div>
+                <div class="progress-track w-100 mx-3">
+                  <div class="progress-pointer" style="left: 60%;">
+                    {{ result.EstimatedMonthlyPayment | currency }}/mo
+                  </div>
+                </div>
+                <div><i class="bi bi-house-fill fs-1 text-primary"></i></div>
+              </div>
+              <p><strong>Estimated Monthly Payment:</strong> {{ result.EstimatedMonthlyPayment | currency }}</p>
+              <p><strong>Maximum Loan Amount:</strong> {{ result.EstimatedLoanAmount | currency }}</p>
+            </div>
+          </div>
+
+          <div 
+            class="tab-pane fade" 
+            [class.show]="activeTab === 'breakdown'" 
+            [class.active]="activeTab === 'breakdown'" 
+            id="breakdown" role="tabpanel"
+          >
+            <canvas #breakdownChartCanvas height=100px width=100px></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

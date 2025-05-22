@@ -25,8 +25,8 @@ export const routes: Routes = [
     data: { animation: 'LoanDetailPage' },
   },
   {
-    path: 'amortization',
-    loadChildren: () => import('./amortization/route').then((m) => m.default),
+    path: 'calculator/amortization',
+    loadChildren: () => import('./calculator/amortization/route').then((m) => m.default),
     data: { animation: 'AmortizationPage' },
   },
   {
@@ -39,5 +39,25 @@ export const routes: Routes = [
     path: '404',
     component: NotFoundComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'calculator/affordability',
+    loadChildren: () =>
+      import('./calculator/affordability/route').then((m) => m.default),
+  },
+  {
+    path: 'calculator/debt-to-income',
+    loadChildren: () =>
+      import('./calculator/debt-to-income/route').then((m) => m.default),
+  },
+  {
+    path: 'calculator/refinance',
+    loadChildren: () =>
+      import('./calculator/refinance/route').then((m) => m.default),
+  },
+  {
+    path: 'calculator/va-mortgage',
+    loadChildren: () =>
+      import('./calculator/va-mortgage/route').then((m) => m.default),
   }
 ];
