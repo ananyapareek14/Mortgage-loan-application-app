@@ -18,8 +18,6 @@
 //   (state) => state.error
 // );
 
-
-
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { VaMortgageState } from './va-mortgage.reducer';
 
