@@ -134,52 +134,12 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
     });
   }
 
-//   private renderChart(monthlyPayment: number) {
-//   const ctx = this.breakdownChartCanvas?.nativeElement?.getContext('2d');
-//   if (!ctx) return;
-
-//   this.destroyChart();
-
-//   this.chart = new Chart(ctx, {
-//     type: 'pie',
-//     data: {
-//       labels: ['Principal & Interest', 'Taxes','Insurance', 'PMI'],
-//       datasets: [{
-//         data: [
-//           monthlyPayment * 0.7,
-//           monthlyPayment * 0.2,
-//           monthlyPayment * 0.010,
-//           monthlyPayment * 0.09,
-//         ],
-//         backgroundColor: ['#007bff', '#28a745', '#ffc107'],
-//         hoverOffset: 6,
-//       }],
-//     },
-//     options: {
-//       responsive: true,
-//       plugins: {
-//         legend: {
-//           position: 'bottom',
-//         },
-//       },
-//     },
-//   });
-// }
-
-
   private destroyChart() {
     if (this.chart) {
       this.chart.destroy();
       this.chart = null;
     }
   }
-
-  // setActiveTab(tab: string) {
-  //   this.activeTab = tab;
-  //   if (tab === 'breakdown') {
-  //     this.result$.pipe(tap()).subscribe(); // triggers tap inside observable
-  //   }
-  // }
 
   setActiveTab(tab: string) {
   this.activeTab = tab;

@@ -13,7 +13,7 @@ export const calculateVaMortgageSuccess = createAction(
 
 export const calculateVaMortgageFailure = createAction(
   '[VA Mortgage] Calculate Failure',
-  props<{ error: string }>()
+  props<{ error: string | null }>()
 );
 
 export const resetVaMortgage = createAction('[VA Mortgage] Reset');

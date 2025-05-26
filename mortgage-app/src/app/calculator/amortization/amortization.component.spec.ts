@@ -3,15 +3,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AmortizationComponent } from './amortization.component';
-import {
-  calculateAmortization,
-  resetAmortization,
-} from '../store/amortization/amortization.actions';
-import {
-  IAmortizationSchedule,
-  IAmortizationRequest,
-} from '../models/IAmortizationSchedule';
+
 import { Chart } from 'chart.js';
+import { calculateAmortization, resetAmortization } from '../../store/amortization/amortization.actions';
+import { IAmortizationRequest, IAmortizationSchedule } from '../../models/IAmortizationSchedule';
 
 describe('Amortization Component', () => {
   let component: AmortizationComponent;

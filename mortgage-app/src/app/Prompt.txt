@@ -1,179 +1,204 @@
 hi.I have generated some unit tests, but it is not according to the model. modify the spec code according to the model and add some edge cases to the test cases. The model is as follows:
 
-ILoan.ts:
-interface ILoan{
-    LoanId?: number;
-    UserLoanNumber: number;
-    LoanAmount: number;
-    InterestRate: number;
-    LoanTermYears: number;
-    ApplicationDate: string;
-    ApprovalStatus: string;
+IRefinance.ts:
+interface IRefinance {
+  MonthlySavings: number;
+  NewPayment: number;
+  BreakEvenMonths: number;
+  LifetimeSavings: number;
 }
 
-export type {ILoan}
+interface IRefinanceRequest {
+  CurrentLoanAmount: number;
+  InterestRate: number;
+  CurrentTermMonths: number;
+  OriginationYear: number;
+  NewLoanAmount: number;
+  NewInterestRate: number;
+  NewTermMonths: number;
+  RefinanceFees: number;
+}
+
+export type {IRefinance, IRefinanceRequest}
 
 
-loan.effects.spec.ts:
+refinance.selectors.spec.ts:
 import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of, throwError } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
-import { LoanEffects } from './loan.effects';
-import { LoanService } from '../../services/loan/loan.service';
-import * as LoanActions from './loan.actions';
+import { Store, StoreModule } from '@ngrx/store';
+import { selectRefinanceState, selectRefinanceResult, selectRefinanceLoading, selectRefinanceError } from './refinance.selectors';
+import { RefinanceState } from './refinance.reducer';
 
-describe('LoanEffects', () => {
-  let actions$: Observable<any>;
-  let effects: LoanEffects;
-  let loanService: jasmine.SpyObj<LoanService>;
-  let testScheduler: TestScheduler;
+describe('Refinance Selectors', () => {
+  let store: Store<{ refinance: RefinanceState }>;
 
   beforeEach(() => {
-    const loanServiceSpy = jasmine.createSpyObj('LoanService', ['getLoans', 'createLoan', 'getLoanById']);
-
     TestBed.configureTestingModule({
-      providers: [
-        LoanEffects,
-        provideMockActions(() => actions$),
-        { provide: LoanService, useValue: loanServiceSpy }
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('refinance', {} as any)
       ]
     });
 
-    effects = TestBed.inject(LoanEffects);
-    loanService = TestBed.inject(LoanService) as jasmine.SpyObj<LoanService>;
-    testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
+    store = TestBed.inject(Store);
   });
 
-  it('should be created', () => {
-    expect(effects).toBeTruthy();
+  it('should select the refinance feature state', () => {
+    const initialState: RefinanceState = {
+      result: null,
+      isLoading: false,
+      error: null
+    };
+
+    let result: RefinanceState | undefined;
+
+    store.select(selectRefinanceState).subscribe(value => {
+      result = value;
+    });
+
+    store.setState({ refinance: initialState });
+
+    expect(result).toEqual(initialState);
   });
 
-  describe('loadLoans$', () => {
-    it('should return a loadLoansSuccess action with loans on success', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const loans = [{ id: 1, amount: 1000 }, { id: 2, amount: 2000 }];
-        actions$ = hot('-a', { a: LoanActions.loadLoans() });
-        const response = cold('-b|', { b: loans });
-        loanService.getLoans.and.returnValue(response);
+  it('should select the refinance result', () => {
+    const mockResult = { amount: 1000 };
+    const state: RefinanceState = {
+      result: mockResult,
+      isLoading: false,
+      error: null
+    };
 
-        const expected = hot('--c', {
-          c: LoanActions.loadLoansSuccess({ loans })
-        });
+    let result: any;
 
-        expectObservable(effects.loadLoans$).toEqual(expected);
-      });
+    store.select(selectRefinanceResult).subscribe(value => {
+      result = value;
     });
 
-    it('should return a loadLoansFailure action on error', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const error = new Error('Test error');
-        actions$ = hot('-a', { a: LoanActions.loadLoans() });
-        const response = cold('-#|', {}, error);
-        loanService.getLoans.and.returnValue(response);
+    store.setState({ refinance: state });
 
-        const expected = hot('--c', {
-          c: { type: '[Loan] Load Loans Failure', error }
-        });
-
-        expectObservable(effects.loadLoans$).toEqual(expected);
-      });
-    });
+    expect(result).toEqual(mockResult);
   });
 
-  describe('addLoan$', () => {
-    it('should return an addLoanSuccess action with the new loan on success', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const newLoan = { id: 3, amount: 3000 };
-        actions$ = hot('-a', { a: LoanActions.addLoan({ loan: newLoan }) });
-        const response = cold('-b|', { b: newLoan });
-        loanService.createLoan.and.returnValue(response);
+  it('should select the refinance loading state', () => {
+    const state: RefinanceState = {
+      result: null,
+      isLoading: true,
+      error: null
+    };
 
-        const expected = hot('--c', {
-          c: LoanActions.addLoanSuccess({ loan: newLoan })
-        });
+    let isLoading: boolean | undefined;
 
-        expectObservable(effects.addLoan$).toEqual(expected);
-      });
+    store.select(selectRefinanceLoading).subscribe(value => {
+      isLoading = value;
     });
 
-    it('should return an addLoanFailure action on error', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const error = new Error('Test error');
-        const newLoan = { id: 3, amount: 3000 };
-        actions$ = hot('-a', { a: LoanActions.addLoan({ loan: newLoan }) });
-        const response = cold('-#|', {}, error);
-        loanService.createLoan.and.returnValue(response);
+    store.setState({ refinance: state });
 
-        const expected = hot('--c', {
-          c: { type: '[Loan] Add Loan Failure', error }
-        });
-
-        expectObservable(effects.addLoan$).toEqual(expected);
-      });
-    });
+    expect(isLoading).toBe(true);
   });
 
-  describe('refreshLoansAfterAdd$', () => {
-    it('should dispatch a loadLoans action after addLoanSuccess', () => {
-      testScheduler.run(({ hot, expectObservable }) => {
-        const newLoan = { id: 3, amount: 3000 };
-        actions$ = hot('-a', { a: LoanActions.addLoanSuccess({ loan: newLoan }) });
+  it('should select the refinance error', () => {
+    const mockError = 'Test error';
+    const state: RefinanceState = {
+      result: null,
+      isLoading: false,
+      error: mockError
+    };
 
-        const expected = hot('-b', {
-          b: LoanActions.loadLoans()
-        });
+    let error: string | null | undefined;
 
-        expectObservable(effects.refreshLoansAfterAdd$).toEqual(expected);
-      });
+    store.select(selectRefinanceError).subscribe(value => {
+      error = value;
     });
+
+    store.setState({ refinance: state });
+
+    expect(error).toBe(mockError);
   });
 
-  describe('loadLoanById$', () => {
-    it('should return a loadLoanByIdSuccess action with the loan on success', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const loan = { id: 1, amount: 1000 };
-        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '1' }) });
-        const response = cold('-b|', { b: loan });
-        loanService.getLoanById.and.returnValue(response);
+  it('should handle null state', () => {
+    let result: any;
+    let isLoading: boolean | undefined;
+    let error: string | null | undefined;
 
-        const expected = hot('--c', {
-          c: LoanActions.loadLoanByIdSuccess({ loan })
-        });
-
-        expectObservable(effects.loadLoanById$).toEqual(expected);
-      });
+    store.select(selectRefinanceResult).subscribe(value => {
+      result = value;
+    });
+    store.select(selectRefinanceLoading).subscribe(value => {
+      isLoading = value;
+    });
+    store.select(selectRefinanceError).subscribe(value => {
+      error = value;
     });
 
-    it('should return a loadLoanByIdFailure action on error', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        const error = new Error('Test error');
-        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '1' }) });
-        const response = cold('-#|', {}, error);
-        loanService.getLoanById.and.returnValue(response);
+    store.setState({ refinance: null as any });
 
-        const expected = hot('--c', {
-          c: LoanActions.loadLoanByIdFailure({ error })
-        });
+    expect(result).toBeUndefined();
+    expect(isLoading).toBeUndefined();
+    expect(error).toBeUndefined();
+  });
 
-        expectObservable(effects.loadLoanById$).toEqual(expected);
-      });
+  it('should handle empty state', () => {
+    let result: any;
+    let isLoading: boolean | undefined;
+    let error: string | null | undefined;
+
+    store.select(selectRefinanceResult).subscribe(value => {
+      result = value;
+    });
+    store.select(selectRefinanceLoading).subscribe(value => {
+      isLoading = value;
+    });
+    store.select(selectRefinanceError).subscribe(value => {
+      error = value;
     });
 
-    it('should handle empty loan ID', () => {
-      testScheduler.run(({ hot, cold, expectObservable }) => {
-        actions$ = hot('-a', { a: LoanActions.loadLoanById({ userLoanNumber: '' }) });
-        const response = cold('-b|', { b: null });
-        loanService.getLoanById.and.returnValue(response);
+    store.setState({ refinance: {} as any });
 
-        const expected = hot('--c', {
-          c: LoanActions.loadLoanByIdSuccess({ loan: null })
-        });
+    expect(result).toBeUndefined();
+    expect(isLoading).toBeUndefined();
+    expect(error).toBeUndefined();
+  });
 
-        expectObservable(effects.loadLoanById$).toEqual(expected);
-      });
+  it('should handle state changes', () => {
+    let result: any;
+    let isLoading: boolean | undefined;
+    let error: string | null | undefined;
+
+    store.select(selectRefinanceResult).subscribe(value => {
+      result = value;
     });
+    store.select(selectRefinanceLoading).subscribe(value => {
+      isLoading = value;
+    });
+    store.select(selectRefinanceError).subscribe(value => {
+      error = value;
+    });
+
+    // Initial state
+    store.setState({
+      refinance: {
+        result: null,
+        isLoading: false,
+        error: null
+      }
+    });
+
+    expect(result).toBeNull();
+    expect(isLoading).toBe(false);
+    expect(error).toBeNull();
+
+    // Update state
+    store.setState({
+      refinance: {
+        result: { amount: 2000 },
+        isLoading: true,
+        error: 'New error'
+      }
+    });
+
+    expect(result).toEqual({ amount: 2000 });
+    expect(isLoading).toBe(true);
+    expect(error).toBe('New error');
   });
 });

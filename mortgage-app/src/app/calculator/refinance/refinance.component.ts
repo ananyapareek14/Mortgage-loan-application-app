@@ -1,93 +1,3 @@
-// import { Component, inject } from '@angular/core';
-// import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { Store, select } from '@ngrx/store';
-// import {
-//   calculateRefinance,
-//   resetRefinance,
-// } from '../../store/calculator/refinance/refinance.actions';
-// import {
-//   selectRefinanceError,
-//   selectRefinanceLoading,
-//   selectRefinanceResult,
-// } from '../../store/calculator/refinance/refinance.selectors';
-// import { CommonModule } from '@angular/common';
-
-// @Component({
-//   selector: 'app-refinance',
-//   standalone: true,
-//   imports: [ReactiveFormsModule, CommonModule],
-//   templateUrl: './refinance.component.html',
-//   styleUrl: './refinance.component.css',
-// })
-// export class RefinanceComponent {
-//   private store = inject(Store);
-//   private fb = inject(FormBuilder);
-
-//   form = this.fb.group({
-//     currentLoanAmount: [200000, [Validators.required, Validators.min(0)]],
-//     interestRate: [6.5, [Validators.required, Validators.min(0)]],
-//     currentTermMonths: [360, [Validators.required, Validators.min(1)]],
-//     originationYear: [2019, [Validators.required, Validators.min(1900)]],
-//     newLoanAmount: [195000, [Validators.required, Validators.min(0)]],
-//     newInterestRate: [5, [Validators.required, Validators.min(0)]],
-//     newTermMonths: [360, [Validators.required, Validators.min(1)]],
-//     refinanceFees: [1000, [Validators.required, Validators.min(0)]],
-//   });
-
-//   result$ = this.store.pipe(select(selectRefinanceResult));
-//   loading$ = this.store.pipe(select(selectRefinanceLoading));
-//   error$ = this.store.pipe(select(selectRefinanceError));
-
-//   fieldList = [
-//   { control: 'currentLoanAmount', label: 'Current Loan Amount' },
-//   { control: 'interestRate', label: 'Current Interest Rate (%)' },
-//   { control: 'currentTermMonths', label: 'Current Term (months)' },
-//   { control: 'originationYear', label: 'Origination Year' },
-//   { control: 'newLoanAmount', label: 'New Loan Amount' },
-//   { control: 'newInterestRate', label: 'New Interest Rate (%)' },
-//   { control: 'newTermMonths', label: 'New Term (months)' },
-//   { control: 'refinanceFees', label: 'Refinance Fees' },
-// ];
-
-
-//   onSubmit() {
-//     if (this.form.valid) {
-//       const formValue = this.form.getRawValue();
-
-//       const request = {
-//         CurrentLoanAmount: formValue.currentLoanAmount ?? 0,
-//         InterestRate: formValue.interestRate ?? 0,
-//         CurrentTermMonths: formValue.currentTermMonths ?? 0,
-//         OriginationYear: formValue.originationYear ?? 0,
-//         NewLoanAmount: formValue.newLoanAmount ?? 0,
-//         NewInterestRate: formValue.newInterestRate ?? 0,
-//         NewTermMonths: formValue.newTermMonths ?? 0,
-//         RefinanceFees: formValue.refinanceFees ?? 0,
-//       };
-
-//       this.store.dispatch(calculateRefinance({ request }));
-//       console.log('Form submitted:', request);
-//     } else {
-//       this.form.markAllAsTouched();
-//     }
-//   }
-
-//   onReset() {
-//     this.store.dispatch(resetRefinance());
-//     this.form.reset({
-//       currentLoanAmount: 0,
-//       interestRate: 0,
-//       currentTermMonths: 360,
-//       originationYear: 2020,
-//       newLoanAmount: 0,
-//       newInterestRate: 0,
-//       newTermMonths: 360,
-//       refinanceFees: 0,
-//     });
-//   }
-// }
-
-
 import {
   Component,
   inject,
@@ -181,15 +91,6 @@ export class RefinanceComponent implements AfterViewInit, OnDestroy {
 ];
 
 constructor(private cdr: ChangeDetectorRef) {}
-
-  // ngAfterViewInit() {
-  //   this.result$.subscribe((result) => {
-  //     if (result) {
-  //       this.renderBarChart(result);
-  //       this.renderLineChart(result);
-  //     }
-  //   });
-  // }
 
   ngAfterViewInit() {
   this.result$.subscribe((result) => {
