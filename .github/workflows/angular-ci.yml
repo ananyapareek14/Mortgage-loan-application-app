@@ -1,0 +1,36 @@
+name: Angular-DA-Unit-Testing
+
+on:
+  push:
+    branches: [ "DA-Unit-Testing" ]
+  pull_request:
+    branches: [ "DA-Unit-Testing" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: mortgage-app
+
+    - name: Lint (optional)
+      run: npm run lint
+      working-directory: mortgage-app
+
+    - name: Run unit tests
+      run: npm test -- --watch=false --browsers=ChromeHeadless
+      working-directory: mortgage-app
+
+    - name: Build Angular app
+      run: npm run build
+      working-directory: mortgage-app
