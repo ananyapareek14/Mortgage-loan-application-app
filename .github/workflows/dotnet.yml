@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore MortgageServer/MortgageAPI/MortgageApi.sln
+      run: dotnet restore MortgageServer/MortgageAPI/MortgageAPI.sln
     - name: Build
-      run: dotnet build MortgageServer/MortgageAPI/MortgageApi.sln --no-restore
+      run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
     - name: Test
-      run: dotnet test MortgageServer/MortgageAPI/MortgageApi.sln --no-build --verbosity normal
+      run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
