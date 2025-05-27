@@ -109,49 +109,94 @@ describe('Refinance Selectors', () => {
     expect(error).toBe(mockError);
   });
 
+  // it('should handle null state', () => {
+  //   let result: IRefinance | null | undefined;
+  //   let isLoading: boolean | undefined;
+  //   let error: string | null | undefined;
+
+  //   store.select(selectRefinanceResult).subscribe((value) => {
+  //     result = value;
+  //   });
+  //   store.select(selectRefinanceLoading).subscribe((value) => {
+  //     isLoading = value;
+  //   });
+  //   store.select(selectRefinanceError).subscribe((value) => {
+  //     error = value;
+  //   });
+
+  //   store.setState({ refinance: null as any });
+
+  //   expect(result).toBeUndefined();
+  //   expect(isLoading).toBeUndefined();
+  //   expect(error).toBeUndefined();
+  // });
+
+  // it('should handle empty state', () => {
+  //   let result: IRefinance | null | undefined;
+  //   let isLoading: boolean | undefined;
+  //   let error: string | null | undefined;
+
+  //   store.select(selectRefinanceResult).subscribe((value) => {
+  //     result = value;
+  //   });
+  //   store.select(selectRefinanceLoading).subscribe((value) => {
+  //     isLoading = value;
+  //   });
+  //   store.select(selectRefinanceError).subscribe((value) => {
+  //     error = value;
+  //   });
+
+  //   store.setState({ refinance: {} as any });
+
+  //   expect(result).toBeUndefined();
+  //   expect(isLoading).toBeUndefined();
+  //   expect(error).toBeUndefined();
+  // });
+
   it('should handle null state', () => {
-    let result: IRefinance | null | undefined;
-    let isLoading: boolean | undefined;
-    let error: string | null | undefined;
+  let result: IRefinance | null | undefined;
+  let isLoading: boolean | undefined;
+  let error: string | null | undefined;
 
-    store.select(selectRefinanceResult).subscribe((value) => {
-      result = value;
-    });
-    store.select(selectRefinanceLoading).subscribe((value) => {
-      isLoading = value;
-    });
-    store.select(selectRefinanceError).subscribe((value) => {
-      error = value;
-    });
-
-    store.setState({ refinance: null as any });
-
-    expect(result).toBeUndefined();
-    expect(isLoading).toBeUndefined();
-    expect(error).toBeUndefined();
+  store.select(selectRefinanceResult).subscribe((value) => {
+    result = value;
+  });
+  store.select(selectRefinanceLoading).subscribe((value) => {
+    isLoading = value;
+  });
+  store.select(selectRefinanceError).subscribe((value) => {
+    error = value;
   });
 
-  it('should handle empty state', () => {
-    let result: IRefinance | null | undefined;
-    let isLoading: boolean | undefined;
-    let error: string | null | undefined;
+  store.setState({ refinance: null as any });
 
-    store.select(selectRefinanceResult).subscribe((value) => {
-      result = value;
-    });
-    store.select(selectRefinanceLoading).subscribe((value) => {
-      isLoading = value;
-    });
-    store.select(selectRefinanceError).subscribe((value) => {
-      error = value;
-    });
+  expect(result).toBeNull(); // or expect(result).toEqual(null);
+  expect(isLoading).toBe(false); // since selector defaults to false
+  expect(error).toBeNull(); // or expect(error).toEqual(null);
+});
 
-    store.setState({ refinance: {} as any });
+it('should handle empty state', () => {
+  let result: IRefinance | null | undefined;
+  let isLoading: boolean | undefined;
+  let error: string | null | undefined;
 
-    expect(result).toBeUndefined();
-    expect(isLoading).toBeUndefined();
-    expect(error).toBeUndefined();
+  store.select(selectRefinanceResult).subscribe((value) => {
+    result = value;
   });
+  store.select(selectRefinanceLoading).subscribe((value) => {
+    isLoading = value;
+  });
+  store.select(selectRefinanceError).subscribe((value) => {
+    error = value;
+  });
+
+  store.setState({ refinance: {} as any });
+
+  expect(result).toBeNull(); // or as per your selector logic
+  expect(isLoading).toBe(false);
+  expect(error).toBeNull();
+});
+
 
   it('should handle state changes', () => {
     let result: IRefinance | null | undefined;

@@ -14,6 +14,27 @@ export const initialState: DtiState = {
   error: null,
 };
 
+// export const dtiReducer = createReducer(
+//   initialState,
+//   on(DtiActions.calculateDti, (state) => ({
+//     ...state,
+//     loading: true,
+//     error: null,
+//   })),
+//   on(DtiActions.calculateDtiSuccess, (state, { result }) => ({
+//     ...state,
+//     loading: false,
+//     result,
+//   })),
+//   on(DtiActions.calculateDtiFailure, (state, { error }) => ({
+//     ...state,
+//     loading: false,
+//     error,
+//   })),
+//   on(DtiActions.resetDti, () => initialState)
+// );
+
+
 export const dtiReducer = createReducer(
   initialState,
   on(DtiActions.calculateDti, (state) => ({
@@ -25,11 +46,13 @@ export const dtiReducer = createReducer(
     ...state,
     loading: false,
     result,
+    error: null, // clear old error
   })),
   on(DtiActions.calculateDtiFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
+    result: null, // clear old result
   })),
   on(DtiActions.resetDti, () => initialState)
 );

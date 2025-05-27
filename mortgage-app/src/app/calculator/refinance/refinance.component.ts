@@ -33,6 +33,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { IRefinance } from '../../models/IRefinance';
 
 Chart.register(
   BarController,
@@ -128,6 +129,60 @@ constructor(private cdr: ChangeDetectorRef) {}
       },
     });
   }
+
+// renderBarChart(result: any): void {
+//   const canvas = this.barChartCanvas?.nativeElement;
+//   if (!canvas) return;
+
+//   const ctx = canvas.getContext('2d');
+//   if (!ctx) return;
+
+//   if (this.barChart) {
+//     this.barChart.destroy();
+//   }
+
+//   this.barChart = new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//       labels: ['Costs', '1yrs', '20yrs', '30yrs'],
+//       datasets: [
+//         {
+//           label: 'Costs',
+//           data: [result.costs, 0, 0, 0],
+//           backgroundColor: ['#ff6b6b', 'transparent', 'transparent', 'transparent'],
+//           barThickness: 20,
+//         },
+//         {
+//           label: 'Lifetime savings',
+//           data: [0, result.savings1yr, result.savings20yr, result.savings30yr],
+//           backgroundColor: ['transparent', '#2ecc71', '#2ecc71', '#2ecc71'],
+//           barThickness: 20,
+//         }
+//       ]
+//     },
+//     options: {
+//       responsive: true,
+//       plugins: {
+//         legend: { display: false },
+//         tooltip: {
+//           callbacks: {
+//             label: (context) => `$${context.parsed.x.toLocaleString()}`
+//           }
+//         }
+//       },
+//       indexAxis: 'y',
+//       scales: {
+//         x: {
+//           beginAtZero: true,
+//           ticks: {
+//             callback: (value) => `$${(+value / 1000).toFixed(0)}K`
+//           }
+//         },
+//         y: { grid: { display: false } }
+//       }
+//     }
+//   });
+// }
 
   renderLineChart(result: any) {
     if (!this.lineChartCanvas) return;

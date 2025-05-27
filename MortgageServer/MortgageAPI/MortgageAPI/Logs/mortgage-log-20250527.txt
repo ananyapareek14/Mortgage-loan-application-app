@@ -1,0 +1,17 @@
+[2025-05-27 01:59:50 INF] Starting MortgageLoanApp...
+[2025-05-27 01:59:51 INF] HTTP GET /swagger/index.html responded 200 in 45.0978 ms
+[2025-05-27 01:59:52 INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 5.1965 ms
+[2025-05-27 01:59:52 INF] HTTP GET /swagger/v1/swagger.json responded 200 in 18.0271 ms
+[2025-05-27 02:00:38 INF] HTTP OPTIONS /api/auth/login responded 204 in 2.7974 ms
+[2025-05-27 02:00:39 INF] Login attempt for user: abc@example.com
+[2025-05-27 02:00:40 INF] User abc@example.com logged in successfully.
+[2025-05-27 02:00:40 INF] HTTP POST /api/auth/login responded 200 in 1853.9707 ms
+[2025-05-27 02:00:40 INF] HTTP OPTIONS /api/loans responded 204 in 0.0832 ms
+[2025-05-27 02:00:40 INF] Fetching all loans for user "3b099eaf-1b27-4896-b4ac-54da5865b408"
+[2025-05-27 02:00:40 INF] HTTP GET /api/loans responded 200 in 139.1612 ms
+[2025-05-27 02:00:46 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.8394 ms
+[2025-05-27 02:00:46 INF] HTTP POST /api/refinance/calculate responded 200 in 20.5258 ms
+[2025-05-27 02:08:31 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.3834 ms
+[2025-05-27 02:08:31 INF] HTTP POST /api/refinance/calculate responded 200 in 7.0351 ms
+[2025-05-27 02:11:21 INF] HTTP OPTIONS /api/refinance/calculate responded 204 in 0.3554 ms
+[2025-05-27 02:11:21 INF] HTTP POST /api/refinance/calculate responded 200 in 4.0007 ms

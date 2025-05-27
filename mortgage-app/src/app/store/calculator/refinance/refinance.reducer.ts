@@ -31,10 +31,17 @@ export const refinanceReducer = createReducer(
     result,
     isLoading: false,
   })),
+  // on(calculateRefinanceFailure, (state, { error }) => ({
+  //   ...state,
+  //   error,
+  //   isLoading: false,
+  // })),
+
   on(calculateRefinanceFailure, (state, { error }) => ({
-    ...state,
-    error,
-    isLoading: false,
-  })),
+  ...state,
+  result: null,
+  error,
+  isLoading: false,
+})),
   on(resetRefinance, () => initialState)
 );

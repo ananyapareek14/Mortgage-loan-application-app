@@ -3,6 +3,7 @@ interface IRefinance {
   NewPayment: number;
   BreakEvenMonths: number;
   LifetimeSavings: number;
+  // RefinanceFees: number;
 }
 
 interface IRefinanceRequest {
