@@ -80,6 +80,43 @@
 #       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
 
 
+# name: .NET-DA-Unit-Testing
+
+# on:
+#   push:
+#     branches: [ "DA-Unit-Testing" ]
+#   pull_request:
+#     branches: [ "DA-Unit-Testing" ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v4
+
+#     - name: Setup .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: 8.0.x
+
+#     - name: Restore dependencies
+#       run: dotnet restore MortgageServer/MortgageAPI/MortgageAPI.sln
+
+#     - name: Build
+#       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
+
+#     - name: Run .NET Linting with dotnet format
+#       run: |
+#         dotnet format MortgageServer/MortgageAPI/MortgageAPI.sln \
+#           --verify-no-changes \
+#           --verbosity diagnostic \
+#           --report format-report.json
+
+#     - name: Test
+#       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
+
+
 name: .NET-DA-Unit-Testing
 
 on:
@@ -107,13 +144,10 @@ jobs:
       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
 
     - name: Run .NET Linting with dotnet format
-      run: |
-        dotnet format MortgageServer/MortgageAPI/MortgageAPI.sln \
-          --verify-no-changes \
-          --verbosity diagnostic \
-          --report format-report.json
+      run: dotnet format MortgageServer/MortgageAPI/MortgageAPI.sln --verify-no-changes --verbosity diagnostic
 
     - name: Test
       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
+
 
 
