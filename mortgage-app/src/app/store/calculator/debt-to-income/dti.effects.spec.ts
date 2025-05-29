@@ -6,6 +6,7 @@ import { DtiEffects } from './dti.effects';
 import * as DtiActions from './dti.actions';
 import { CalculatorService } from '../../../services/calculator/calculators.service';
 import { IDebtToIncome, IDebtToIncomeRequest } from '../../../models/IDebt-To-Income';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
 
 describe('DtiEffects', () => {
@@ -64,6 +65,38 @@ describe('DtiEffects', () => {
     });
   });
 
+  // it('should handle DTI calculation failure', () => {
+  //   testScheduler.run(({ hot, cold, expectObservable }) => {
+  //     const request: IDebtToIncomeRequest = {
+  //       AnnualIncome: 60000,
+  //       MinCreditCardPayments: 200,
+  //       CarLoanPayments: 300,
+  //       StudentLoanPayments: 250,
+  //       ProposedMonthlyPayment: 1000,
+  //       CalculateDefaultPayment: false,
+  //     };
+  //     const error = new Error('Calculation failed');
+  //     const action = DtiActions.calculateDti({ request });
+  //     const completion = DtiActions.calculateDtiFailure({ error });
+
+  //     actions$ = hot('-a', { a: action });
+  //       //   const response = cold('-#|', {}, error);
+  //       const mockDti: IDebtToIncome = {
+  //         DtiPercentage: 30,
+  //         TotalDebts: 1500,
+  //         ProposedMonthlyPayment: 1000,
+  //         RemainingMonthlyIncome: 2500,
+  //       };
+          
+
+  //       const response = cold('---x|', { x: mockDti });
+          
+  //     calculatorService.calculateDti.and.returnValue(response);
+
+  //     expectObservable(effects.calculateDti$()).toBe('----c', { c: completion });
+  //   });
+  // });
+
   it('should handle DTI calculation failure', () => {
     testScheduler.run(({ hot, cold, expectObservable }) => {
       const request: IDebtToIncomeRequest = {
@@ -74,27 +107,23 @@ describe('DtiEffects', () => {
         ProposedMonthlyPayment: 1000,
         CalculateDefaultPayment: false,
       };
+
       const error = new Error('Calculation failed');
       const action = DtiActions.calculateDti({ request });
       const completion = DtiActions.calculateDtiFailure({ error });
 
       actions$ = hot('-a', { a: action });
-        //   const response = cold('-#|', {}, error);
-        const mockDti: IDebtToIncome = {
-          DtiPercentage: 30,
-          TotalDebts: 1500,
-          ProposedMonthlyPayment: 1000,
-          RemainingMonthlyIncome: 2500,
-        };
-          
 
-        const response = cold('---x|', { x: mockDti });
-          
+      // Simulate error response
+      // const response = cold('---#', {}, error);
+      const response: ColdObservable<IDebtToIncome> = cold('---#', {}, error);
       calculatorService.calculateDti.and.returnValue(response);
 
-      expectObservable(effects.calculateDti$()).toBe('--c', { c: completion });
+      // Expected to emit failure action after 3 frames of async work
+      expectObservable(effects.calculateDti$()).toBe('----c', { c: completion });
     });
   });
+  
 
   it('should handle edge case with zero annual income', () => {
     testScheduler.run(({ hot, cold, expectObservable }) => {
@@ -217,7 +246,7 @@ describe('DtiEffects', () => {
       const response2 = cold('--y|', { y: result2 });
       calculatorService.calculateDti.and.returnValues(response1, response2);
 
-      expectObservable(effects.calculateDti$()).toBe('--c-d', {
+      expectObservable(effects.calculateDti$()).toBe('--c--d', {
         c: completion1,
         d: completion2,
       });

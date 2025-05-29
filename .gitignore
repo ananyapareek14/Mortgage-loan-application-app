@@ -4,8 +4,9 @@
 *.obj
 *.log
 *.tmp
+*.pdf
 bin/
 obj/
 node_modules/
 convert-to-pdf/
-Loan-Calculation app reports/
+Loan-Calculation-app-reports-Ananya/

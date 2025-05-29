@@ -26,3 +26,5 @@ jobs:
       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
     - name: Test
       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
+
+

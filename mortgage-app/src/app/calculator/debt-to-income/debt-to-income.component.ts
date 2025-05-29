@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Store, select } from '@ngrx/store';
 import { calculateDti, resetDti } from '../../store/calculator/debt-to-income/dti.actions';
 import { selectDtiError, selectDtiLoading, selectDtiResult } from '../../store/calculator/debt-to-income/dti.selectors';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-debt-to-income',
@@ -33,7 +33,7 @@ export class DebtToIncomeComponent implements OnInit {
 
   result$ = this.store.pipe(select(selectDtiResult));
   loading$ = this.store.pipe(select(selectDtiLoading));
-  error$ = this.store.pipe(select(selectDtiError));
+  error$: Observable<string | null> = this.store.pipe(select(selectDtiError));
 
   constructor() {
     this.result$.pipe(filter(Boolean)).subscribe(result => {

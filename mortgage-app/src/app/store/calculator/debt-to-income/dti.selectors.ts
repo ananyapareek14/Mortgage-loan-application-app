@@ -5,15 +5,15 @@ export const selectDtiState = createFeatureSelector<DtiState>('dti');
 
 export const selectDtiResult = createSelector(
   selectDtiState,
-  (state) => state.result
+  (state) => state?.result ?? undefined
 );
 
 export const selectDtiLoading = createSelector(
   selectDtiState,
-  (state) => state.loading
+  (state) => state?.loading
 );
 
 export const selectDtiError = createSelector(
   selectDtiState,
-  (state) => state.error
+  (state) : string => state?.error ?? null
 );
