@@ -106,24 +106,12 @@ jobs:
     - name: Build
       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
 
-    - name: Restore Roslynator tool
-      run: dotnet tool restore
-
-    - name: Run Roslynator Analysis
-      run: dotnet tool run roslynator analyze MortgageServer/MortgageAPI/MortgageAPI.sln --output roslynator-report.xml --verbosity diagnostic
-
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
-
-    - name: Convert XML to SARIF
-      run: python .github/scripts/roslynator-xml-to-sarif.py
-
-    - name: Upload SARIF Report
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: roslynator-report.sarif
+    - name: Run .NET Linting with dotnet format
+      run: |
+        dotnet format MortgageServer/MortgageAPI/MortgageAPI.sln \
+          --verify-no-changes \
+          --verbosity diagnostic \
+          --report format-report.json
 
     - name: Test
       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
