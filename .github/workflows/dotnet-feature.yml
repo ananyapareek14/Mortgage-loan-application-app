@@ -1,6 +1,32 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
+# name: .NET-DA-Unit-Testing
+
+# on:
+#   push:
+#     branches: [ "DA-Unit-Testing" ]
+#   pull_request:
+#     branches: [ "DA-Unit-Testing" ]
+
+# jobs:
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v4
+#     - name: Setup .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: 8.0.x
+#     - name: Restore dependencies
+#       run: dotnet restore MortgageServer/MortgageAPI/MortgageAPI.sln
+#     - name: Build
+#       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
+#     - name: Test
+#       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
+
 name: .NET-DA-Unit-Testing
 
 on:
@@ -11,19 +37,45 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+
     - name: Restore dependencies
       run: dotnet restore MortgageServer/MortgageAPI/MortgageAPI.sln
+
     - name: Build
       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
+
+    - name: Install Roslynator CLI
+      run: dotnet tool install --global roslynator.console
+      env:
+        DOTNET_ROOT: /opt/hostedtoolcache/dotnet
+
+    - name: Run Roslynator Analysis
+      run: |
+        roslynator analyze MortgageServer/MortgageAPI/MortgageAPI.sln --output roslynator-report.xml --verbosity diagnostic
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Convert XML to SARIF
+      run: |
+        python .github/scripts/roslynator-xml-to-sarif.py
+
+    - name: Upload SARIF Report
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: roslynator-report.sarif
+
     - name: Test
       run: dotnet test MortgageServer/MortgageAPI/MortgageAPI.sln --no-build --verbosity normal
 
