@@ -131,7 +131,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(loanDto, okResult.Value);
+            Assert.That(okResult.Value, Is.EqualTo(loanDto));
         }
 
 
@@ -200,7 +200,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(loansDto, okResult.Value);
+            Assert.That(okResult.Value, Is.EqualTo(loansDto));
         }
 
 
@@ -239,7 +239,7 @@ namespace MortgageAPITest.Controllers
             var result = _controller.GetType().GetMethod("GetUserIdFromToken", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(_controller, null);
 
             // Assert
-            Assert.AreEqual(expectedUserId, result);
+            Assert.That(result, Is.EqualTo(expectedUserId));
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace MortgageAPITest.Controllers
 
             var ex = Assert.Throws<TargetInvocationException>(() => method.Invoke(_controller, null));
             Assert.IsInstanceOf<UnauthorizedAccessException>(ex.InnerException);
-            Assert.AreEqual("Invalid or missing User ID in token.", ex.InnerException.Message);
+            Assert.That(ex.InnerException.Message, Is.EqualTo("Invalid or missing User ID in token."));
         }
 
     }

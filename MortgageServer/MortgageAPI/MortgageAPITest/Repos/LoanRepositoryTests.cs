@@ -45,7 +45,7 @@ namespace MortgageAPITest.Repos
         });
             _loanRepository = new LoanRepository(_mockContext, _mockAmortizationCalculator.Object);
 
-            
+
         }
 
         [TearDown]
@@ -71,7 +71,7 @@ namespace MortgageAPITest.Repos
             await _loanRepository.AddLoanAsync(newLoan);
 
             // Assert
-            Assert.AreEqual(3, newLoan.UserLoanNumber);
+            Assert.That(newLoan.UserLoanNumber, Is.EqualTo(3));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace MortgageAPITest.Repos
             await _loanRepository.AddLoanAsync(newLoan);
 
             // Assert
-            Assert.AreEqual(1, newLoan.UserLoanNumber);
+            Assert.That(newLoan.UserLoanNumber, Is.EqualTo(1));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace MortgageAPITest.Repos
             var result = await _loanRepository.GetAllLoansAsync(userId);
 
             // Assert
-            Assert.AreEqual(2, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(2));
             Assert.IsTrue(result.All(l => l.UserId == userId));
         }
 
@@ -127,8 +127,8 @@ namespace MortgageAPITest.Repos
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(userId, result.UserId);
-            Assert.AreEqual(userLoanNumber, result.UserLoanNumber);
+            Assert.That(result.UserId, Is.EqualTo(userId));
+            Assert.That(result.UserLoanNumber, Is.EqualTo(userLoanNumber));
         }
 
         [Test]

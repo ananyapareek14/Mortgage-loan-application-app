@@ -39,7 +39,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
-        Assert.AreEqual(expectedResult, ((OkObjectResult)result.Result).Value);
+        Assert.That(((OkObjectResult)result.Result).Value, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
-        Assert.AreEqual("Invalid input", ((BadRequestObjectResult)result.Result).Value);
+        Assert.That(((BadRequestObjectResult)result.Result).Value, Is.EqualTo("Invalid input"));
     }
 
     [Test]
@@ -70,7 +70,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
-        Assert.AreEqual(expectedResult, ((OkObjectResult)result.Result).Value);
+        Assert.That(((OkObjectResult)result.Result).Value, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -84,7 +84,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
-        Assert.AreEqual("Annual income must be greater than zero.", ((BadRequestObjectResult)result.Result).Value);
+        Assert.That(((BadRequestObjectResult)result.Result).Value, Is.EqualTo("Annual income must be greater than zero."));
     }
 
     [Test]
@@ -100,7 +100,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
-        Assert.AreEqual(expectedResult, ((OkObjectResult)result.Result).Value);
+        Assert.That(((OkObjectResult)result.Result).Value, Is.EqualTo(expectedResult));
     }
 
     [Test]
@@ -115,7 +115,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
-        Assert.AreEqual("Error: Calculation error", ((BadRequestObjectResult)result.Result).Value);
+        Assert.That(((BadRequestObjectResult)result.Result).Value, Is.EqualTo("Error: Calculation error"));
     }
 
     [Test]
@@ -141,7 +141,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);
-        Assert.AreEqual(expectedSchedule, ((OkObjectResult)result).Value);
+        Assert.That(((OkObjectResult)result).Value, Is.EqualTo(expectedSchedule));
     }
 
     [Test]
@@ -155,7 +155,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        Assert.AreEqual("Invalid input. Please ensure all fields are positive numbers.", ((BadRequestObjectResult)result).Value);
+        Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Invalid input. Please ensure all fields are positive numbers."));
     }
 
     [Test]
@@ -206,7 +206,7 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);
-        Assert.AreEqual(scheduleDto, ((OkObjectResult)result).Value);
+        Assert.That(((OkObjectResult)result).Value, Is.EqualTo(scheduleDto));
     }
 
     [Test]
@@ -220,6 +220,6 @@ public class CalculatorControllerTests
 
         // Assert
         Assert.IsInstanceOf<BadRequestObjectResult>(result);
-        Assert.AreEqual("Invalid loan details. Ensure all values are greater than zero.", ((BadRequestObjectResult)result).Value);
+        Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Invalid loan details. Ensure all values are greater than zero."));
     }
 }

@@ -46,9 +46,9 @@ namespace MortgageAPITest.Controllers
             Assert.IsNotNull(okResult);
             var value = okResult.Value as LoginResponse;
             Assert.IsNotNull(value);
-            Assert.AreEqual("Signed in successfully", value.message);
-            Assert.AreEqual("valid_token", value.token);
-            Assert.AreEqual("testuser", value.username);
+            Assert.That(value.message, Is.EqualTo("Signed in successfully"));
+            Assert.That(value.token, Is.EqualTo("valid_token"));
+            Assert.That(value.username, Is.EqualTo("testuser"));
 
         }
 
@@ -67,7 +67,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<UnauthorizedObjectResult>(result);
             var unauthorizedResult = result as UnauthorizedObjectResult;
             Assert.IsNotNull(unauthorizedResult);
-            Assert.AreEqual("Invalid username or password", unauthorizedResult.Value);
+            Assert.That(unauthorizedResult.Value, Is.EqualTo("Invalid username or password"));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<BadRequestObjectResult>(result);
             var badRequestResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual("Username already taken.", badRequestResult.Value);
+            Assert.That(badRequestResult.Value, Is.EqualTo("Username already taken."));
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace MortgageAPITest.Controllers
             Assert.IsInstanceOf<BadRequestObjectResult>(result);
             var badRequestResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual("Invalid role. Allowed roles are 'Admin' or 'User'.", badRequestResult.Value);
+            Assert.That(badRequestResult.Value, Is.EqualTo("Invalid role. Allowed roles are 'Admin' or 'User'."));
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace MortgageAPITest.Controllers
 
             var responseValue = okResult.Value as RegisterResponse;
             Assert.IsNotNull(responseValue);
-            Assert.AreEqual("User added successfully.", responseValue.message);
+            Assert.That(responseValue.message, Is.EqualTo("User added successfully."));
 
             _mockUserRepository.Verify(x => x.AddUserAsync(It.Is<User>(u => u.Role == "User")), Times.Once);
             _mockMapper.Verify(x => x.Map<User>(It.Is<RegisterRequest>(r => r.role == string.Empty)), Times.Once);

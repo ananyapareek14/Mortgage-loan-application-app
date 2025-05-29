@@ -85,7 +85,7 @@ namespace MortgageAPITest.Controllers
             // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
-            Assert.AreEqual(scheduleDto, okResult.Value);
+            Assert.That(okResult.Value, Is.EqualTo(scheduleDto));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace MortgageAPITest.Controllers
                 .Invoke(_controller, null);
 
             // Assert
-            Assert.AreEqual(userId, result);
+            Assert.That(result, Is.EqualTo(userId));
         }
 
         [Test]

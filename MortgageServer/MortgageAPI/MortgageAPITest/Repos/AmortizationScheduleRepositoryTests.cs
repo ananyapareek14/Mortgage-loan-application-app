@@ -60,9 +60,9 @@ namespace MortgageAPITest.Repos
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual(1, result.First().PaymentNumber);
-            Assert.AreEqual(2, result.Last().PaymentNumber);
+            Assert.That(result.Count(), Is.EqualTo(2));
+            Assert.That(result.First().PaymentNumber, Is.EqualTo(1));
+            Assert.That(result.Last().PaymentNumber, Is.EqualTo(2));
         }
 
         [Test]

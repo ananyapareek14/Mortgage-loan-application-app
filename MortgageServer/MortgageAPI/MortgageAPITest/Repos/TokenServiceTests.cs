@@ -46,8 +46,8 @@ namespace MortgageAPITest.Repos
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
             Assert.IsNotNull(jsonToken);
-            Assert.AreEqual("TestIssuer", jsonToken.Issuer);
-            Assert.AreEqual("TestAudience", jsonToken.Audiences.FirstOrDefault());
+            Assert.That(jsonToken.Issuer, Is.EqualTo("TestIssuer"));
+            Assert.That(jsonToken.Audiences.FirstOrDefault(), Is.EqualTo("TestAudience"));
             Assert.IsTrue(jsonToken.ValidTo > DateTime.UtcNow);
             Assert.IsTrue(jsonToken.ValidTo <= DateTime.UtcNow.AddMinutes(30));
         }

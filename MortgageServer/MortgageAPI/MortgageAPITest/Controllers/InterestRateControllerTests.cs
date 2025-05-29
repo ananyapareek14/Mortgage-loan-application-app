@@ -42,7 +42,7 @@ namespace MortgageAPITest.Controllers
             // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
-            Assert.AreEqual(rateDtos, okResult.Value);
+            Assert.That(okResult.Value, Is.EqualTo(rateDtos));
             //_mockLogger.Verify(logger => logger.LogInformation("Fetching interest rates"), Times.Once);
             _mockLogger.Verify(
     x => x.Log(
@@ -102,7 +102,7 @@ namespace MortgageAPITest.Controllers
             // Assert
             Assert.IsInstanceOf<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.AreEqual(500, objectResult.StatusCode);
+            Assert.That(objectResult.StatusCode, Is.EqualTo(500));
 
             // Verify that LogError was called
             _mockLogger.Verify(
@@ -130,7 +130,7 @@ namespace MortgageAPITest.Controllers
             // Assert
             Assert.IsInstanceOf<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.AreEqual(500, objectResult.StatusCode);
+            Assert.That(objectResult.StatusCode, Is.EqualTo(500));
             //_mockLogger.Verify(logger => logger.LogError(It.IsAny<Exception>(), It.IsAny<string>()), Times.Once);
             _mockLogger.Verify(
     logger => logger.Log(
@@ -164,7 +164,7 @@ namespace MortgageAPITest.Controllers
             // Assert
             Assert.IsInstanceOf<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
-            Assert.AreEqual(10000, ((IEnumerable<InterestRateDto>)okResult.Value).Count());
+            Assert.That(((IEnumerable<InterestRateDto>)okResult.Value).Count(), Is.EqualTo(10000));
         }
     }
 }

@@ -27,7 +27,7 @@ namespace MortgageAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO request)
         {
-            _logger.LogInformation("Login attempt for user: {Username}", request.username); 
+            _logger.LogInformation("Login attempt for user: {Username}", request.username);
             var Token = await _authService.AuthenticateAsync(request.username, request.password);
             if (Token == null)
             {
