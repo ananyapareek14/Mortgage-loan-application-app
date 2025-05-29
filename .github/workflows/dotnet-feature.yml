@@ -107,7 +107,7 @@ jobs:
       run: dotnet build MortgageServer/MortgageAPI/MortgageAPI.sln --no-restore
 
     - name: Restore Roslynator tool
-      run: dotnet tool restore
+      run: dotnet tool restore MortgageServer/MortgageAPI/MortgageAPI.sln
 
     - name: Run Roslynator Analysis
       run: dotnet tool run roslynator analyze MortgageServer/MortgageAPI/MortgageAPI.sln --output roslynator-report.xml --verbosity diagnostic
