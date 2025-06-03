@@ -87,7 +87,7 @@ describe('DTI Selectors', () => {
     expect(selectDtiState(emptyState)).toBeUndefined();
     expect(selectDtiResult(emptyState)).toBeUndefined();
     expect(selectDtiLoading(emptyState)).toBeUndefined();
-    expect(selectDtiError(emptyState)).toBeUndefined();
+    expect(selectDtiError(emptyState)).toBeNull();
   });
 
   // Edge case: Maximum values

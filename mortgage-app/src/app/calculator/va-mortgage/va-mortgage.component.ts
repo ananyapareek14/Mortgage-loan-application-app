@@ -62,7 +62,7 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
   private fb = inject(FormBuilder);
 
   form = this.fb.group({
-    HomePrice: [300000, [Validators.required, Validators.min(0)]],
+    HomePrice: [300000, [Validators.required, Validators.min(1)]],
     DownPayment: [60000, [Validators.required, Validators.min(0)]],
     InterestRate: [5, [Validators.required, Validators.min(0)]],
     LoanTermYears: [10, [Validators.required, Validators.min(1)]],

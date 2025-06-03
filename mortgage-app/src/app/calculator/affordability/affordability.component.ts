@@ -87,7 +87,7 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
         MonthlyDebts: raw.monthlyDebts ?? 0,
         DownPayment: raw.downPayment ?? 0,
         InterestRate: raw.interestRate ?? 0,
-        LoanTermMonths: (raw.loanTermYears ?? 0),
+        LoanTermMonths: (raw.loanTermYears ?? 0) * 12,
       };
 
       this.store.dispatch(calculateAffordability({ request }));

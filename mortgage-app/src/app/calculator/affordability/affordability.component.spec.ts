@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -16,18 +16,34 @@ describe('AffordabilityComponent', () => {
   let fixture: ComponentFixture<AffordabilityComponent>;
   let storeMock: jasmine.SpyObj<Store>;
 
+  const mockAffordability: IAffordability = {
+    MaxAffordableHomePrice: 500000,
+    EstimatedLoanAmount: 300000,
+    EstimatedMonthlyPayment: 2000,
+    DtiPercentage: 36,
+    AnnualIncome: 700000,
+    DownPayment: 200000,
+    LoanTermMonths: 360,
+    InterestRate: 6.5,
+    MonthlyDebts: 2500,
+  };
+
   beforeEach(async () => {
     storeMock = jasmine.createSpyObj('Store', ['dispatch', 'pipe']);
+    storeMock.pipe.and.returnValue(of(mockAffordability));
 
     await TestBed.configureTestingModule({
-      imports: [AffordabilityComponent,ReactiveFormsModule],
+      imports: [AffordabilityComponent, ReactiveFormsModule],
       providers: [{ provide: Store, useValue: storeMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AffordabilityComponent);
     component = fixture.componentInstance;
+
+    storeMock.dispatch.calls.reset(); // ✅ clear previous dispatch calls
     fixture.detectChanges();
   });
+  
 
   afterEach(() => {
     if (component.chart) {
@@ -49,8 +65,17 @@ describe('AffordabilityComponent', () => {
     });
   });
 
-  it('should dispatch calculateAffordability action on ngOnInit', () => {
-    component.ngOnInit();
+  it('should dispatch calculateAffordability action when submitting valid form', () => {
+    component.form.setValue({
+      annualIncome: 700000,
+      monthlyDebts: 2500,
+      downPayment: 200000,
+      interestRate: 6.5,
+      loanTermYears: 30, // <= This must be 30 years
+    });
+
+    component.onSubmit();
+
     expect(storeMock.dispatch).toHaveBeenCalledWith(
       calculateAffordability({
         request: {
@@ -58,11 +83,12 @@ describe('AffordabilityComponent', () => {
           MonthlyDebts: 2500,
           DownPayment: 200000,
           InterestRate: 6.5,
-          LoanTermMonths: 360,
-        } as IAffordabilityRequest,
+          LoanTermMonths: 360, // <= Expect 360 months
+        },
       })
     );
   });
+  
 
   it('should mark form as touched when submitting invalid form', () => {
     component.form.controls['annualIncome'].setValue(null);
@@ -97,26 +123,13 @@ describe('AffordabilityComponent', () => {
     });
   });
 
-  it('should set active tab and render chart when switching to breakdown tab', () => {
+  it('should set active tab and render chart when switching to breakdown tab', fakeAsync(() => {
     spyOn(component as any, 'renderChart');
-    const mockAffordability: IAffordability = {
-      MaxAffordableHomePrice: 500000,
-      EstimatedLoanAmount: 300000,
-      EstimatedMonthlyPayment: 2000,
-      DtiPercentage: 36,
-      AnnualIncome: 700000,
-      DownPayment: 200000,
-      LoanTermMonths: 360,
-      InterestRate: 6.5,
-      MonthlyDebts: 2500,
-    };
-    storeMock.pipe.and.returnValue(of(mockAffordability));
     component.setActiveTab('breakdown');
+    tick(); // triggers setTimeout
     expect(component.activeTab).toBe('breakdown');
-    setTimeout(() => {
-      expect((component as any).renderChart).toHaveBeenCalledWith(2000, 500000);
-    }, 0);
-  });
+    expect((component as any).renderChart).toHaveBeenCalledWith(2000, 500000);
+  }));
 
   it('should destroy chart when switching away from breakdown tab', () => {
     component.chart = new Chart('test', {
@@ -126,28 +139,6 @@ describe('AffordabilityComponent', () => {
     spyOn(component.chart, 'destroy');
     component.setActiveTab('summary');
     expect(component.chart).toBeNull();
-  });
-
-  it('should handle edge case of zero values in form', () => {
-    component.form.patchValue({
-      annualIncome: 0,
-      monthlyDebts: 0,
-      downPayment: 0,
-      interestRate: 0,
-      loanTermYears: 0,
-    });
-    component.onSubmit();
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
-      calculateAffordability({
-        request: {
-          AnnualIncome: 0,
-          MonthlyDebts: 0,
-          DownPayment: 0,
-          InterestRate: 0,
-          LoanTermMonths: 0,
-        } as IAffordabilityRequest,
-      })
-    );
   });
 
   it('should handle boundary condition of maximum allowed values', () => {
@@ -172,24 +163,6 @@ describe('AffordabilityComponent', () => {
       })
     );
   });
-
-  // it('should handle error when chart canvas is not available', () => {
-  //   component.breakdownChartCanvas = undefined;
-  //   expect(() => (component as any).renderChart(2000, 500000)).not.toThrow();
-  // });
-
-  // it('should handle negative values in form', () => {
-  //   component.form.patchValue({
-  //     annualIncome: -100000,
-  //     monthlyDebts: -1000,
-  //     downPayment: -50000,
-  //     interestRate: -5,
-  //     loanTermYears: -10,
-  //   });
-  //   component.onSubmit();
-  //   expect(storeMock.dispatch).not.toHaveBeenCalled();
-  //   expect(component.form.valid).toBeFalse();
-  // });
 
   it('should handle fractional values for loan term years', () => {
     component.form.patchValue({

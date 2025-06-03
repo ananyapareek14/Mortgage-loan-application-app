@@ -22,7 +22,7 @@
         <select id="interestRate" formControlName="InterestRate" class="form-control">
           <option value="" disabled>Select an interest rate</option>
           <option *ngFor="let rate of interestRates$ | async" [value]="rate.Rate">
-            {{ rate.Rate }}% (Valid From: {{ rate.ValidFrom | date:'shortDate' }})
+            {{ rate.Rate }}%
           </option>
         </select>
         <div *ngIf="loanForm.controls['InterestRate'].invalid && loanForm.controls['InterestRate'].touched" class="text-danger">

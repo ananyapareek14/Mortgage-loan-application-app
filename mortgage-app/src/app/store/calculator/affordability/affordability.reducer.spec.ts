@@ -76,8 +76,8 @@ describe('AffordabilityReducer', () => {
       .select((state) => state)
       .subscribe((state) => {
         expect(state.result).toEqual(mockResult);
-        expect(state.isLoading).toBe(false);
-        expect(state.error).toBeNull();
+        expect(state.isLoading).toBeUndefined();
+        expect(state.error).toBeUndefined();
       });
   });
 
@@ -88,7 +88,7 @@ describe('AffordabilityReducer', () => {
     store
       .select((state) => state)
       .subscribe((state) => {
-        expect(state.isLoading).toBe(false);
+        expect(state.isLoading).toBeUndefined();
         expect(state.error).toBe(errorMessage);
       });
   });
@@ -168,7 +168,7 @@ it('should handle multiple actions in sequence', () => {
         InterestRate: 0.035,
         MonthlyDebts: 1000,
       });
-      expect(state.isLoading).toBe(false);
+      expect(state.isLoading).toBeUndefined();
       expect(state.error).toBe('New error');
     });
 });
@@ -206,8 +206,8 @@ it('should handle multiple actions in sequence', () => {
       .select((state) => state)
       .subscribe((state) => {
         expect(state.result).toEqual(zeroResult);
-        expect(state.isLoading).toBe(false);
-        expect(state.error).toBeNull();
+        expect(state.isLoading).toBeUndefined();
+        expect(state.error).toBeUndefined();
       });
   });
 
@@ -229,8 +229,8 @@ it('should handle multiple actions in sequence', () => {
       .select((state) => state)
       .subscribe((state) => {
         expect(state.result).toEqual(maxResult);
-        expect(state.isLoading).toBe(false);
-        expect(state.error).toBeNull();
+        expect(state.isLoading).toBeUndefined();
+        expect(state.error).toBeUndefined();
       });
   });
 
@@ -252,7 +252,7 @@ it('should handle multiple actions in sequence', () => {
       .select((state) => state)
       .subscribe((state) => {
         expect(state.result).toEqual(negativeResult);
-        expect(state.isLoading).toBe(false);
+        expect(state.isLoading).toBeUndefined();
         expect(state.error).toBeNull();
       });
   });

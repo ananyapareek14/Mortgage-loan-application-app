@@ -26,6 +26,7 @@ describe('VaMortgageComponent', () => {
 
     // store = TestBed.inject(Store) as jasmine.SpyObj<Store>;
     store = TestBed.inject(MockStore);
+    spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(VaMortgageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -40,7 +41,7 @@ describe('VaMortgageComponent', () => {
       HomePrice: 300000,
       DownPayment: 60000,
       InterestRate: 5,
-      LoanTermYears: 30,
+      LoanTermYears: 10,
     });
   });
 
@@ -49,7 +50,7 @@ describe('VaMortgageComponent', () => {
       HomePrice: 300000,
       DownPayment: 60000,
       InterestRate: 5,
-      LoanTermYears: 30,
+      LoanTermYears: 10,
     };
     component.ngOnInit();
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -131,16 +132,34 @@ describe('VaMortgageComponent', () => {
     );
   });
 
+  // it('should not submit form with invalid data', () => {
+  //   component.form.setValue({
+  //     HomePrice: -100000,
+  //     DownPayment: 80000,
+  //     InterestRate: 4.5,
+  //     LoanTermYears: 15,
+  //   });
+  //   component.onSubmit();
+  //   expect(store.dispatch).not.toHaveBeenCalled();
+  // });
+
   it('should not submit form with invalid data', () => {
+    // Arrange: form with invalid HomePrice (violates Validators.min(1))
     component.form.setValue({
-      HomePrice: -100000,
-      DownPayment: 80000,
-      InterestRate: 4.5,
-      LoanTermYears: 15,
+      HomePrice: 0, // 👈 Invalid
+      DownPayment: 60000,
+      InterestRate: 5,
+      LoanTermYears: 30,
     });
+
+    // Act
     component.onSubmit();
+
+    // Assert
+    expect(component.form.valid).toBeFalse(); // ✅ Helps you debug
     expect(store.dispatch).not.toHaveBeenCalled();
   });
+  
 
   it('should reset form and clear data', () => {
     component.onReset();
