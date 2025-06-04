@@ -5,8 +5,10 @@
 *.log
 *.tmp
 *.pdf
+*.txt
 bin/
 obj/
 node_modules/
 convert-to-pdf/
 Loan-Calculation-app-reports-Ananya/
+mortgage-app/src/app/Prompt.txt

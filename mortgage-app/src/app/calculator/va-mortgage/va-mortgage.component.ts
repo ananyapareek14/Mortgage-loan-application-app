@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Chart } from 'chart.js';
@@ -47,12 +47,7 @@ Chart.register(
 @Component({
   selector: 'app-va-mortgage',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CurrencyPipe,
-    MatTabsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CurrencyPipe, MatTabsModule],
   templateUrl: './va-mortgage.component.html',
   styleUrls: ['./va-mortgage.component.css'],
 })
@@ -61,12 +56,17 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
   private store = inject(Store);
   private fb = inject(FormBuilder);
 
-  form = this.fb.group({
-    HomePrice: [300000, [Validators.required, Validators.min(1)]],
-    DownPayment: [60000, [Validators.required, Validators.min(0)]],
-    InterestRate: [5, [Validators.required, Validators.min(0)]],
-    LoanTermYears: [10, [Validators.required, Validators.min(1)]],
-  });
+  form = this.fb.group(
+    {
+      HomePrice: [300000, [Validators.required, Validators.min(1)]],
+      DownPayment: [60000, [Validators.required, Validators.min(0)]],
+      InterestRate: [5, [Validators.required, Validators.min(0)]],
+      LoanTermYears: [10, [Validators.required, Validators.min(1)]],
+    },
+    {
+      validators: this.downPaymentLessThanHomePriceValidator(),
+    }
+  );
 
   result$ = this.store.select(selectVaMortgageResult);
   loading$ = this.store.select(selectVaMortgageLoading);
@@ -132,7 +132,10 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
 
   updateVisiblePages() {
     const maxPagesToShow = 5;
-    let startPage = Math.max(1, this.currentPage - Math.floor(maxPagesToShow / 2));
+    let startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxPagesToShow / 2)
+    );
     let endPage = startPage + maxPagesToShow - 1;
 
     if (endPage > this.totalPages) {
@@ -154,77 +157,86 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
     }
   }
 
-  renderChart(data: IVaMortgage[]) {
-  if (!this.chartCanvasRef) return;
-
-  const labels = data.map((item) => `Month ${item.MonthNumber}`);
-  const balance = data.map((item) => item.RemainingBalance);
-  const principal = data.map((item) => item.PrincipalPayment);
-  const interest = data.map((item) => item.InterestPayment);
-
-  const canvas = this.chartCanvasRef.nativeElement;
-
-  if (this.chartInstance) {
-    this.chartInstance.destroy();
+  downPaymentLessThanHomePriceValidator() {
+    return (group: AbstractControl): { [key: string]: any } | null => {
+      const homePrice = group.get('HomePrice')?.value;
+      const downPayment = group.get('DownPayment')?.value;
+      return downPayment > homePrice
+        ? { downPaymentExceedsHomePrice: true }
+        : null;
+    };
   }
 
-  this.chartInstance = new Chart(canvas, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Remaining Balance',
-          data: balance,
-          borderColor: 'rgb(0, 47, 255)',
-          backgroundColor: 'rgba(0, 47, 255, 0.1)',
-          fill: false,
-          tension: 0.3,
+  renderChart(data: IVaMortgage[]) {
+    if (!this.chartCanvasRef) return;
+
+    const labels = data.map((item) => `Month ${item.MonthNumber}`);
+    const balance = data.map((item) => item.RemainingBalance);
+    const principal = data.map((item) => item.PrincipalPayment);
+    const interest = data.map((item) => item.InterestPayment);
+
+    const canvas = this.chartCanvasRef.nativeElement;
+
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
+    }
+
+    this.chartInstance = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Remaining Balance',
+            data: balance,
+            borderColor: 'rgb(0, 47, 255)',
+            backgroundColor: 'rgba(0, 47, 255, 0.1)',
+            fill: false,
+            tension: 0.3,
+          },
+          {
+            label: 'Principal',
+            data: principal,
+            borderColor: 'rgb(40, 167, 69)',
+            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+            fill: false,
+            tension: 0.3,
+          },
+          {
+            label: 'Interest',
+            data: interest,
+            borderColor: 'rgb(220, 53, 69)',
+            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+            fill: false,
+            tension: 0.3,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const label = context.dataset.label || '';
+                const value = context.parsed.y;
+                return `${label}: $${value.toLocaleString()}`;
+              },
+            },
+          },
         },
-        {
-          label: 'Principal',
-          data: principal,
-          borderColor: 'rgb(40, 167, 69)',
-          backgroundColor: 'rgba(40, 167, 69, 0.1)',
-          fill: false,
-          tension: 0.3,
-        },
-        {
-          label: 'Interest',
-          data: interest,
-          borderColor: 'rgb(220, 53, 69)',
-          backgroundColor: 'rgba(220, 53, 69, 0.1)',
-          fill: false,
-          tension: 0.3,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.dataset.label || '';
-              const value = context.parsed.y;
-              return `${label}: $${value.toLocaleString()}`;
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: (val) => `$${val}`,
             },
           },
         },
       },
-      scales: {
-        y: {
-          beginAtZero: false,
-          ticks: {
-            callback: (val) => `$${val}`,
-          },
-        },
-      },
-    },
-  });
-}
-
+    });
+  }
 
   onTabChange(index: number): void {
     if (index === 1 && this.latestData.length) {
@@ -239,6 +251,7 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   onSubmit() {
+    if (this.form.invalid) return;
     if (this.form.valid) {
       const raw = this.form.getRawValue();
 

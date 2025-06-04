@@ -10,10 +10,13 @@ import {
   calculateAffordabilityFailure,
   resetAffordability,
 } from './affordability.actions';
-import { IAffordability, IAffordabilityRequest } from '../../../models/IAffordability';
+import {
+  IAffordability,
+  IAffordabilityRequest,
+} from '../../../models/IAffordability';
 
 describe('AffordabilityReducer', () => {
-  let store: Store<AffordabilityState>;
+  let store: Store<{ affordability: AffordabilityState }>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,42 +26,40 @@ describe('AffordabilityReducer', () => {
     store = TestBed.inject(Store);
   });
 
-  it('should have initial state', () => {
-    let currentState: AffordabilityState | undefined;
+  it('should have initial state', (done) => {
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
-        currentState = state;
-      });
-
-    expect(currentState).toEqual({
-      result: null,
-      isLoading: false,
-      error: null,
-    });
-  });
-    
-    it('should set isLoading to true when calculateAffordability is dispatched', () => {
-      const mockRequest: IAffordabilityRequest = {
-        AnnualIncome: 50000,
-        DownPayment: 20000,
-        LoanTermMonths: 360,
-        InterestRate: 3.5,
-        MonthlyDebts: 500,
-      };
-
-      store.dispatch(calculateAffordability({ request: mockRequest }));
-
-      store
-        .select((state) => state)
-        .subscribe((state) => {
-          expect(state.isLoading).toBe(true);
-          expect(state.error).toBeNull();
+        expect(state).toEqual({
+          result: null,
+          isLoading: false,
+          error: null,
         });
-    });
-      
+        done();
+      });
+  });
 
-  it('should update state correctly on calculateAffordabilitySuccess', () => {
+  it('should set isLoading to true when calculateAffordability is dispatched', (done) => {
+    const mockRequest: IAffordabilityRequest = {
+      AnnualIncome: 50000,
+      DownPayment: 20000,
+      LoanTermMonths: 360,
+      InterestRate: 3.5,
+      MonthlyDebts: 500,
+    };
+
+    store.dispatch(calculateAffordability({ request: mockRequest }));
+
+    store
+      .select((state) => state.affordability)
+      .subscribe((state) => {
+        expect(state.isLoading).toBe(true);
+        expect(state.error).toBeNull();
+        done();
+      });
+  });
+
+  it('should update state correctly on calculateAffordabilitySuccess', (done) => {
     const mockResult: IAffordability = {
       MaxAffordableHomePrice: 300000,
       EstimatedLoanAmount: 240000,
@@ -70,125 +71,110 @@ describe('AffordabilityReducer', () => {
       InterestRate: 0.035,
       MonthlyDebts: 1000,
     };
+
     store.dispatch(calculateAffordabilitySuccess({ result: mockResult }));
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
         expect(state.result).toEqual(mockResult);
-        expect(state.isLoading).toBeUndefined();
-        expect(state.error).toBeUndefined();
+        expect(state.isLoading).toBe(false);
+        expect(state.error).toBeNull();
+        done();
       });
   });
 
-  it('should update state correctly on calculateAffordabilityFailure', () => {
+  it('should update state correctly on calculateAffordabilityFailure', (done) => {
     const errorMessage = 'An error occurred';
     store.dispatch(calculateAffordabilityFailure({ error: errorMessage }));
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
-        expect(state.isLoading).toBeUndefined();
+        expect(state.isLoading).toBe(false);
         expect(state.error).toBe(errorMessage);
+        done();
       });
   });
 
-  it('should reset state to initial state on resetAffordability', () => {
-    // First, update the state
-    store.dispatch(
-      calculateAffordabilitySuccess({
-        result: {
-          MaxAffordableHomePrice: 300000,
-          EstimatedLoanAmount: 240000,
-          EstimatedMonthlyPayment: 1500,
-          DtiPercentage: 0.36,
-          AnnualIncome: 100000,
-          DownPayment: 60000,
-          LoanTermMonths: 360,
-          InterestRate: 0.035,
-          MonthlyDebts: 1000,
-        },
-      })
-    );
+  it('should reset state to initial state on resetAffordability', (done) => {
+    const mockResult: IAffordability = {
+      MaxAffordableHomePrice: 300000,
+      EstimatedLoanAmount: 240000,
+      EstimatedMonthlyPayment: 1500,
+      DtiPercentage: 0.36,
+      AnnualIncome: 100000,
+      DownPayment: 60000,
+      LoanTermMonths: 360,
+      InterestRate: 0.035,
+      MonthlyDebts: 1000,
+    };
 
-    // Then reset
+    store.dispatch(calculateAffordabilitySuccess({ result: mockResult }));
     store.dispatch(resetAffordability());
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
         expect(state).toEqual({
           result: null,
           isLoading: false,
           error: null,
         });
+        done();
       });
   });
 
-it('should handle multiple actions in sequence', () => {
-  const mockRequest: IAffordabilityRequest = {
-    AnnualIncome: 100000,
-    DownPayment: 60000,
-    LoanTermMonths: 360,
-    InterestRate: 0.035,
-    MonthlyDebts: 1000,
-  };
+  it('should handle multiple actions in sequence', (done) => {
+    const mockRequest: IAffordabilityRequest = {
+      AnnualIncome: 100000,
+      DownPayment: 60000,
+      LoanTermMonths: 360,
+      InterestRate: 0.035,
+      MonthlyDebts: 1000,
+    };
 
-  store.dispatch(calculateAffordability({ request: mockRequest }));
+    const mockResult: IAffordability = {
+      MaxAffordableHomePrice: 300000,
+      EstimatedLoanAmount: 240000,
+      EstimatedMonthlyPayment: 1500,
+      DtiPercentage: 0.36,
+      AnnualIncome: 100000,
+      DownPayment: 60000,
+      LoanTermMonths: 360,
+      InterestRate: 0.035,
+      MonthlyDebts: 1000,
+    };
 
-  store.dispatch(
-    calculateAffordabilitySuccess({
-      result: {
-        MaxAffordableHomePrice: 300000,
-        EstimatedLoanAmount: 240000,
-        EstimatedMonthlyPayment: 1500,
-        DtiPercentage: 0.36,
-        AnnualIncome: 100000,
-        DownPayment: 60000,
-        LoanTermMonths: 360,
-        InterestRate: 0.035,
-        MonthlyDebts: 1000,
-      },
-    })
-  );
+    store.dispatch(calculateAffordability({ request: mockRequest }));
+    store.dispatch(calculateAffordabilitySuccess({ result: mockResult }));
+    store.dispatch(calculateAffordabilityFailure({ error: 'New error' }));
 
-  store.dispatch(calculateAffordabilityFailure({ error: 'New error' }));
-
-  store
-    .select((state) => state)
-    .subscribe((state) => {
-      expect(state.result).toEqual({
-        MaxAffordableHomePrice: 300000,
-        EstimatedLoanAmount: 240000,
-        EstimatedMonthlyPayment: 1500,
-        DtiPercentage: 0.36,
-        AnnualIncome: 100000,
-        DownPayment: 60000,
-        LoanTermMonths: 360,
-        InterestRate: 0.035,
-        MonthlyDebts: 1000,
+    store
+      .select((state) => state.affordability)
+      .subscribe((state) => {
+        expect(state.result).toEqual(mockResult); // result shouldn't be overwritten by failure
+        expect(state.isLoading).toBe(false);
+        expect(state.error).toBe('New error');
+        done();
       });
-      expect(state.isLoading).toBeUndefined();
-      expect(state.error).toBe('New error');
-    });
-});
-      
-    
+  });
+
   it('should not modify state for unhandled actions', () => {
-    const initialState = {
+    const initialState: AffordabilityState = {
       result: null,
       isLoading: false,
       error: null,
     };
 
-    const unhandledAction = { type: 'UNHANDLED_ACTION' };
+    const unhandledAction = { type: 'UNHANDLED_ACTION' } as any;
     const newState = affordabilityReducer(initialState, unhandledAction);
 
     expect(newState).toEqual(initialState);
   });
 
   // Edge Cases
-  it('should handle edge case of zero values', () => {
+  it('should handle edge case of zero values', (done) => {
     const zeroResult: IAffordability = {
       MaxAffordableHomePrice: 0,
       EstimatedLoanAmount: 0,
@@ -200,18 +186,20 @@ it('should handle multiple actions in sequence', () => {
       InterestRate: 0,
       MonthlyDebts: 0,
     };
+
     store.dispatch(calculateAffordabilitySuccess({ result: zeroResult }));
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
         expect(state.result).toEqual(zeroResult);
-        expect(state.isLoading).toBeUndefined();
-        expect(state.error).toBeUndefined();
+        expect(state.isLoading).toBe(false);
+        expect(state.error).toBeNull();
+        done();
       });
   });
 
-  it('should handle edge case of maximum safe integer values', () => {
+  it('should handle edge case of maximum safe integer values', (done) => {
     const maxResult: IAffordability = {
       MaxAffordableHomePrice: Number.MAX_SAFE_INTEGER,
       EstimatedLoanAmount: Number.MAX_SAFE_INTEGER,
@@ -223,18 +211,20 @@ it('should handle multiple actions in sequence', () => {
       InterestRate: 1,
       MonthlyDebts: Number.MAX_SAFE_INTEGER,
     };
+
     store.dispatch(calculateAffordabilitySuccess({ result: maxResult }));
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
         expect(state.result).toEqual(maxResult);
-        expect(state.isLoading).toBeUndefined();
-        expect(state.error).toBeUndefined();
+        expect(state.isLoading).toBe(false);
+        expect(state.error).toBeNull();
+        done();
       });
   });
 
-  it('should handle edge case of negative values', () => {
+  it('should handle edge case of negative values', (done) => {
     const negativeResult: IAffordability = {
       MaxAffordableHomePrice: -100000,
       EstimatedLoanAmount: -80000,
@@ -246,14 +236,16 @@ it('should handle multiple actions in sequence', () => {
       InterestRate: -0.05,
       MonthlyDebts: -1000,
     };
+
     store.dispatch(calculateAffordabilitySuccess({ result: negativeResult }));
 
     store
-      .select((state) => state)
+      .select((state) => state.affordability)
       .subscribe((state) => {
         expect(state.result).toEqual(negativeResult);
-        expect(state.isLoading).toBeUndefined();
+        expect(state.isLoading).toBe(false);
         expect(state.error).toBeNull();
+        done();
       });
   });
 });

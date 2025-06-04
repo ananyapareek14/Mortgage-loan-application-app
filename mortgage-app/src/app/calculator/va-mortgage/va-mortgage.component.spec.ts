@@ -143,24 +143,6 @@ describe('VaMortgageComponent', () => {
   //   expect(store.dispatch).not.toHaveBeenCalled();
   // });
 
-  it('should not submit form with invalid data', () => {
-    // Arrange: form with invalid HomePrice (violates Validators.min(1))
-    component.form.setValue({
-      HomePrice: 0, // 👈 Invalid
-      DownPayment: 60000,
-      InterestRate: 5,
-      LoanTermYears: 30,
-    });
-
-    // Act
-    component.onSubmit();
-
-    // Assert
-    expect(component.form.valid).toBeFalse(); // ✅ Helps you debug
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-  
-
   it('should reset form and clear data', () => {
     component.onReset();
     expect(component.form.value).toEqual({

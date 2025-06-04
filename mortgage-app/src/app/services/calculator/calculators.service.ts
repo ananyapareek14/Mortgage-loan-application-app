@@ -39,7 +39,6 @@ export class CalculatorService {
   }
 
   calculateRefinance(payload: IRefinanceRequest) {
-    console.log('🚀 API request payload:', payload);
     return this.http.post<IRefinance>(
       `${this.apiUrl}/refinance/calculate`,
       payload

@@ -21,184 +21,252 @@ interface IRefinanceRequest {
 
 export type {IRefinance, IRefinanceRequest}
 
+IAffordability.ts:
+interface IAffordability {
+    MaxAffordableHomePrice: number;
+    EstimatedLoanAmount: number;
+    EstimatedMonthlyPayment: number;
+    DtiPercentage: number;
+    AnnualIncome: number;
+    DownPayment: number;
+    LoanTermMonths: number;
+    InterestRate: number;
+    MonthlyDebts: number;
+}
 
-refinance.selectors.spec.ts:
+interface IAffordabilityRequest {
+    AnnualIncome: number;
+    DownPayment: number;
+    LoanTermMonths: number;
+    InterestRate: number;
+    MonthlyDebts: number;
+}
+
+export type { IAffordability, IAffordabilityRequest };
+
+IDebtToIncome.ts:
+interface IDebtToIncome{
+    DtiPercentage: number;
+    TotalDebts: number;
+    ProposedMonthlyPayment: number;
+    RemainingMonthlyIncome: number;     
+}
+
+interface IDebtToIncomeRequest {
+  AnnualIncome: number;
+  MinCreditCardPayments: number;
+  CarLoanPayments: number;
+  StudentLoanPayments: number;
+  ProposedMonthlyPayment: number;
+  CalculateDefaultPayment: boolean;
+}
+
+export type {IDebtToIncome, IDebtToIncomeRequest}
+
+IVaMortgage.ts:
+interface IVaMortgageRequest {
+  HomePrice: number;
+  DownPayment: number;
+  InterestRate: number;
+  LoanTermYears: number;
+}
+
+interface IVaMortgage {
+  MonthNumber: number;
+  MonthlyPayment: number;
+  PrincipalPayment: number;
+  InterestPayment: number;
+  RemainingBalance: number;
+}
+
+export type {IVaMortgage, IVaMortgageRequest}
+
+
+calculators.service.spec.ts:
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { selectRefinanceState, selectRefinanceResult, selectRefinanceLoading, selectRefinanceError } from './refinance.selectors';
-import { RefinanceState } from './refinance.reducer';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CalculatorService } from './calculator.service';
+import { environment } from '../../environment/environment';
+import { IAmortizationRequest, IAmortizationSchedule } from '../../models/IAmortizationSchedule';
+import { IAffordabilityRequest, IAffordability } from '../../models/IAffordability';
+import { IDebtToIncomeRequest, IDebtToIncome } from '../../models/IDebt-To-Income';
+import { IRefinanceRequest, IRefinance } from '../../models/IRefinance';
+import { IVaMortgageRequest, IVaMortgage } from '../../models/IVaMortgage';
 
-describe('Refinance Selectors', () => {
-  let store: Store<{ refinance: RefinanceState }>;
+describe('CalculatorService', () => {
+  let service: CalculatorService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('refinance', {} as any)
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [CalculatorService]
     });
-
-    store = TestBed.inject(Store);
+    service = TestBed.inject(CalculatorService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should select the refinance feature state', () => {
-    const initialState: RefinanceState = {
-      result: null,
-      isLoading: false,
-      error: null
-    };
-
-    let result: RefinanceState | undefined;
-
-    store.select(selectRefinanceState).subscribe(value => {
-      result = value;
-    });
-
-    store.setState({ refinance: initialState });
-
-    expect(result).toEqual(initialState);
+  afterEach(() => {
+    httpMock.verify();
   });
 
-  it('should select the refinance result', () => {
-    const mockResult = { amount: 1000 };
-    const state: RefinanceState = {
-      result: mockResult,
-      isLoading: false,
-      error: null
-    };
-
-    let result: any;
-
-    store.select(selectRefinanceResult).subscribe(value => {
-      result = value;
-    });
-
-    store.setState({ refinance: state });
-
-    expect(result).toEqual(mockResult);
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
-  it('should select the refinance loading state', () => {
-    const state: RefinanceState = {
-      result: null,
-      isLoading: true,
-      error: null
-    };
+  describe('calculateAmortization', () => {
+    it('should calculate amortization schedule for valid request', () => {
+      const mockRequest: IAmortizationRequest = { /* mock data */ };
+      const mockResponse: IAmortizationSchedule[] = [{ /* mock data */ }];
 
-    let isLoading: boolean | undefined;
+      service.calculateAmortization(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
 
-    store.select(selectRefinanceLoading).subscribe(value => {
-      isLoading = value;
+      const req = httpMock.expectOne(`${environment.apiUrl}/amortization/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
 
-    store.setState({ refinance: state });
+    it('should handle empty response', () => {
+      const mockRequest: IAmortizationRequest = { /* mock data */ };
+      const mockResponse: IAmortizationSchedule[] = [];
 
-    expect(isLoading).toBe(true);
+      service.calculateAmortization(mockRequest).subscribe(response => {
+        expect(response).toEqual([]);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/amortization/calculate`);
+      req.flush(mockResponse);
+    });
+
+    it('should handle error response', () => {
+      const mockRequest: IAmortizationRequest = { /* mock data */ };
+      const mockError = { status: 400, statusText: 'Bad Request' };
+
+      service.calculateAmortization(mockRequest).subscribe(
+        () => fail('should have failed with the 400 error'),
+        (error) => {
+          expect(error.status).toBe(400);
+          expect(error.statusText).toBe('Bad Request');
+        }
+      );
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/amortization/calculate`);
+      req.flush('', mockError);
+    });
   });
 
-  it('should select the refinance error', () => {
-    const mockError = 'Test error';
-    const state: RefinanceState = {
-      result: null,
-      isLoading: false,
-      error: mockError
-    };
+  describe('calculateAffordability', () => {
+    it('should calculate affordability for valid request', () => {
+      const mockRequest: IAffordabilityRequest = { /* mock data */ };
+      const mockResponse: IAffordability = { /* mock data */ };
 
-    let error: string | null | undefined;
+      service.calculateAffordability(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
 
-    store.select(selectRefinanceError).subscribe(value => {
-      error = value;
+      const req = httpMock.expectOne(`${environment.apiUrl}/affordability/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
 
-    store.setState({ refinance: state });
+    it('should handle error response', () => {
+      const mockRequest: IAffordabilityRequest = { /* mock data */ };
+      const mockError = { status: 500, statusText: 'Internal Server Error' };
 
-    expect(error).toBe(mockError);
+      service.calculateAffordability(mockRequest).subscribe(
+        () => fail('should have failed with the 500 error'),
+        (error) => {
+          expect(error.status).toBe(500);
+          expect(error.statusText).toBe('Internal Server Error');
+        }
+      );
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/affordability/calculate`);
+      req.flush('', mockError);
+    });
   });
 
-  it('should handle null state', () => {
-    let result: any;
-    let isLoading: boolean | undefined;
-    let error: string | null | undefined;
+  describe('calculateDti', () => {
+    it('should calculate debt-to-income ratio for valid request', () => {
+      const mockRequest: IDebtToIncomeRequest = { /* mock data */ };
+      const mockResponse: IDebtToIncome = { /* mock data */ };
 
-    store.select(selectRefinanceResult).subscribe(value => {
-      result = value;
-    });
-    store.select(selectRefinanceLoading).subscribe(value => {
-      isLoading = value;
-    });
-    store.select(selectRefinanceError).subscribe(value => {
-      error = value;
+      service.calculateDti(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/debt-to-income/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
 
-    store.setState({ refinance: null as any });
+    it('should handle zero income edge case', () => {
+      const mockRequest: IDebtToIncomeRequest = { /* mock data with zero income */ };
+      const mockResponse: IDebtToIncome = { /* mock data with infinity or error */ };
 
-    expect(result).toBeUndefined();
-    expect(isLoading).toBeUndefined();
-    expect(error).toBeUndefined();
+      service.calculateDti(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/debt-to-income/calculate`);
+      req.flush(mockResponse);
+    });
   });
 
-  it('should handle empty state', () => {
-    let result: any;
-    let isLoading: boolean | undefined;
-    let error: string | null | undefined;
+  describe('calculateRefinance', () => {
+    it('should calculate refinance for valid request', () => {
+      const mockRequest: IRefinanceRequest = { /* mock data */ };
+      const mockResponse: IRefinance = { /* mock data */ };
 
-    store.select(selectRefinanceResult).subscribe(value => {
-      result = value;
-    });
-    store.select(selectRefinanceLoading).subscribe(value => {
-      isLoading = value;
-    });
-    store.select(selectRefinanceError).subscribe(value => {
-      error = value;
+      service.calculateRefinance(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/refinance/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
 
-    store.setState({ refinance: {} as any });
+    it('should log backend response', () => {
+      const mockRequest: IRefinanceRequest = { /* mock data */ };
+      const mockResponse: IRefinance = { /* mock data */ };
+      spyOn(console, 'log');
 
-    expect(result).toBeUndefined();
-    expect(isLoading).toBeUndefined();
-    expect(error).toBeUndefined();
+      service.calculateRefinance(mockRequest).subscribe();
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/refinance/calculate`);
+      req.flush(mockResponse);
+
+      expect(console.log).toHaveBeenCalledWith('Backend Response:', mockResponse);
+    });
   });
 
-  it('should handle state changes', () => {
-    let result: any;
-    let isLoading: boolean | undefined;
-    let error: string | null | undefined;
+  describe('calculateVaMortgage', () => {
+    it('should calculate VA mortgage for valid request', () => {
+      const mockRequest: IVaMortgageRequest = { /* mock data */ };
+      const mockResponse: IVaMortgage[] = [{ /* mock data */ }];
 
-    store.select(selectRefinanceResult).subscribe(value => {
-      result = value;
-    });
-    store.select(selectRefinanceLoading).subscribe(value => {
-      isLoading = value;
-    });
-    store.select(selectRefinanceError).subscribe(value => {
-      error = value;
-    });
+      service.calculateVaMortgage(mockRequest).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
 
-    // Initial state
-    store.setState({
-      refinance: {
-        result: null,
-        isLoading: false,
-        error: null
-      }
+      const req = httpMock.expectOne(`${environment.apiUrl}/va-mortgage-schedule/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
 
-    expect(result).toBeNull();
-    expect(isLoading).toBe(false);
-    expect(error).toBeNull();
+    it('should handle empty response', () => {
+      const mockRequest: IVaMortgageRequest = { /* mock data */ };
+      const mockResponse: IVaMortgage[] = [];
 
-    // Update state
-    store.setState({
-      refinance: {
-        result: { amount: 2000 },
-        isLoading: true,
-        error: 'New error'
-      }
+      service.calculateVaMortgage(mockRequest).subscribe(response => {
+        expect(response).toEqual([]);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrl}/va-mortgage-schedule/calculate`);
+      req.flush(mockResponse);
     });
-
-    expect(result).toEqual({ amount: 2000 });
-    expect(isLoading).toBe(true);
-    expect(error).toBe('New error');
   });
 });
