@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { DebtToIncomeComponent } from './debt-to-income.component';
@@ -8,6 +8,7 @@ import {
   resetDti,
 } from '../../store/calculator/debt-to-income/dti.actions';
 import { IDebtToIncome, IDebtToIncomeRequest } from '../../models/IDebt-To-Income';
+import { selectDtiResult } from '../../store/calculator/debt-to-income/dti.selectors';
 
 
 describe('DebtToIncomeComponent', () => {
@@ -20,7 +21,7 @@ describe('DebtToIncomeComponent', () => {
     storeMock.pipe.and.returnValue(of(null));
 
     await TestBed.configureTestingModule({
-      imports: [DebtToIncomeComponent,ReactiveFormsModule],
+      imports: [DebtToIncomeComponent,ReactiveFormsModule, FormsModule],
       providers: [{ provide: Store, useValue: storeMock }],
     }).compileComponents();
 
@@ -92,36 +93,6 @@ describe('DebtToIncomeComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   });
 
-  // it('should update component properties when result$ emits a value', () => {
-  //   const mockResult: IDebtToIncome = {
-  //     DtiPercentage: 30,
-  //     TotalDebts: 1000,
-  //     ProposedMonthlyPayment: 2000,
-  //     RemainingMonthlyIncome: 3000,
-  //   };
-  //   storeMock.pipe.and.returnValue(of(mockResult));
-  //   component.ngOnInit();
-  //   expect(component.proposedPaymentValue).toBe(2000);
-  //   expect(component.minSliderValue).toBe(1000);
-  // });
-
-  // it('should update component properties when result$ emits a value', fakeAsync(() => {
-  //   const mockResult: IDebtToIncome = {
-  //     DtiPercentage: 30,
-  //     TotalDebts: 1000,
-  //     ProposedMonthlyPayment: 2000,
-  //     RemainingMonthlyIncome: 3000,
-  //   };
-
-  //   storeMock.pipe.and.returnValue(of(mockResult));
-  //   component.ngOnInit();
-
-  //   tick(); // Allow observable to emit and subscription to process
-
-  //   expect(component.proposedPaymentValue).toBe(2000);
-  //   expect(component.minSliderValue).toBe(1000);
-  // }));  
-
   it('should handle edge case of zero annual income', () => {
     component.form.patchValue({ annualIncome: 0 });
     component.onSubmit();
@@ -159,15 +130,6 @@ describe('DebtToIncomeComponent', () => {
       calculateDti({ request: expectedRequest })
     );
   });
-
-  // it('should handle error state', () => {
-  //   const errorMessage = 'Test error';
-  //   storeMock.pipe.and.returnValue(of(errorMessage));
-  //   component.ngOnInit();
-  //   component.error$.subscribe((error) => {
-  //     expect(error).toBe(errorMessage);
-  //   });
-  // });
 
   // Additional edge cases
   it('should handle fractional values for annual income', () => {
@@ -228,4 +190,61 @@ describe('DebtToIncomeComponent', () => {
       calculateDti({ request: expectedRequest })
     );
   });
+
+  // it('should update values when result$ emits a value', fakeAsync(() => {
+  //   // Arrange: Provide a valid result value
+  //   const mockResult = {
+  //     ProposedMonthlyPayment: 4500,
+  //     TotalDebts: 3000,
+  //   };
+  
+  //   // Patch income into the form
+  //   component.form.patchValue({ annualIncome: 120000 });
+  
+  //   // Replace store.pipe with one that returns mock result
+  //   storeMock.pipe.and.callFake((...args: any[]) => {
+  //     const selector = args[0];
+  //     if (selector === selectDtiResult) return of(mockResult);
+  //     // return of(null);
+  //     return of({})
+  //   });
+  
+  //   // Re-trigger component setup
+  //   fixture = TestBed.createComponent(DebtToIncomeComponent);
+  //   component = fixture.componentInstance;
+  //   fixture.detectChanges();
+  //   tick(); // flush observables
+  
+  //   // Assert updated values
+  //   expect(component.proposedPaymentValue).toBe(4500);
+  //   expect(component.minSliderValue).toBe(3000);
+  
+  //   const expectedMaxSlider = Math.max(3000 + 100, 120000 / 12 - 100); // = max(3100, 9000)
+  //   expect(component.maxSliderValue).toBe(expectedMaxSlider);
+  // }));
+
+  // it('should update values when result$ emits a value', fakeAsync(() => {
+  //   const mockResult = {
+  //     ProposedMonthlyPayment: 4500,
+  //     TotalDebts: 3000,
+  //   };
+
+  //   // Patch income before change detection
+  //   component.form.patchValue({ annualIncome: 120000 });
+
+  //   // Mock select call
+  //   storeMock.select.and.callFake((selector: any) => {
+  //     if (selector === selectDtiResult) {
+  //       return of(mockResult);
+  //     }
+  //     return of(null);
+  //   });
+
+  //   fixture.detectChanges();
+  //   tick();
+
+  //   expect(component.proposedPaymentValue).toBe(4500);
+  //   expect(component.minSliderValue).toBe(3000);
+  //   expect(component.maxSliderValue).toBe(Math.max(3100, 120000 / 12 - 100));
+  // }));  
 });

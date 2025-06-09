@@ -131,17 +131,6 @@ describe('RefinanceComponent', () => {
 
   describe('onSubmit', () => {
     it('should dispatch calculateRefinance action when form is valid', () => {
-      // const testRequest: IRefinanceRequest = {
-      //   CurrentLoanAmount: 200000,
-      //   InterestRate: 5,
-      //   CurrentTermMonths: 360,
-      //   OriginationYear: 2020,
-      //   NewLoanAmount: 195000,
-      //   NewInterestRate: 4.5,
-      //   NewTermMonths: 300,
-      //   RefinanceFees: 2000,
-      // };
-      // component.form.patchValue(testRequest);
 
       function mapRequestToFormValue(request: IRefinanceRequest) {
         return {
@@ -208,45 +197,45 @@ describe('RefinanceComponent', () => {
       expect(storeMock.dispatch).toHaveBeenCalledWith(resetRefinance());
     });
 
-//   it('should destroy charts if they exist', () => {
-//   const mockCanvas = document.createElement('canvas');
-//   const ctx = mockCanvas.getContext('2d')!;
+  it('should destroy charts if they exist', () => {
+  const mockCanvas = document.createElement('canvas');
+  const ctx = mockCanvas.getContext('2d')!;
 
-//   component.barChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: { labels: [], datasets: [] },
-//   });
-//   component.lineChart = new Chart(ctx, {
-//     type: 'line',
-//     data: { labels: [], datasets: [] },
-//   });
+  component.barChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: [], datasets: [] },
+  });
+  component.lineChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [] },
+  });
 
-//   spyOn(component.barChart, 'destroy');
-//   spyOn(component.lineChart, 'destroy');
+  spyOn(component.barChart, 'destroy');
+  spyOn(component.lineChart, 'destroy');
 
-//   component.onReset();
+  component.onReset();
 
-//   expect(component.barChart.destroy).toHaveBeenCalled();
-//   expect(component.lineChart.destroy).toHaveBeenCalled();
-// });
+  expect(component.barChart.destroy).toHaveBeenCalled();
+  expect(component.lineChart.destroy).toHaveBeenCalled();
+});
 });
 
 
   describe('renderBarChart', () => {
-//     it('should create a bar chart with correct data', () => {
-//   const mockResult: IRefinance = {
-//     MonthlySavings: 1000,  // match label 'Monthly Savings'
-//     NewPayment: 900,
-//     BreakEvenMonths: 24,
-//     LifetimeSavings: 50000,
-//   };
-//   component.barChartCanvas = {
-//     nativeElement: document.createElement('canvas'),
-//   } as any;
-//   component.renderBarChart(mockResult);
-//   expect(component.barChart).toBeTruthy();
-//   expect(component.barChart?.data.datasets[0].data).toEqual([1000, 900]);
-// });
+    it('should create a bar chart with correct data', () => {
+  const mockResult: IRefinance = {
+    MonthlySavings: 1000,  // match label 'Monthly Savings'
+    NewPayment: 900,
+    BreakEvenMonths: 24,
+    LifetimeSavings: 50000,
+  };
+  component.barChartCanvas = {
+    nativeElement: document.createElement('canvas'),
+  } as any;
+  component.renderBarChart(mockResult);
+  expect(component.barChart).toBeTruthy();
+  expect(component.barChart?.data.datasets[0].data).toEqual([1000, 900]);
+});
 
 
 
@@ -280,28 +269,28 @@ describe('RefinanceComponent', () => {
     });
   });
 
-//   describe('ngOnDestroy', () => {
-//     it('should destroy charts if they exist on ngOnDestroy', () => {
-//   const mockCanvas = document.createElement('canvas');
-//   const ctx = mockCanvas.getContext('2d')!;
+  describe('ngOnDestroy', () => {
+    it('should destroy charts if they exist on ngOnDestroy', () => {
+  const mockCanvas = document.createElement('canvas');
+  const ctx = mockCanvas.getContext('2d')!;
 
-//   component.barChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: { labels: [], datasets: [] },
-//   });
-//   component.lineChart = new Chart(ctx, {
-//     type: 'line',
-//     data: { labels: [], datasets: [] },
-//   });
+  component.barChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: [], datasets: [] },
+  });
+  component.lineChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [] },
+  });
 
-//   spyOn(component.barChart, 'destroy');
-//   spyOn(component.lineChart, 'destroy');
+  spyOn(component.barChart, 'destroy');
+  spyOn(component.lineChart, 'destroy');
 
-//   component.ngOnDestroy();
+  component.ngOnDestroy();
 
-//   expect(component.barChart.destroy).toHaveBeenCalled();
-//   expect(component.lineChart.destroy).toHaveBeenCalled();
-// });
+  expect(component.barChart.destroy).toHaveBeenCalled();
+  expect(component.lineChart.destroy).toHaveBeenCalled();
+});
 
-//   });
+  });
 });

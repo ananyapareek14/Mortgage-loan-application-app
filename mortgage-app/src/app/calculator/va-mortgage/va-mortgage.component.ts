@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Chart } from 'chart.js';
@@ -23,7 +23,7 @@ import {
   selectVaMortgageResult,
 } from '../../store/calculator/va-mortgage/va-mortgage.selectors';
 import { IVaMortgage, IVaMortgageRequest } from '../../models/IVaMortgage';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import {
   LineController,
   LineElement,
@@ -158,7 +158,7 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
   }
 
   downPaymentLessThanHomePriceValidator() {
-    return (group: AbstractControl): { [key: string]: any } | null => {
+    return (group: AbstractControl): ValidationErrors | null => {
       const homePrice = group.get('HomePrice')?.value;
       const downPayment = group.get('DownPayment')?.value;
       return downPayment > homePrice
@@ -238,7 +238,20 @@ export class VaMortgageComponent implements OnDestroy, AfterViewInit, OnInit {
     });
   }
 
-  onTabChange(index: number): void {
+  // onTabChange(index: number): void {
+  //   if (index === 1 && this.latestData.length) {
+  //     setTimeout(() => {
+  //       if (this.chartInstance) {
+  //         this.chartInstance.resize();
+  //       } else {
+  //         this.renderChart(this.latestData);
+  //       }
+  //     }, 50);
+  //   }
+  // }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    const index = event.index;
     if (index === 1 && this.latestData.length) {
       setTimeout(() => {
         if (this.chartInstance) {

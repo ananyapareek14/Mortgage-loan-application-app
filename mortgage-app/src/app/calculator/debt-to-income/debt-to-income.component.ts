@@ -35,16 +35,16 @@ export class DebtToIncomeComponent implements OnInit {
   loading$ = this.store.pipe(select(selectDtiLoading));
   error$: Observable<string | null> = this.store.pipe(select(selectDtiError));
 
-  constructor() {
-    this.result$.pipe(filter(Boolean)).subscribe(result => {
-      this.proposedPaymentValue = result.ProposedMonthlyPayment;
-      this.minSliderValue = result.TotalDebts;
+  // constructor() {
+  //   this.result$.pipe(filter(Boolean)).subscribe(result => {
+  //     this.proposedPaymentValue = result.ProposedMonthlyPayment;
+  //     this.minSliderValue = result.TotalDebts;
 
-      // If income was already entered, calculate max based on that
-      const income = this.form.get('annualIncome')?.value ?? 0;
-      this.maxSliderValue = Math.max(this.minSliderValue + 100, income / 12 - 100);
-    });
-  }
+  //     // If income was already entered, calculate max based on that
+  //     const income = this.form.get('annualIncome')?.value ?? 0;
+  //     this.maxSliderValue = Math.max(this.minSliderValue + 100, income / 12 - 100);
+  //   });
+  // }
 
   ngOnInit() {
     this.result$.pipe(filter(Boolean)).subscribe((result) => {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import {
@@ -29,7 +29,7 @@ Chart.register(PieController, ArcElement, Tooltip, Legend);
   templateUrl: './affordability.component.html',
   styleUrl: './affordability.component.css',
 })
-export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit {
+export class AffordabilityComponent implements OnDestroy, OnInit {
   @ViewChild('breakdownChartCanvas') breakdownChartCanvas!: ElementRef;
   private store = inject(Store);
   private fb = inject(FormBuilder);
@@ -68,10 +68,6 @@ export class AffordabilityComponent implements AfterViewInit, OnDestroy, OnInit 
     };
 
     this.store.dispatch(calculateAffordability({ request }));
-  }
-
-  ngAfterViewInit(): void {
-    // Chart will be rendered in tap() once result arrives
   }
 
   ngOnDestroy(): void {
