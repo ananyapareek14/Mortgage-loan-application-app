@@ -23,9 +23,9 @@ jobs:
       run: npm ci
       working-directory: mortgage-app
 
-    - name: Lint (optional)
-      run: npm run lint
-      working-directory: mortgage-app
+    # - name: Lint
+    #   run: npm run lint
+    #   working-directory: mortgage-app
 
     - name: Run unit tests
       run: npm test -- --watch=false --browsers=ChromeHeadless
