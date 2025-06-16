@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ILoan } from '../models/ILoan';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { IInterestRate } from '../models/IInterestRate';
 import { addLoan, clearLastAddedLoan } from '../store/loan/loan.actions';
@@ -16,7 +16,7 @@ import { slideIn } from '../../animations';
 @Component({
   selector: 'app-loan-application',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './loan-application.component.html',
   styleUrl: './loan-application.component.css',
   animations: [slideIn],

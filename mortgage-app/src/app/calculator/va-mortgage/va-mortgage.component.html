@@ -72,7 +72,8 @@
   </div>
 
   <div class="results-panel" *ngIf="result$ | async as results">
-    <mat-tab-group class="tab-container" backgroundColor="primary" (selectedIndexChange)="onTabChange($event)">
+    <!-- <mat-tab-group class="tab-container" backgroundColor="primary" (selectedIndexChange)="onTabChange($event)"> -->
+      <mat-tab-group class="tab-container" backgroundColor="primary" (selectedTabChange)="onTabChange($event)">
   <div *ngIf="loading$ | async" class="loading">
     <div class="spinner-border text-secondary" role="status" aria-hidden="true"></div>
     <span class="visually-hidden">Loading...</span>
