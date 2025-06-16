@@ -2,9 +2,9 @@ name: Angular-DA-Unit-Testing
 
 on:
   push:
-    branches: [ "DA-Unit-Testing" ]
+    branches: [ "Lookup-Products" ]
   pull_request:
-    branches: [ "DA-Unit-Testing" ]
+    branches: [ "Lookup-Products" ]
 
 jobs:
   build:
