@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using MortgageAPI.Data;
 using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
-using MortgageAPI.Repos.Helper;
 using MortgageAPI.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using MortgageAPI.Repos.Helper.Interface;
 
 namespace MortgageAPITest.Repos
 {

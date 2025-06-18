@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MortgageAPI.Models.Domain;
 
 namespace MortgageAPI.Models.Domain
 {
@@ -9,6 +10,7 @@ namespace MortgageAPI.Models.Domain
         Approved,
         Rejected
     }
+
     public class Loan
     {
         [Key]
@@ -16,7 +18,7 @@ namespace MortgageAPI.Models.Domain
         public Guid LoanId { get; set; } = Guid.NewGuid();
 
         [Required]
-        public Guid UserId { get; set; }  // Foreign key to User
+        public Guid UserId { get; set; }
 
         [Required]
         public int UserLoanNumber { get; set; }
@@ -27,7 +29,7 @@ namespace MortgageAPI.Models.Domain
 
         [Required]
         [Column(TypeName = "decimal(5,2)")]
-        public decimal InterestRate { get; set; }  // Stored separately for historical accuracy
+        public decimal InterestRate { get; set; }
 
         [Required]
         public int LoanTermYears { get; set; }
@@ -38,10 +40,17 @@ namespace MortgageAPI.Models.Domain
         [Required]
         public LoanApprovalStatus ApprovalStatus { get; set; } = LoanApprovalStatus.Pending;
 
-        // Navigation Properties
+        // 🔹 New: Link to LoanProduct
+        [Required]
+        public Guid LoanProductId { get; set; }
+
+        [ForeignKey("LoanProductId")]
+        public LoanProduct LoanProduct { get; set; }
+
         [ForeignKey("UserId")]
         public User User { get; set; }
 
         public ICollection<AmortizationSchedule> AmortizationSchedules { get; set; } = new List<AmortizationSchedule>();
     }
+
 }

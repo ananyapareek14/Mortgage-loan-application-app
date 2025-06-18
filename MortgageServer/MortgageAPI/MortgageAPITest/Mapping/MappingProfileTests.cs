@@ -91,25 +91,25 @@ namespace MortgageAPITest.Models.Mapping
             Assert.That(loanDto.LoanTermYears, Is.EqualTo(loan.LoanTermYears));
         }
 
-        [Test]
-        public void InterestRate_To_InterestRateDto_MapsCorrectly()
-        {
-            // Arrange
-            var interestRate = new InterestRate
-            {
-                Id = Guid.NewGuid(),
-                Rate = 3.75M,
-                ValidFrom = DateTime.Now
-            };
+        //[Test]
+        //public void InterestRate_To_InterestRateDto_MapsCorrectly()
+        //{
+        //    // Arrange
+        //    var interestRate = new InterestRate
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Rate = 3.75M,
+        //        ValidFrom = DateTime.Now
+        //    };
 
-            // Act
-            var interestRateDto = _mapper.Map<InterestRateDto>(interestRate);
+        //    // Act
+        //    var interestRateDto = _mapper.Map<InterestRateDto>(interestRate);
 
-            // Assert
-            Assert.That(interestRateDto.Id, Is.EqualTo(interestRate.Id));
-            Assert.That(interestRateDto.Rate, Is.EqualTo(interestRate.Rate));
-            Assert.That(interestRateDto.ValidFrom, Is.EqualTo(interestRate.ValidFrom));
-        }
+        //    // Assert
+        //    Assert.That(interestRateDto.Id, Is.EqualTo(interestRate.Id));
+        //    Assert.That(interestRateDto.Rate, Is.EqualTo(interestRate.Rate));
+        //    Assert.That(interestRateDto.ValidFrom, Is.EqualTo(interestRate.ValidFrom));
+        //}
 
         [Test]
         public void AmortizationSchedule_To_AmortizationScheduleDto_MapsAndRoundsCorrectly()

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MortgageAPI.Data;
 using MortgageAPI.Models.Domain;
-using MortgageAPI.Repos.Helper;
+using MortgageAPI.Repos.Helper.Interface;
 using MortgageAPI.Repos.Interfaces;
 
 namespace MortgageAPI.Repos

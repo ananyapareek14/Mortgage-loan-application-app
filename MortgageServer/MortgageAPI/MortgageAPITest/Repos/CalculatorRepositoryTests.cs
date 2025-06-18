@@ -1,8 +1,8 @@
 ﻿using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
 using MortgageAPI.Repos;
-using MortgageAPI.Repos.Helper;
 using Moq;
+using MortgageAPI.Repos.Helper.Interface;
 
 namespace MortgageAPITest.Repos;
 

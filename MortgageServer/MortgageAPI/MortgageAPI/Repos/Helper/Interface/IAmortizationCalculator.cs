@@ -1,6 +1,6 @@
 ﻿using MortgageAPI.Models.Domain;
 
-namespace MortgageAPI.Repos.Helper
+namespace MortgageAPI.Repos.Helper.Interface
 {
     public interface IAmortizationCalculator
     {

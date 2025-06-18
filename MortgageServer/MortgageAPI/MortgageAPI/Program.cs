@@ -12,6 +12,7 @@ using System.Reflection;
 using MortgageAPI.Repos.Helper;
 using Serilog;
 using MortgageAPI.Extensions;
+using MortgageAPI.Repos.Helper.Interface;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -71,7 +72,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
-builder.Services.AddScoped<IInterestRateRepository, InterestRateRepository>();
+//builder.Services.AddScoped<IInterestRateRepository, InterestRateRepository>();
 builder.Services.AddScoped<IAmortizationScheduleRepository, AmortizationScheduleRepository>();
 builder.Services.AddScoped<IAmortizationCalculator, AmortizationCalculator>();
 builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();

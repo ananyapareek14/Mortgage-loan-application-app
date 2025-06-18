@@ -1,6 +1,6 @@
 ﻿using MortgageAPI.Models.Domain;
 using MortgageAPI.Models.DTO;
-using MortgageAPI.Repos.Helper;
+using MortgageAPI.Repos.Helper.Interface;
 using MortgageAPI.Repos.Interfaces;
 
 namespace MortgageAPI.Repos
