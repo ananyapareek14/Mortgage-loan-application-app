@@ -46,5 +46,12 @@ namespace MortgageAPI.Repos
             return await _context.Loans
                 .FirstOrDefaultAsync(l => l.UserLoanNumber == userLoanNumber && l.UserId == userId);
         }
+
+        public async Task<LoanProduct?> GetLoanProductByNameAsync(string name)
+        {
+            return await _context.LoanProducts
+                .FirstOrDefaultAsync(p => p.ProductCode == name);
+        }
+
     }
 }

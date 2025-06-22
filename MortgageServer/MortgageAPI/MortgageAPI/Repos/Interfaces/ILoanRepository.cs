@@ -7,5 +7,6 @@ namespace MortgageAPI.Repos.Interfaces
         Task<Loan> GetLoanByUserLoanNumberAsync(int userLoanNumber, Guid userId);
         Task<IEnumerable<Loan>> GetAllLoansAsync(Guid userId);
         Task AddLoanAsync(Loan loan);
+        Task<LoanProduct?> GetLoanProductByNameAsync(string name);
     }
 }

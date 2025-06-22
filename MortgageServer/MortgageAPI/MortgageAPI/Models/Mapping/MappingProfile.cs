@@ -52,15 +52,6 @@ namespace MortgageAPI.Models.Mapping
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.Loans, opt => opt.Ignore());
 
-            //CreateMap<LoanRequest, Loan>()
-            //    .ForMember(dest => dest.LoanId, opt => opt.Ignore())
-            //    .ForMember(dest => dest.UserId, opt => opt.Ignore())
-            //    .ForMember(dest => dest.UserLoanNumber, opt => opt.Ignore())
-            //    .ForMember(dest => dest.ApplicationDate, opt => opt.Ignore())
-            //    .ForMember(dest => dest.ApprovalStatus, opt => opt.Ignore())
-            //    .ForMember(dest => dest.User, opt => opt.Ignore())
-            //    .ForMember(dest => dest.AmortizationSchedules, opt => opt.Ignore());
-
             CreateMap<LoanRequest, Loan>()
     .ForMember(dest => dest.LoanId, opt => opt.Ignore())
     .ForMember(dest => dest.UserId, opt => opt.Ignore())
@@ -73,9 +64,6 @@ namespace MortgageAPI.Models.Mapping
     .ForMember(dest => dest.User, opt => opt.Ignore())
     .ForMember(dest => dest.AmortizationSchedules, opt => opt.Ignore());
 
-
-            //CreateMap<Loan, LoanDto>()
-            //    .ForMember(dest => dest.UserLoanNumber, opt => opt.MapFrom(src => src.UserLoanNumber));
             CreateMap<Loan, LoanDto>()
     .ForMember(dest => dest.UserLoanNumber, opt => opt.MapFrom(src => src.UserLoanNumber))
     //.ForMember(dest => dest.ProductCode, opt => opt.MapFrom(src => src.LoanProduct.ProductCode))

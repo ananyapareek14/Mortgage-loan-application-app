@@ -25,9 +25,11 @@ builder.Host.AddSerilogLogging(configuration);
 
 Log.Information("Starting MortgageLoanApp...");
 
+// Read JWT Key
 var jwtSettings = configuration.GetSection("JwtSettings");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
+// CORS for Angular frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
@@ -38,15 +40,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Controllers with JSON options
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
     options.JsonSerializerOptions.DictionaryKeyPolicy = null;
 });
 
+// Database Context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("MortgageConStr")));
 
+// JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -66,19 +71,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// Dependency injection
+
+// Dependency Injection for Excel-based RateProvider
+var dataDirectory = Path.Combine(AppContext.BaseDirectory, "Data");
+var freddieMacPath = Path.Combine(dataDirectory, "FreddieMac Rates.xlsx");
+var sofrPath = Path.Combine(dataDirectory, "SOFR Rates.xlsx");
+
+builder.Services.AddScoped<IRateProvider>(provider =>
+    new RateProvider(freddieMacPath, sofrPath));
+
+// Domain-specific services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
-//builder.Services.AddScoped<IInterestRateRepository, InterestRateRepository>();
 builder.Services.AddScoped<IAmortizationScheduleRepository, AmortizationScheduleRepository>();
 builder.Services.AddScoped<IAmortizationCalculator, AmortizationCalculator>();
 builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();
 
+// AutoMapper
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {
@@ -89,7 +104,7 @@ builder.Services.AddSwaggerGen(setup =>
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
         Scheme = JwtBearerDefaults.AuthenticationScheme,
-        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
+        Description = "Put **_ONLY_** your JWT Bearer token below.",
         Reference = new OpenApiReference
         {
             Id = JwtBearerDefaults.AuthenticationScheme,
@@ -104,11 +119,14 @@ builder.Services.AddSwaggerGen(setup =>
     });
 });
 
+// Start the app
 try
 {
+    Console.WriteLine(">> Before builder.Build()");
     var app = builder.Build();
+    Console.WriteLine(">> After builder.Build()");
 
-    app.UseSerilogRequestLogging(); // Logs HTTP requests automatically
+    app.UseSerilogRequestLogging(); // HTTP request logs
 
     app.UseCors("AllowAngularApp");
 
@@ -123,10 +141,12 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+
     app.Run();
 }
 catch (Exception ex)
 {
+    Console.WriteLine($"Startup exception: {ex}");
     Log.Fatal(ex, "Application start-up failed");
 }
 finally

@@ -16,7 +16,7 @@ namespace MortgageAPI.Models.Domain
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; } = string.Empty; // e.g., "30-Year Fixed"
+        public string ProductCode { get; set; } = string.Empty; // e.g., "30-Year Fixed"
 
         [Required]
         public LoanType Type { get; set; } // Fixed or ARM

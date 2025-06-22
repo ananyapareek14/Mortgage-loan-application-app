@@ -153,6 +153,47 @@ namespace MortgageAPI.Controllers
             return userId;
         }
 
+        //[HttpPost]
+        //[Authorize(Roles = "User")]
+        //public async Task<IActionResult> SubmitLoan([FromBody] LoanRequest request)
+        //{
+        //    try
+        //    {
+        //        var userId = GetUserIdFromToken();
+        //        _logger.LogInformation("Submitting loan for user {UserId}", userId);
+
+        //        var loan = _mapper.Map<Loan>(request);
+        //        loan.UserId = userId;
+        //        loan.LoanId = Guid.NewGuid();
+        //        loan.ApplicationDate = DateTime.UtcNow;
+        //        loan.ApprovalStatus = LoanApprovalStatus.Pending;
+
+        //        // Compute Amortization Schedule
+        //        var schedule = _amortizationCalculator.GenerateSchedule(loan);
+        //        loan.AmortizationSchedules = schedule;
+
+        //        // Save loan + schedule
+        //        await _loanRepository.AddLoanAsync(loan);
+
+        //        _logger.LogInformation("Loan with amortization schedule submitted successfully for user {UserId}", userId);
+
+        //        return Ok(new LoanResponse
+        //        {
+        //            Message = "Loan Application and Amortization Schedule saved successfully"
+        //        });
+        //    }
+        //    catch (UnauthorizedAccessException ex)
+        //    {
+        //        _logger.LogWarning(ex, "Unauthorized loan submission attempt.");
+        //        return Unauthorized(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "An error occurred while submitting the loan.");
+        //        return StatusCode(500, "An error occurred while submitting the loan.");
+        //    }
+        //}
+
         [HttpPost]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> SubmitLoan([FromBody] LoanRequest request)
@@ -162,11 +203,25 @@ namespace MortgageAPI.Controllers
                 var userId = GetUserIdFromToken();
                 _logger.LogInformation("Submitting loan for user {UserId}", userId);
 
+                // ✅ Look up the matching loan product by name (or use ProductCode if you have that column)
+                var product = await _loanRepository
+                    .GetLoanProductByNameAsync(request.ProductCode); // you'll implement this method
+
+                if (product == null)
+                {
+                    _logger.LogWarning("Loan product not found for code {ProductCode}", request.ProductCode);
+                    return BadRequest("Invalid loan product code.");
+                }
+
                 var loan = _mapper.Map<Loan>(request);
                 loan.UserId = userId;
                 loan.LoanId = Guid.NewGuid();
                 loan.ApplicationDate = DateTime.UtcNow;
                 loan.ApprovalStatus = LoanApprovalStatus.Pending;
+
+                // ✅ Attach loan product
+                loan.LoanProductId = product.LoanProductId;
+                loan.LoanProduct = product;
 
                 // Compute Amortization Schedule
                 var schedule = _amortizationCalculator.GenerateSchedule(loan);
@@ -193,6 +248,7 @@ namespace MortgageAPI.Controllers
                 return StatusCode(500, "An error occurred while submitting the loan.");
             }
         }
+
 
         [HttpGet("{userLoanNumber}")]
         public async Task<IActionResult> GetLoanDetails(int userLoanNumber)
