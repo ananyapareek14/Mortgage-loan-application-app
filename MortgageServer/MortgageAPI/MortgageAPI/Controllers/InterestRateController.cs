@@ -1,75 +1,74 @@
-﻿//using AutoMapper;
-//using Microsoft.AspNetCore.Mvc;
-//using MortgageAPI.Models.DTO;
-//using MortgageAPI.Repos.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using MortgageAPI.Repos.Helper.Interface;
+using MortgageAPI.Models.Domain;
 
-//namespace MortgageAPI.Controllers
-//{
-//    [Route("api/interestrates")]
-//    [ApiController]
-//    public class InterestRateController : ControllerBase
-//    {
-//        private readonly IInterestRateRepository _interestRateRepository;
-//        private readonly IMapper _mapper;
-//        private readonly ILogger<InterestRateController> _logger;
+namespace MortgageAPI.Controllers
+{
+    [Route("api/interest-rate")]
+    [ApiController]
+    public class InterestRateController : ControllerBase
+    {
+        private readonly IRateProvider _rateProvider;
+        private readonly ILogger<InterestRateController> _logger;
 
-//        public InterestRateController(IInterestRateRepository interestRateRepository, IMapper mapper, ILogger<InterestRateController> logger)
-//        {
-//            _interestRateRepository = interestRateRepository;
-//            _mapper = mapper;
-//            _logger = logger;
-//        }
+        public InterestRateController(IRateProvider rateProvider, ILogger<InterestRateController> logger)
+        {
+            _rateProvider = rateProvider;
+            _logger = logger;
+        }
 
-//        //[HttpGet]
-//        //public async Task<IActionResult> GetInterestRates()
-//        //{
-//        //    _logger.LogInformation("Fetching interest rates");
-//        //    var rates = await _interestRateRepository.GetAllInterestRatesAsync();
-//        //    var rateDtos = _mapper.Map<IEnumerable<InterestRateDto>>(rates);
-//        //    return Ok(rateDtos);
-//        //}
+        [HttpGet("fixed")]
+        public IActionResult GetFixedRate([FromQuery] int termYears = 30)
+        {
+            try
+            {
+                var today = DateTime.UtcNow;
+                var (rateDate, rawRate, term) = _rateProvider.GetClosestFreddieRate(termYears, today);
 
+                var isFallback = rateDate < today;
 
-//        //[HttpGet]
-//        //public async Task<IActionResult> GetInterestRates()
-//        //{
-//        //    try
-//        //    {
-//        //        _logger.LogInformation("Fetching interest rates");
-//        //        var rates = await _interestRateRepository.GetAllInterestRatesAsync();
-//        //        var rateDtos = _mapper.Map<IEnumerable<InterestRateDto>>(rates);
-//        //        return Ok(rateDtos);
-//        //    }
-//        //    catch (Exception ex)
-//        //    {
-//        //        _logger.LogError(ex, "Error occurred while fetching interest rates");
-//        //        return StatusCode(500, "An error occurred while processing your request.");
-//        //    }
-//        //}
+                if (isFallback)
+                {
+                    _logger.LogWarning("Fallback rate used for term {TermYears}. Closest available date: {RateDate}", termYears, rateDate);
+                }
 
-//        [HttpGet]
-//        public async Task<IActionResult> GetInterestRates()
-//        {
-//            try
-//            {
-//                _logger.LogInformation("Fetching interest rates");
-//                var rates = await _interestRateRepository.GetAllInterestRatesAsync();
-//                var rateDtos = _mapper.Map<IEnumerable<InterestRateDto>>(rates);
-
-//                if (rateDtos == null)
-//                {
-//                    throw new Exception("Mapping result was null");
-//                }
-
-//                return Ok(rateDtos);
-//            }
-//            catch (Exception ex)
-//            {
-//                _logger.LogError(ex, "Error occurred while fetching interest rates");
-//                return StatusCode(500, "An error occurred while processing your request.");
-//            }
-//        }
+                return Ok(new
+                {
+                    TermYears = termYears,
+                    ClosestDate = rateDate.ToShortDateString(),
+                    InterestRate = rawRate,
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching fixed rate.");
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
 
-//    }
-//}
+        [HttpGet("arm")]
+        public IActionResult GetSofrRates()
+        {
+            try
+            {
+                var today = DateTime.UtcNow;
+                var baseRates = _rateProvider.GetRawSofrRatesUpTo(today);
+
+                if (baseRates.Count == 0)
+                    return NotFound(new { message = "No SOFR rates available up to today." });
+
+                return Ok(new
+                {
+                    ClosestDate = baseRates.First().date.ToShortDateString(),
+                    InterestRate = baseRates.First().rate,
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching SOFR rates.");
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+    }
+}

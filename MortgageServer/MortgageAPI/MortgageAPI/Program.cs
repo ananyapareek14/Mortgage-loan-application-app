@@ -77,8 +77,15 @@ var dataDirectory = Path.Combine(AppContext.BaseDirectory, "Data");
 var freddieMacPath = Path.Combine(dataDirectory, "FreddieMac Rates.xlsx");
 var sofrPath = Path.Combine(dataDirectory, "SOFR Rates.xlsx");
 
+//builder.Services.AddScoped<IRateProvider>(provider =>
+//    new RateProvider(freddieMacPath, sofrPath));
+
 builder.Services.AddScoped<IRateProvider>(provider =>
-    new RateProvider(freddieMacPath, sofrPath));
+{
+    var logger = provider.GetRequiredService<ILogger<RateProvider>>();
+    logger.LogInformation("Loading RateProvider with paths: Freddie = {freddie}, SOFR = {sofr}", freddieMacPath, sofrPath);
+    return new RateProvider(freddieMacPath, sofrPath);
+});
 
 // Domain-specific services
 builder.Services.AddScoped<ITokenService, TokenService>();
