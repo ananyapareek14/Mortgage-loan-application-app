@@ -40,7 +40,7 @@ namespace MortgageAPI.Models.Domain
         [Required]
         public LoanApprovalStatus ApprovalStatus { get; set; } = LoanApprovalStatus.Pending;
 
-        // 🔹 New: Link to LoanProduct
+        // Link to LoanProduct
         [Required]
         public Guid LoanProductId { get; set; }
 

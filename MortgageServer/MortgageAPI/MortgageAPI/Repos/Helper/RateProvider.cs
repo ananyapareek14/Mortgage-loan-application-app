@@ -331,31 +331,6 @@ namespace MortgageAPI.Repos.Helper
             _sofrPath = sofrPath;
         }
 
-        //private void EnsureFreddieRatesLoaded()
-        //{
-        //    if (_freddieLoaded) return;
-
-        //    using var workbook = new XLWorkbook(_freddieMacPath);
-        //    var sheet = workbook.Worksheets.FirstOrDefault(s => s.Name.Equals("result", StringComparison.OrdinalIgnoreCase));
-        //    if (sheet == null)
-        //        throw new InvalidOperationException("Sheet 'result' not found in FreddieMac file.");
-
-        //    foreach (var row in sheet.RowsUsed().Skip(1))
-        //    {
-        //        if (!DateTime.TryParseExact(row.Cell("A").GetString().Trim(), "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
-        //            continue;
-
-        //        if (decimal.TryParse(row.Cell("B").GetString(), out var rate30))
-        //            _freddieRates.Add((date, rate30, "30-Year FRM"));
-
-        //        if (decimal.TryParse(row.Cell("C").GetString(), out var rate15))
-        //            _freddieRates.Add((date, rate15, "15-Year FRM"));
-        //    }
-
-        //    _freddieLoaded = true;
-
-        //}
-
         private void EnsureFreddieRatesLoaded()
         {
             if (_freddieLoaded) return;
@@ -392,8 +367,6 @@ namespace MortgageAPI.Repos.Helper
                         _freddieRates.Add((date, rate15, "15-Year FRM"));
                     }
 
-                    // Optional debug print for each valid row
-                    Console.WriteLine($"[DEBUG] Row Parsed: Date={date:yyyy-MM-dd}, 30yr={cellB.GetString()}, 15yr={cellC.GetString()}");
                 }
                 catch (Exception ex)
                 {
@@ -437,28 +410,6 @@ namespace MortgageAPI.Repos.Helper
             _sofrLoaded = true;
         }
 
-        //public (DateTime date, decimal rate, string term) GetClosestFreddieRate(int termYears, DateTime applicationDate)
-        //{
-        //    EnsureFreddieRatesLoaded();
-
-        //    var termLabel = termYears switch
-        //    {
-        //        30 => "30-Year FRM",
-        //        15 => "15-Year FRM",
-        //        _ => throw new ArgumentException("Unsupported fixed term")
-        //    };
-
-        //    var match = _freddieRates
-        //        .Where(r => r.term == termLabel && r.date <= applicationDate)
-        //        .OrderByDescending(r => r.date)
-        //        .FirstOrDefault();
-
-        //    if (match == default || match.date == default)
-        //        throw new InvalidOperationException($"No matching Freddie Mac rate found for {termLabel} before {applicationDate}");
-
-        //    return match;
-        //}
-
         public (DateTime date, decimal rate, string term) GetClosestFreddieRate(int termYears, DateTime applicationDate)
         {
             EnsureFreddieRatesLoaded();
@@ -492,7 +443,6 @@ namespace MortgageAPI.Repos.Helper
             return fallback;
         }
 
-
         public List<(DateTime date, decimal rate)> GetRawSofrRatesUpTo(DateTime applicationDate)
         {
             EnsureSofrRatesLoaded();
@@ -502,5 +452,4 @@ namespace MortgageAPI.Repos.Helper
                 .ToList();
         }
     }
-
 }
